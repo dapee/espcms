@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript">
+	var resizewindow= null;
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var grouplist_js_powername_empty  = "[%$ST.grouplist_js_powername_empty%]";
+	var grouplist_js_add_ok = "[%$ST.grouplist_js_add_ok%]";
+	var grouplist_js_add_no = "[%$ST.grouplist_js_add_no%]";
+	var iframename = "[%$iframename%]";
+	iframename = iframename=='' ? "jerichotabiframe_0" : iframename;
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var options = {
+
+			beforeSubmit: formverify,
+
+			success:saveResponse,
+			resetForm: true
+		}
+		$('#poweradd').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	})
+	function formverify(formData) {
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['powername']==""){
+			document.poweradd.powername.focus();
+			alert(grouplist_js_powername_empty);
+			return false;
+		}
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		var tab=document.getElementById("poweraddtab").value;
+		if (options=='true'){
+			if (tab=='true'){
+				if(parent.frames[iframename].document.getElementById("selectform")){
+					parent.frames[iframename].refresh('selectform','selectall','check_all');
+				}
+			}
+			alert(grouplist_js_add_ok);
+		}else{
+			alert(grouplist_js_add_no);
+		}
+		if (tab=='true'){
+			parent.onaletdoc()
+		}
+	}
+</script>
+</head>
+
+<body>
+<form name="poweradd" id="poweradd" method="post" action="index.php?archive=powergroup&action=powerlistsava">
+<input type="hidden" name="inputclass" value="add">
+<input type="hidden" name="tab" id="poweraddtab" value="[%$tab%]">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.grouplist_add_mess%]</span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.grouplist_add_powername%]</td>
+						<td class="trtitle02"><input type="text" name="powername" size="25" maxlength="20" class="infoInput"/> <span class="cautiontitle">[%$ST.grouplist_add_powername_mess%]</span></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.grouplist_add_powerlist%]</td>
+						<td class="trtitle02">
+							<table width="100%" border="0" cellspacing="0" cellpadding="2">
+							[%forlist from=$powermenulist key=list%]
+								<tr>
+									<td colspan="4" style="padding:5px 5px 5px 0px;">
+										<input type="checkbox" name="powerlist[]" CHECKED value="[%$powermenulist[list].loadfun%]" id="powerlist">
+										<b>[%$powermenulist[list].menuname%]</b>  <span class="cautiontitle">[%$ST.grouplist_add_powerlist_mess%]</span>
+									</td>
+								</tr>
+								[%forlist from=$powermenulist[list].menu key=i%]
+								<tr>
+									<td colspan="1" style="padding:5px 5px 5px 0px;" valign="top">
+										<input type="checkbox" name="powerlist[]" CHECKED value="[%$powermenulist[list].menu[i].loadfun%]" id="powerlist"> [%$powermenulist[list].menu[i].menuname%]
+									</td>
+									<td colspan="3">
+										<table border="0" cellspacing="0" cellpadding="2">
+											<tr>
+											[%forlist from=$powermenulist[list].menu[i].linked key=ii%]
+												<td style="padding:5px 5px 5px 0px;">
+													<input type="checkbox" name="powerlist[]" CHECKED value="[%$powermenulist[list].menu[i].linked[ii].loadfun%]" id="powerlist"> [%$powermenulist[list].menu[i].linked[ii].menuname%]
+												</td>
+											[%div=>ii=6%]</tr><tr>[%/div=>ii%]
+											[%/forlist%]
+											</tr>
+										</table>
+									</td>
+								</tr>
+								[%/forlist%]
+								<tr>
+									<td colspan="4"><hr></td>
+								</tr>
+							[%/forlist%]
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2"></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td id="right"><input type="submit" id="submitbotton" name="Submit" value="[%$ST.botton_add%]" class="buttonface" /></td>
+				<td id="left" class="padding-left5"><input type="button" name="cancel" onClick="javascript:parent.onaletdoc();" value="[%$ST.botton_add_reset%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

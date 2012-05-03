@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/cityselect.js"></script>
+<script type="text/javascript">
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var runok  = "[%$ST.run_ok%]";
+	var runno  = "[%$ST.run_no%]";
+	var iframename = "[%$iframename%]";
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		sec_cityone([%$read.country%],[%$read.province%]);
+		sec_citytwo([%$read.province%],[%$read.city%]);
+		sec_district([%$read.city%],[%$read.district%]);
+	})
+
+	function ontype(eid,value){
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+		$.ajax({
+			type:"POST",
+			url:'index.php?archive=enquirymain&action=enquirymode',
+			data: 'eid='+eid+'&value='+value,
+			success:function(data){
+				if (data=='true') {
+					parent.closeifram();
+					parent.frames[iframename].refresh('selectform','selectall','check_all');
+					if (value==1){
+						$("#modebottonlist").remove();
+					}else if(value==2){
+						$("#modebottonlist").remove();
+						$("#modebottonlist2").remove();
+					}
+					alert(runok);
+				}else{
+					parent.closeifram();
+					alert(runno);
+				}
+			}
+		});
+	}
+
+	function onwindow(loadurl){
+		window.open(loadurl, "_blank");
+	}
+</script>
+</head>
+
+<body>
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.enquirymain_view_mess%] <u>[%$read.enquirysn%]</u> [%$ST.enquirymain_edit_mess2%] <u>[%$read.addtime|timeformat(3)%]</u> [%if $read.edittime>0%][%$ST.enquirymain_edit_mess3%] <u>[%$read.edittime|timeformat(3)%]</u>[%/if%]</span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.enquirymain_add_info%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td colspan="2">
+							<table style="width:100%">
+								<tr>
+									<td class="listitle2">[%beark name=tablabel class=enquiryaddendlist%]</td>
+								</tr>
+								<tr>
+									<td id="articleloading">
+									[%if count($array) > 0%]
+									[%forlist from=$array key=list%]
+										<div class="infolist" id="orderlist[%$array[list].did%]">
+											<table border="0" style="width:100%">
+												<tr>
+													<td width="10%">[%$array[list].did%]</td>
+													<td width="50%" class="padding-left3">[%$array[list].title|cutstr(30)%]</td>
+													<td width="25%" class="padding-right3">[%$array[list].tsn%]</td>
+													<td width="15%">[%$array[list].amount%]</td>
+												</tr>
+											</table>
+										</div>
+									[%/forlist%]
+									[%else%]
+										<div class="infolist">
+											<table border="0" style="width:100%">
+												<tr>
+													<td align="center">[%$ST.list_nothing_title%]</td>
+												</tr>
+											</table>
+										</div>
+									[%/if%]
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.enquirymain_view_paysubit%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.enquirymain_view_paysubit1%]</td>
+						<td class="trtitle02">
+							<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+								<tr>
+									[%if @this->powercheck('order','enquiryedit')==true && $read.isclass!=2%]
+									<td id="modebottonlist"><a class="setedit3" onclick="javascript:ontype('[%$read.eid%]','2');" href="#body" title="[%$ST.enquirymain_view_paysubit_b06%]" hidefocus="true">[%$ST.enquirymain_view_paysubit_b06%]</a></td>
+									[%/if%]
+									[%if @this->powercheck('order','enquiryedit')==true && $read.isclass==0%]
+									<td id="modebottonlist2" class="padding-left3"><a class="setedit3" onclick="javascript:ontype('[%$read.eid%]','1');" href="#body" title="[%$ST.enquirymain_view_paysubit_b05%]" hidefocus="true">[%$ST.enquirymain_view_paysubit_b05%]</a></td>
+									[%/if%]
+									<td class="padding-left3"><a class="setedit3" target="_blank" href="index.php?archive=enquirymain&action=print&eid=[%$read.eid%]&class=1" title="[%$ST.enquirymain_view_paysubit_b07%]" hidefocus="true">[%$ST.enquirymain_view_paysubit_b07%]</a></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.enquirymain_add_countinfo%]</td>
+					</tr>
+					[%if $member.username%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.enquirymain_add_userid%]</td>
+						<td class="trtitle02">[%$member.username%]  [%if @this->powercheck('member','memberedit')==true %]<a class="tabclicklink" onclick="javascript:parent.onbotton('[%$ST.viewmember_botton%]','index.php?archive=membermain&action=memberedit&userid=[%$member.userid%]&isclose=1&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'memberedit[%$member.userid%]',self.frameElement.getAttribute('name'));" id="memberedit[%$member.userid%]" href="#body" title="[%$member.username%]" hidefocus="true">[%$ST.viewmember_botton%]</a> [%/if%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.enquirymain_add_userid2%]</td>
+						<td class="trtitle02">[%$member.userid%]</td>
+					</tr>
+					[%/if%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.enquirymain_add_alias%]</td>
+						<td class="trtitle02">[%$read.linkman%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.enquirymain_add_fax%]</td>
+						<td class="trtitle02">[%$read.fax%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.enquirymain_add_tel%]</td>
+						<td class="trtitle02">[%$read.tel%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.enquirymain_add_motel%]</td>
+						<td class="trtitle02">[%$read.mobile%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.enquirymain_add_email%]</td>
+						<td class="trtitle02">[%$read.email%]</td>
+					</tr>
+					<tr class="trstyle2" id="select4">
+						<td class="trtitle01">[%$ST.enquirymain_add_country%]</td>
+						<td class="trtitle02">
+							<select size="1" name="cityone" class="select" id="cityone" disabled>
+								<option [%if $read.country==0%]selected [%/if%]value="0">[%$ST.enquirymain_add_country_option%]</option>
+								<option [%if $read.country==1%]selected [%/if%]value="1">[%$ST.enquirymain_add_country_value%]</option>
+							</select>
+							<select size="1" name="citytwo" class="select" id="citytwo" disabled>
+								<option value="0">[%$ST.enquirymain_add_province_option%]</option>
+							</select>
+							<select size="1" name="citythree" class="select" id="citythree" disabled>
+								<option value="0">[%$ST.enquirymain_add_city_option%]</option>
+							</select>
+							<select size="1" name="district" class="select" id="district" disabled>
+								<option value="0">[%$ST.enquirymain_add_district_option%]</option>
+							</select>
+							<span id="cityloading">Loading…</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.enquirymain_add_address%]</td>
+						<td class="trtitle02">[%$read.address%]</td>
+					</tr>
+					<tr class="trstyle2" id="select6">
+						<td class="trtitle01">[%$ST.enquirymain_add_zipcode%]</td>
+						<td class="trtitle02">[%$read.zipcode%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.enquirymain_add_content%]</td>
+						<td class="trtitle02">[%$read.content%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.enquirymain_add_editresult%]</td>
+						<td class="trtitle02">[%if $read.editresult==''%][%$ST.enquirymain_add_editresult_no%][%else%][%$read.editresult%][%/if%]</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr id="bottonsubmit">
+				<td align="center">
+					<input type="button" name="cancel" onClick="javascript:parent.onaletdoc();" value="[%$ST.botton_view_reset%]" class="buttonface" />
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+</body>
+
+</html>

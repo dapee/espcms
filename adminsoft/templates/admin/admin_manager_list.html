@@ -1,0 +1,44 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" title="[%$array[list].username%]-[%$array[list].powername%]" [%if @this->powercheck('system','manageedit')==true %]ondblClick="javascript:parent.onbotton('[%$ST.mangerlist_edit_title%]','index.php?archive=management&action=manageedit&id=[%$array[list].id%]&copytype=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,true);"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="4%"><input type="checkbox" name="selectinfoid" value="[%$array[list].id%]"></td>
+			<td width="6%">[%$array[list].id%]</td>
+			<td width="15%">[%$array[list].username%]</td>
+			<td width="13%">[%$array[list].name%]</td>
+			<td width="10%">[%$array[list].powername%]</td>
+			<td width="14%">[%$array[list].intotime|timeformat(3)%]</td>
+			<td width="5%">[%$array[list].hit%]</td>
+			<td width="10%">[%$array[list].ipadd|ip(0)%]</td>
+			<td width="7%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].inputclassid==1%]<span class="class_ok" title="[%$ST.inputtype_botton%]:[%$ST.mangerlist_inputclassid_1%]"></span>[%else%]<span class="class_no" title="[%$ST.inputtype_botton%]:[%$ST.mangerlist_inputclassid_0%]"></span>[%/if%]</td>
+						<td>[%if $array[list].isclass==1%]<span class="audit_ok" title="[%$ST.mangerlist_user_type%]：[%$ST.mangerlist_audit_ok%]"></span>[%else%]<span class="audit_no" title="[%$ST.mangerlist_user_type%]：[%$ST.mangerlist_audit_no%]"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="16%" id="infotype">
+				[%if @this->powercheck('system','manageedit')==true %]
+				<table>
+					<tr>
+						<td><a class="setedit3" onclick="javascript:parent.onbotton('[%$array[list].username|addslashes('hc')%][%$ST.mangerlist_set_loglist%]','index.php?archive=management&action=list&listfunction=loglist&logusername=[%$array[list].username%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'managerloglist[%$array[list].id%]',self.frameElement.getAttribute('name'));" id="managerloglist[%$array[list].id%]" href="#body" title="[%$ST.mangerlist_set_loglist%]" hidefocus="true">[%$ST.mangerlist_set_loglist%]</a></td>
+						<td class="padding-left3"><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.mangerlist_edit_title%]','index.php?archive=management&action=manageedit&id=[%$array[list].id%]&copytype=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,true);" href="#body" title="[%$ST.mangerlist_edit_title%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+					</tr>
+				</table>
+				[%/if%]
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+	<tr>
+	    <td align="center">[%$ST.list_nothing_title%]</td>
+	</tr>
+</table>
+</div>
+[%/if%]

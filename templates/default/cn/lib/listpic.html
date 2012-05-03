@@ -1,0 +1,6 @@
+{%forlist from=$array key=i%}
+<ul>
+	<li class="center"><a class="infolist" title="{%$array[i].title%}" href="{%$array[i].link%}"><img title="tel" src="{%$array[i].pic|zoom(180,120)%}"/></a></li>
+	<li class="center"><a class="infolist" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title|cutstr(17)%}</a></li>
+</ul>
+{%/forlist%}

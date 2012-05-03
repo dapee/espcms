@@ -1,0 +1,30 @@
+.head {margin: 0 auto;padding: 0px;position: relative;}
+.head .logo {margin: 0 auto;padding:10px 0px 10px 0px}
+.head .lanlist{height:30px;background-color: #9fc9ef}
+.head .lanlist ul{list-style: none;margin: 0 auto;padding: 0px;}
+.head .lanlist ul li{float: right;padding:0px 5px 0px 5px;height:30px;line-height: 30px;}
+
+.menu {margin: 0 auto;background: url('../images/menu_bg.jpg') repeat-x;text-align: left;padding:5px 0px 5px 0px;}
+.menu span{padding:0px 2px 0px 2px;height:20px;line-height: 20px;}
+.search {margin: 0 auto;margin-top: 5px;left: 0px;right: 0px;}
+.framecenter {margin: 0 auto;left: 0px;right: 0px;margin-top: 5px;}
+.framecenter .fup {height: 30px;line-height: 30px;background-color: #9fc9ef}
+.framecenter .fup2 {height: 30px;line-height: 30px;}
+.framecenter .fdown{height:4px;background-color: #d5d5d5;overflow: hidden;margin-top: 1px;}
+.framecenter .fcontent {width: 300px;padding: 5px;overflow: hidden;}
+
+.newslist {list-style: none;margin: 0 auto;padding: 0px;margin-left: 0px;}
+.newslist li {height: 30px;line-height: 30px;text-align: left;margin: 0 auto;padding-left: 10px;list-style: none;background: url('../images/icon3.gif') no-repeat 0px 15px;border-bottom: 1px dotted #DADBD6;overflow: hidden;}
+.newslist li .data {float: right;padding-right: 10px;color: #B3B3B3;}
+
+.piclist {list-style: none;margin: 0 auto;text-align: center;padding: 0px;overflow: hidden;}
+.piclist li {float: left;padding: 5px 7px 10px 5px;text-align: center;width:120px;overflow: hidden;}
+.piclist li img {border: 0px solid #EEE;}
+.piclist li p {margin: 0px;padding: 0px;}
+.piclist li .t {height: 30px;line-height: 30px;}
+.pagecontentstr img{width:250px;}
+.framecenter .fup .spantitle,.fup2 .spantitle{float: left;padding-left:5px;text-align: left;font-size: 12px;color:#222;font-weight: bold;}
+.framecenter .fup .spanmone {float: right;padding-right: 10px;}
+/*fotter*/
+.fotterpage{width:100%;margin: 0 auto;overflow: hidden;background-color: #004594;color:#fff;text-align: center;padding:10px 0px 10px 0px}
+.fotter .fotterstr {width: 942px;background-color: #004594;text-align: center;padding: 5px 0px 10px 0px;line-height: 180%;}

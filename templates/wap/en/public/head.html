@@ -1,0 +1,41 @@
+<div class="lanlist">
+	{%get name=lng%}
+	<ul>
+		{%forlist from=$array key=i%}
+		<li><a class="toplink" href="{%$array[i].link%}">{%$array[i].lngtitle%}</a></li>
+		{%/forlist%}
+	</ul>
+	{%/get%}
+</div>
+<div class="logo"><img title="logo" src="{%$rootpath%}images/logo.jpg"/></div>
+<div class="menu">
+	{%get name=menu class=path:$path,current:$current%}
+		{%forlist from=$array key=i%}
+		<span><a class="toplink" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title%}</a></span>
+		{%/forlist%}
+	{%/get%}
+</div>
+<div class="search">
+	{%get name=search class=mid:3,tid:29,att:0%}
+		<form name="infosearch" method="post" action="{%$link%}">
+		<input type="hidden" name="lng" value="{%$lng%}">
+		<input type="hidden" name="mid" value="{%$mid%}">
+		<table  class="formlist2">
+			<tr>
+				<td class="right">Search</td>
+				<td><input id="keyword" name="keyword" type="text" class="infoInput" size="10"/></td>
+			{%if count($array)%}
+				<td>
+					<select size="1" name="tid" class="select" id="tid">
+						{%forlist from=$array key=i%}
+						<option value="{%$array[i].tid%}">{%if $array[i].level>1%}├{%/if%}{%$array[i].level|treelist('─')%} {%$array[i].typename%}</option>
+						{%/forlist%}
+					</select>
+				</td>
+			{%/if%}
+				<td><input name="submitsearch" type="submit" value="Search" /></td>
+			</tr>
+		</table>
+		</form>
+		{%/get%}
+</div>

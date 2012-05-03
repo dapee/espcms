@@ -1,0 +1,43 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" title="[%$array[list].title%]" onselectstart="return false;" [%if @this->powercheck('marketing','mailsendedit')==true %]ondblClick="javascript:parent.onbotton('[%$ST.setedit_botton%]','index.php?archive=mailsendmain&action=mailsendedit&msid=[%$array[list].msid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'mailetypeidt[%$array[list].msid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="5%"><input type="checkbox" name="selectinfoid" value="[%$array[list].msid%]"></td>
+			<td width="8%">[%$array[list].msid%]</td>
+			<td width="26%">[%$array[list].title%]</td>
+			<td width="8%">[%$array[list].sendhow%]</td>
+			<td width="15%">[%if $array[list].sendtime>0%][%$array[list].sendtime|timeformat(3)%][%else%][%$ST.mailinvite_send_text_sendno%][%/if%]</td>
+			<td width="15%">[%$array[list].addtime|timeformat(3)%]</td>
+			<td width="8%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isclass==1%]<span class="audit_ok" title="[%$ST.article_audit_ok%]"></span>[%else%]<span class="audit_no" title="[%$ST.article_audit_no%]"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="15%" id="infotype">
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						[%if @this->powercheck('marketing','mailsendedit')==true %]
+						<td class="padding-left3"><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.setedit_botton%]','index.php?archive=mailsendmain&action=mailsendedit&msid=[%$array[list].msid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'mailetypeidt[%$array[list].msid%]',self.frameElement.getAttribute('name'));" id="mailetypeidt[%$array[list].msid%]" href="#body" title="[%$ST.setedit_botton%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+						[%/if%]
+						[%if @this->powercheck('marketing','mailgroupsend')==true %]
+						<td class="padding-left3"><a class="setedit3" onclick="javascript:parent.onbotton('[%$ST.mailinvite_send_send_log%]','index.php?archive=mailsendmain&action=mailgroupsend&msid=[%$array[list].msid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'mailinput[%$array[list].msid%]',self.frameElement.getAttribute('name'));" id="mailinput[%$array[list].msid%]" href="#body" title="[%$ST.mailinvite_send_send_log%]" hidefocus="true">[%$ST.mailinvite_send_send_log%]</a></td>
+						[%/if%]
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

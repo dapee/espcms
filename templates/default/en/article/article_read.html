@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>{%$read.title%} - {%$lngpack.sitename%}</title>
+<meta name="keywords" content="{%$lngpack.keyword%}" />
+<meta name="description" content="{%$lngpack.description%}" />
+<link href="{%$rootpath%}style/tempates_div.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/public.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/pagebotton.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{%$rootdir%}js/jquery.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/basicrun.js"></script>
+<script type="text/javascript" src="{%$rootdir%}index.php?ac=public&at=readpuv&did={%$read.did%}"></script>
+<script type="text/javascript">
+$().ready(function() {
+	$("#clickmenubotton li span").hover(function() {
+		$(this).addClass("bgmenuhove2");
+		$(this).parent().find("ul.subnav").slideDown('fast').show(); 
+		$(this).parent().hover(function() {}, function(){
+			$(this).parent().find("ul.subnav").fadeOut('fast');
+			$(this).parent().find("span").removeClass("bgmenuhove2");
+		});
+	});
+});
+</script>
+</head>
+
+<body>
+<div class="head">
+	{%link file="en/public/head.html"%}
+	<!--bann-->
+	{%if $type.typepic!=''%}
+	<div class="bann">
+		<div class="bann">
+			<img title="tel" src="{%$rootdir%}{%$type.typepic%}"/>
+		</div>
+	</div>
+	{%/if%}
+	<div class="bann">
+		<div class="location">{%list name=path class=type:type,id:$type.tid%} » <b>{%$read.title%}</b></div>
+	</div>
+	
+	<div class="framecenter margintop10">
+		<div class="frameright ">
+			<div class="fup3"><span class="spantitle">{%$type.typename%}</span></div>
+			<div class="fcontent3">
+				{%get name=typelist class=tid:$type.tid,utid:$type.topid%}
+				<ul class="three">
+					{%forlist from=$array key=i%}
+						{%if $array[i].level==1%}
+						<li class="b"><a class="typelink" title="{%$array[i].typename%}" href="{%$array[i].link%}">{%$array[i].typename%}</a></li>
+						{%else%}
+						<li class="a"><a title="{%$array[i].typename%}" href="{%$array[i].link%}">{%$array[i].typename%}</a></li>
+						{%/if%}
+					{%/forlist%}
+				</ul>
+				{%/get%}
+			</div>
+			<div class="fdown3"></div>
+			
+			{%link file="en/public/left.html"%}
+		</div>
+		
+		<div class="pagecontent margintleft10">
+			<div class="pagecontentstr">
+				<div class="righttext center lineheight200">
+					<h3>{%$read.title%}</h3>
+				</div>
+				
+				<div class="righttext center lineheight200 margintop8"> 
+					{%$read.addtime|timeformat(3)%}  {%$read.author%} {%$read.source%} Click： <script type="text/javascript" src="{%$rootdir%}index.php?ac=scriptout&at=click&did={%$read.did%}"></script>
+					{%if count($tag)>0%}
+						<br/>
+						<span class="strong padding-right3"> Tips：</span>
+						{%forlist from=$tag key=i%}
+							<a target="_blank" title="{%$tag[i].title%}" href="{%$tag[i].link%}">{%$tag[i].title%}</a>
+						{%/forlist%}
+					{%/if%}
+					<div class="bookline"></div> 
+				</div>
+				
+				<div class="righttext_padding lineheight200 margintop8">{%$read.content%}</div>
+				
+				{% if count($page)>0 %}
+				<div class="righttext center" style="float: left">
+					<table style="margin: 0 auto;">
+						<tr>
+							<td>
+								<div id="Pagination" class="pagination">
+									{%forlist from=$page key=i%}
+									{%if $page[i].n==1%}
+									<span class="current disabled">{%$page[i].num%}</span>
+									{%else%}
+									<span><a href="{%$page[i].link%}">{%$page[i].num%}</a></span>
+									{%/if%}
+									{%/forlist%}
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				{%/if%}
+				
+				<div class="righttext" style="float: left;">
+					<div class="otherZt"></div>
+					<table style="width:100%">
+						<tr>
+							<td align="left">
+								{%get name=plist class=did:$read.did%}
+									{%if $read.ctitle!=''%}<a title="{%$read.title%}" href="{%$read.link%}">{%$read.ctitle%}</a>{%/if%}
+								{%/get%}
+							</td>
+							<td align="right">
+								{%get name=plist class=did:$read.did,class:1%}
+									{%if $read.ctitle!=''%}<a title="{%$read.title%}" href="{%$read.link%}">{%$read.ctitle%}</a>{%/if%}
+								{%/get%}
+							</td>
+						</tr>
+					</table>
+					<div class="otherZt"></div> 
+				</div>
+				{%if $read.linkdid!=''%}
+				<div class="righttext"> 
+					<div class="readlist"> 
+						<div class="tg">Related News</div>
+						<div class="l"> 
+							<table style="width:100%"> 
+								<tr> 
+									<td> 
+										<ul class="three_fg">
+										{%get name=list class=mid:$read.mid,tid:$read.tid,linkdid:$read.linkdid,max:6%}
+											{%forlist from=$array key=i%}
+											<li class="b"><a class="infolist" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title%}</a></li> 
+											<li></li>
+											{%/forlist%}
+										{%/get%}
+										</ul> 
+									</td> 
+								</tr> 
+							</table> 
+						</div> 
+					</div> 
+				</div>
+				{%/if%}
+				{%list name=messlist class=did:$read.did,ismess:$read.ismess%}
+			</div>
+		</div>
+	</div>
+	{%link file="en/public/link.html"%}
+</div>
+{%link file="en/public/footer.html"%}	
+</body>
+
+</html>

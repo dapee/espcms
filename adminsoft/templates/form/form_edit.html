@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="../public/tinyMCE/jquery.tinymce.js"></script>
+<script type="text/javascript" src="js/initedit.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var formmain_js_formgroupname_empty  = "[%$ST.formmain_js_formgroupname_empty%]";
+	var formmain_js_template_empty  = "[%$ST.formmain_js_template_empty%]";
+	var formmain_js_emailatt_empty  = "[%$ST.formmain_js_emailatt_empty%]";
+	var formmain_js_mailcode_empty  = "[%$ST.formmain_js_mailcode_empty%]";
+	var forumtype_js_putmail_empty  = "[%$ST.forumtype_js_putmail_empty%]";
+	var formmain_js_edit_ok = "[%$ST.formmain_js_edit_ok%]";
+	var formmain_js_edit_no = "[%$ST.formmain_js_edit_no%]";
+	var iframename = "[%$iframename%]";
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		editsimpleshow("#content");
+		editsimpleshow("#successtext");
+		var options = {
+			beforeSubmit: formverify,
+			success:saveResponse,
+			resetForm: false
+		}
+		$('#formedit').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	})
+
+
+
+
+	function formverify(formData) {
+		for (var i=0; i< formData.length; i++){
+			if (formData[i].name == "content"){
+				formData[i].value=tinyMCE.get('content').getContent();
+			}else if(formData[i].name == "successtext"){
+				formData[i].value=tinyMCE.get('successtext').getContent();
+			}
+		}
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['formgroupname']==""){
+			document.formedit.formgroupname.focus();
+			alert(formmain_js_formgroupname_empty);
+			return false;
+		}
+		if(get['template'].match(/^[\w]+$/ig)==null) {
+			document.formedit.template.focus();
+			alert(formmain_js_template_empty);
+			return false;
+		}
+		if(get['ismail']==1){
+			if(get['mailcode'].match(/^[\w]+$/ig)==null) {
+				document.formedit.mailcode.focus();
+				alert(formmain_js_mailcode_empty);
+				return false;
+			}
+			if(get['emailatt'].match(/^[\w]+$/ig)==null) {
+				document.formedit.emailatt.focus();
+				alert(formmain_js_emailatt_empty);
+				return false;
+			}
+			if(get['putmail']!=''){
+				if(get['putmail'].match(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/ig)==null) {
+					document.formedit.putmail.focus();
+					alert(forumtype_js_putmail_empty);
+					return false;
+				}
+			}
+		}
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		if (options=='true'){
+			parent.frames[iframename].refresh('selectform','selectall','check_all');
+			alert(formmain_js_edit_ok);
+		}else{
+			alert(formmain_js_edit_no);
+		}
+		parent.onaletdoc()
+	}
+</script>
+</head>
+
+<body>
+<form name="formedit" id="formedit" method="post" action="index.php?archive=formmain&action=formsave">
+<input type="hidden" name="inputclass" value="edit">
+<input type="hidden" name="fgid" value="[%$formread.fgid%]">
+<input type="hidden" name="lng" value="[%$formread.lng%]">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.formmain_edit_mess%] <u>[%$formread.formgroupname%]</u></span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.formmain_add_formgroupname%]</td>
+						<td class="trtitle02"><input type="text" name="formgroupname" size="60" value="[%$formread.formgroupname%]" maxlength="80" class="infoInput"/> <span class="cautiontitle">[%$ST.formmain_add_formgroupname_mess%]</span></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.formmain_add_template%]</td>
+						<td class="trtitle02">
+							<input type="text" name="template" id="editformtemplate" size="40" value="[%$formread.template%]" maxlength="50" class="infoInput"/>
+							<a class="filecheck" href="#body" onclick="javascript:parent.windowsdig('[%$ST.selecttempfile_botton%]','iframe:index.php?archive=templatemain&action=listwindow&inputtext=editformtemplate&typeclass=form&skindir=&filedir=form&fileclass=&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),'750px','400px','iframe');">[%$ST.selecttempfile_botton%]</a>
+					</tr>
+					<tr class="trstyle3">
+						<td class="trtitle01">[%$ST.formmain_add_content%]</td>
+						<td class="trtitle02"><textarea name="content" id="content" style="width:98%;height:100px;">[%$formread.content%]</textarea></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01"></td>
+						<td class="trtitle02"><span class="cautiontitle">[%$ST.formmain_add_content_mess%]</span></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.formmain_add_successtext%]</td>
+						<td class="trtitle02"><textarea name="successtext" id="successtext" style="width:98%;height:100px;">[%$formread.successtext%]</textarea></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01"></td>
+						<td class="trtitle02"><span class="cautiontitle">[%$ST.formmain_add_successtext_mess%]</span></td>
+					</tr>
+					<tr>
+						<td  class="trtitle03" colspan="2">[%$ST.typemanage_type_add_templatesurl%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.formmain_add_ismenu%]</td>
+						<td class="trtitle02">
+							<input type="radio" value="1" name="ismenu"[%if $formread.ismenu==1%] checked="checked"[%/if%]> [%$ST.open_botton_title%]&nbsp;
+							<input type="radio" value="0" name="ismenu"[%if $formread.ismenu==0%] checked="checked"[%/if%]/> [%$ST.close_botton_title%]
+							<span class="cautiontitle">[%$ST.formmain_add_ismenu_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.formmain_add_purview%]</td>
+						<td class="trtitle02">
+							<select size="1" name="purview" id="purview">
+								<option value="0">[%$ST.formmain_add_purview_option%]</option>
+								[%forlist from=$memberpuvlist key=list%]
+								<option  [%$memberpuvlist[list].selected%] value="[%$memberpuvlist[list].mcid%]">[%$memberpuvlist[list].rankname%]</option>
+								[%/forlist%]
+							</select>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.forumtype_type_add_ismail%]</td>
+						<td class="trtitle02">
+							<input type="radio" value="1" name="ismail" [%if $formread.ismail==1%] checked="checked"[%/if%] onclick="showdiv(1,'#emailattdiv|#tmiddiv|#emailattdiv2','0|1','trstyle2 displaynone|trstyle2 displaytrue',1,1)"> [%$ST.open_botton_title%]&nbsp;
+							<input type="radio" value="0" name="ismail" [%if $formread.ismail==0%] checked="checked"[%/if%] onclick="showdiv(0,'#emailattdiv|#tmiddiv|#emailattdiv2','0|1','trstyle2 displaynone|trstyle2 displaytrue',1,1)"/> [%$ST.close_botton_title%]
+							<span class="cautiontitle">[%$ST.forumtype_type_add_ismail_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2 [%if $formread.ismail==0%]displaynone[%/if%]" id="emailattdiv2">
+						<td width="15%" class="trtitle01">[%$ST.forumtype_type_add_putmail%]</td>
+						<td width="85%" class="trtitle02">
+							<input type="text" name="putmail" size="50" value="[%$formread.putmail%]" maxlength="100" class="infoInput"/>
+							<span class="cautiontitle">[%$ST.forumtype_type_add_putmail_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2 [%if $formread.ismail==0%]displaynone[%/if%]" id="emailattdiv">
+						<td class="trtitle011">[%$ST.formmain_add_emailatt%]</td>
+						<td class="trtitle02"><input type="text" name="emailatt" size="20" value="[%$formread.emailatt%]" maxlength="50" class="infoInput"/> <span class="cautiontitle">[%$ST.formmain_add_emailatt_mess%]</span></td>
+					</tr>
+					<tr class="trstyle2 [%if $formread.ismail==0%]displaynone[%/if%]" id="tmiddiv">
+						<td class="trtitle01">[%$ST.forumtype_type_add_mailcode%]</td>
+						<td class="trtitle02">
+							<input type="text" name="mailcode" id="mailcode" size="20" value="[%$formread.mailcode%]" maxlength="50" class="infoInput"/> 
+							<a class="filecheck" href="#body" onclick="javascript:parent.windowsdig('[%$ST.selecttempfile_botton%]','iframe:index.php?archive=mailtemplatemain&action=listwindow&inputtext=mailcode&typeclass=form&&styleclass=3&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),'750px','400px','iframe');">[%$ST.selecttempfile_botton%]</a>
+							<span class="cautiontitle">[%$ST.forumtype_type_add_mailcode_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.formmain_add_isseccode%]</td>
+						<td class="trtitle02">
+							<input type="radio" value="1" name="isseccode"[%if $formread.isseccode==1%] checked="checked"[%/if%]/> [%$ST.open_botton_title%]&nbsp;
+						        <input type="radio" value="0" name="isseccode"[%if $formread.isseccode==0%] checked="checked"[%/if%]/> [%$ST.close_botton_title%]
+						        <span class="cautiontitle">[%$ST.formmain_add_isseccode_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.formmain_add_inputtime%]</td>
+						<td class="trtitle02">
+							<select size="1" name="inputtime" id="inputtime">
+								[%forlist from=$timelist key=list%]
+								<option [%if $timelist[list].key==$formread.inputtime%]selected[%/if%] value="[%$timelist[list].key%]">[%$timelist[list].name%]</option>
+								[%/forlist%]
+							</select>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td id="right"><input type="submit" id="submitbotton" name="Submit" value="[%$ST.botton_edit%]" class="buttonface" /></td>
+				<td id="left" class="padding-left5"><input type="button" name="cancel" onClick="javascript:parent.onaletdoc();" value="[%$ST.botton_edit_reset%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

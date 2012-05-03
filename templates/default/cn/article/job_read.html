@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>{%$read.title%} - {%$lngpack.sitename%}</title>
+<meta name="keywords" content="{%$lngpack.keyword%}" />
+<meta name="description" content="{%$lngpack.description%}" />
+<link href="{%$rootpath%}style/tempates_div.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/public.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/pagebotton.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{%$rootdir%}js/jquery.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/basicrun.js"></script>
+<script type="text/javascript" src="{%$rootdir%}index.php?ac=public&at=readpuv&did={%$read.did%}"></script>
+<script type="text/javascript">
+$().ready(function() {
+	$("#clickmenubotton li span").hover(function() {
+		$(this).addClass("bgmenuhove2");
+		$(this).parent().find("ul.subnav").slideDown('fast').show(); 
+		$(this).parent().hover(function() {}, function(){
+			$(this).parent().find("ul.subnav").fadeOut('fast');
+			$(this).parent().find("span").removeClass("bgmenuhove2");
+		});
+	});
+});
+</script>
+</head>
+
+<body>
+<div class="head">
+	{%link file="cn/public/head.html"%}
+	<!--bann-->
+	{%if $type.typepic!=''%}
+	<div class="bann">
+		<div class="bann">
+			<img title="tel" src="{%$rootdir%}{%$type.typepic%}"/>
+		</div>
+	</div>
+	{%/if%}
+	<div class="bann">
+		<div class="location">您现在的位置：{%list name=path class=type:type,id:$type.tid%} » <b>{%$read.title%}</b></div>
+	</div>
+	
+	<div class="framecenter margintop10">
+		<div class="frameright ">
+			<div class="fup3"><span class="spantitle">{%$type.typename%}</span></div>
+			<div class="fcontent3">
+				{%get name=typelist class=tid:$type.tid,utid:$type.topid%}
+				<ul class="three">
+					{%forlist from=$array key=i%}
+						{%if $array[i].level==1%}
+						<li class="b"><a class="typelink" title="{%$array[i].typename%}" href="{%$array[i].link%}">{%$array[i].typename%}</a></li>
+						{%else%}
+						<li class="a"><a title="{%$array[i].typename%}" href="{%$array[i].link%}">{%$array[i].typename%}</a></li>
+						{%/if%}
+					{%/forlist%}
+				</ul>
+				{%/get%}
+			</div>
+			<div class="fdown3"></div>
+			
+			{%link file="cn/public/left.html"%}
+		</div>
+		
+		<div class="pagecontent margintleft10">
+			<div class="pagecontentstr">
+				<div class="righttext margintop8">
+					<table width="100%" class="formlist3">
+						<tr>
+							<td class="line right">招聘职位：</td>
+							<td class="left strong colorgreen">{%$read.title%}</td>
+						</tr>
+						<tr>
+							<td class="line right">发布时间：</td>
+							<td class="left">{%$read.addtime|timeformat(3)%}</td>
+						</tr>
+						<tr>
+							<td class="line right" valign="top">招聘要求：</td>
+							<td class="left lineheight200">{%$read.content%}</td>
+						</tr>
+					</table> 
+				</div>
+				
+				{%if $read.linkdid!=''%}
+				<div class="righttext"> 
+					<div class="readlist"> 
+						<div class="tg">相关内容</div>
+						<div class="l"> 
+							<table style="width:100%"> 
+								<tr> 
+									<td> 
+										<ul class="three_fg">
+										{%get name=list class=mid:$read.mid,tid:$read.tid,linkdid:$read.linkdid,max:6%}
+											{%forlist from=$array key=i%}
+											<li class="b"><a class="infolist" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title%}</a></li> 
+											<li></li>
+											{%/forlist%}
+										{%/get%}
+										</ul> 
+									</td> 
+								</tr> 
+							</table> 
+						</div> 
+					</div> 
+				</div>
+				{%/if%}
+				
+				{%if $read.fgid!=0%}
+				<div class="righttext">
+					<div class="readlist">
+						{%list name=form class=fgid:$read.fgid,did:$read.did%}
+					</div>
+				</div>
+				{%/if%}
+			</div>
+		</div>
+	</div>
+	{%link file="cn/public/link.html"%}
+</div>
+{%link file="cn/public/footer.html"%}	
+</body>
+
+</html>

@@ -1,0 +1,21 @@
+<ul class="bbslist">
+	{%if count($array)>0%}
+	{%forlist from=$array key=i%}
+	<li>
+		<div class="sendname"><span class="colorgorningage">留言人：{%$array[i].name%}</span><span class="padding-left10 colorgorning3">留言时间：{%$array[i].addtime|timeformat(3)%}</span></div>
+		<div class="messagelist">咨询内容：{%$array[i].content%}</div>
+		{%if $array[i].recontent!=''%}
+		<div class="remessagelist colorgreen bgcolorthree2">
+			管理员回复：<br/>{%$array[i].recontent%}<br/>
+			<span class="colorgorning3">回复时间：{%$array[i].retime|timeformat(3)%}</span>
+		</div>
+		{%/if%}
+	</li>
+	{%/forlist%}
+	<li>
+		<div class="sendname"><span class="colorgreg fontsize14">共{%$num%}条留言{%if $num>0%}  <u><a target="_blank" class="infolink04" href="{%$link%}">浏览全部留言</a></u>{%/if%}</span></div>
+	</li>
+	{%else%}
+	<li class="center colorgorningage">暂无留言</li>
+	{%/if%}
+</ul>

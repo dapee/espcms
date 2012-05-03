@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>{%$read.title%} - {%$lngpack.sitename%}</title>
+<meta name="keywords" content="{%$lngpack.keyword%}" />
+<meta name="description" content="{%$lngpack.description%}" />
+<link href="{%$rootpath%}style/tempates_div.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/public.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/pagebotton.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{%$rootdir%}js/jquery.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/basicrun.js"></script>
+<script type="text/javascript">
+$().ready(function() {
+	$("#clickmenubotton li span").hover(function() {
+		$(this).addClass("bgmenuhove2");
+		$(this).parent().find("ul.subnav").slideDown('fast').show(); 
+		$(this).parent().hover(function() {}, function(){
+			$(this).parent().find("ul.subnav").fadeOut('fast');
+			$(this).parent().find("span").removeClass("bgmenuhove2");
+		});
+	});
+});
+</script>
+</head>
+
+<body>
+<div class="head">
+	{%link file="en/public/head.html"%}
+	<!--bann-->
+	{%if $type.typepic!=''%}
+	<div class="bann">
+		<div class="bann">
+			<img title="tel" src="{%$rootdir%}{%$type.typepic%}"/>
+		</div>
+	</div>
+	{%/if%}
+	<div class="bann">
+		<div class="location">{%list name=path class=type:type,id:$read.tid%} » <b>{%$read.title%}</b></div>
+	</div>
+	
+	<div class="framecenter margintop10">
+		<div class="widthpage left lineheight200">
+			<h3><a class="infolink04" href="{%$read.link%}">{%$read.title%}</a></h3>
+		</div>
+		<div class="widthpage margintop10">
+			<div class="tg1">Comments</div>
+			<div class="l">
+				<ul class="bbslist">
+					{%forlist from=$array key=i%}
+					<li>
+						<div class="sendname"><span class="colorgorningage">{%$array[i].name%}</span><span class="padding-left10 colorgorning3">{%$array[i].addtime|timeformat(3)%}</span></div>
+						<div class="messagelist">{%$array[i].content%}</div>
+						{%if $array[i].recontent!=''%}
+						<div class="remessagelist colorgreen bgcolorthree2">
+							<br/>{%$array[i].recontent%}<br/>
+							<span class="colorgorning3">{%$array[i].retime|timeformat(3)%}</span>
+						</div>
+						{%/if%}
+					</li>
+					{%/forlist%}
+					<li style="margin: 0px;padding: 0px;"></li>
+				</ul>
+			</div>
+			<div class="widthpagelist center margintop8">
+				<div id="pagelist">
+					{%$pagetext%}
+				</div>
+			</div>
+			<div class="widthpagelist center margintop8">
+				<div id="Pagination" class="pagination">
+					{%$pagebotton%}
+				</div>
+			</div>
+			
+			<div class="tg3">Add your comment</div>
+			<script type="text/javascript">
+			var forum_input_err = "{%$lngpack.forum_input_err%}";
+			var seccode_empty = "{%$lngpack.seescodeerr%}";
+			</script>
+			<form name="messformsave" method="post" action="{%$messform%}" onSubmit="return messform('{%$bbs_isseccode%}')">
+			<input type="hidden" name="userid" value="{%$member.userid%}">
+			<input type="hidden" name="did" value="{%$did%}">
+			<input type="hidden" name="lng" value="{%$lng%}">
+			<table class="formlist" style="width:920px;">
+				<tr>
+					<th class="fontsize14" width="15%">* Screen name</th>
+					<td><input type="text" name="name" class="infoInput" value="{%$member.alias%}" style="width:95%;"/></td>
+				</tr>
+				<tr>
+					<th class="fontsize14">* Enter your comment here:</th>
+					<td><textarea name="content" rows="15" class="infoInput" style="width:95%;height:150px;"></textarea></td>
+				</tr>
+				{%if $bbs_isseccode==1%}
+				<tr>
+					<th>Type the code shown</th>
+					<td>
+						<input type="text" id="seccode" name="seccode" class="infoInput" maxlength="4" size="3" style="text-transform: uppercase;"/>
+						<img title="Try a new code" id="memberseccodesrc" onclick="sessionimg('memberseccodesrc','{%$rootdir%}')" src="{%$seccodelink%}" style="cursor: pointer;" align="absmiddle"/>
+					</td>
+				</tr>
+				{%/if%}
+				<tr>
+					<th></th>
+					<td><input type="submit" name="submit" value="Add your comment" class="buttonface2" /></td>
+				</tr>
+			</table>
+			</form>
+		</div>
+	</div>
+	{%link file="en/public/link.html"%}
+</div>
+{%link file="en/public/footer.html"%}	
+</body>
+
+</html>

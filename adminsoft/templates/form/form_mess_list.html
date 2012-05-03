@@ -1,0 +1,35 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" ondblClick="javascript:parent.onbotton('[%$ST.formmessmain_text_set_botton%]','index.php?archive=formmessmain&action=read&fvid=[%$array[list].fvid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'messageedit[%$array[list].fvid%]',self.frameElement.getAttribute('name'));">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="5%"><input type="checkbox" name="messselectinfoid" value="[%$array[list].fvid%]"></td>
+			<td width="10%">[%$array[list].fvid%]</td>
+			<td width="60%">[%$array[list].addtime|timeformat(3)%]</td>
+			<td width="10%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isreply==1%]<span class="select_ok"></span>[%else%]<span class="select_no"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="15%" id="infotype">
+				<table>
+					<tr>
+						<td><a class="setedit3" onclick="javascript:parent.onbotton('[%$ST.formmessmain_text_set_botton%]','index.php?archive=formmessmain&action=read&fvid=[%$array[list].fvid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'messageedit[%$array[list].fvid%]',self.frameElement.getAttribute('name'));" id="messageedit[%$array[list].fvid%]" href="#body" title="[%$ST.formmessmain_text_set_botton%]" hidefocus="true">[%$ST.formmessmain_text_set_botton%]</a></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

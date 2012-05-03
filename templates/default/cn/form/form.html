@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>{%$form.formgroupname%} - {%$lngpack.sitename%}</title>
+<meta name="keywords" content="{%$lngpack.keyword%}" />
+<meta name="description" content="{%$lngpack.description%}" />
+<link href="{%$rootpath%}style/tempates_div.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/public.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{%$rootdir%}js/jquery.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/basicrun.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript">
+var seccode_empty = "{%$lngpack.seescodeerr%}";
+function {%$form.formcode%}form(seccodetype) {
+	{%forlist from=$array key=i%}
+		{%if $array[i].isvalidate==1%}
+			{%if $array[i].validatetext!=''%}
+				if(document.{%$form.formcode%}.{%$array[i].attrname%}.value.match({%$array[i].validatetext%}ig)==null) {
+			{%else%}
+				if(document.{%$form.formcode%}.{%$array[i].attrname%}.value==''){
+			{%/if%}
+			document.{%$form.formcode%}.{%$array[i].attrname%}.focus();
+			alert('{%$array[i].typename%}输入错误，请返回重新输入');
+			return false;
+		}
+		{%/if%}
+	{%/forlist%}
+
+	if(seccodetype=='1' && document.{%$form.formcode%}.seccode.value.match(/^[A-Z]{4}$/ig)==null) {
+		document.{%$form.formcode%}.seccode.focus();
+		alert(seccode_empty);
+		return false;
+	}
+}
+</script>
+<script type="text/javascript">
+$().ready(function() {
+	$("#clickmenubotton li span").hover(function() {
+		$(this).addClass("bgmenuhove2");
+		$(this).parent().find("ul.subnav").slideDown('fast').show(); 
+		$(this).parent().hover(function() {}, function(){
+			$(this).parent().find("ul.subnav").fadeOut('fast');
+			$(this).parent().find("span").removeClass("bgmenuhove2");
+		});
+	});
+});
+</script>
+</head>
+
+<body>
+<div class="head">
+	{%link file="cn/public/head.html"%}
+	<!--bann-->
+	{%if $type.typepic!=''%}
+	<div class="bann">
+		<div class="bann">
+			<img title="tel" src="{%$rootdir%}{%$type.typepic%}"/>
+		</div>
+	</div>
+	{%/if%}
+	<div class="bann">
+		<div class="location">您现在的位置：<a href="{%$homelink%}">首页</a> » <b>{%$form.formgroupname%}</b></div>
+	</div>
+	
+	<div class="framecenter margintop10">
+		<div class="frameright ">
+			{%link file="cn/public/left.html"%}
+		</div>
+		
+		<div class="pagecontent margintleft10">
+			<div class="pagecontentstr">
+				<div class="righttext">
+					<form name="{%$form.formcode%}" id="{%$form.formcode%}" method="post" action="{%$form.action%}"  onSubmit="return {%$form.formcode%}form('{%$form.isseccode%}')">
+					<input type="hidden" name="linkurl" value="add">
+					<input type="hidden" name="fgid" id="fgid" value="{%$form.fgid%}">
+					<input type="hidden" name="formcode" id="formcode" value="{%$form.formcode%}">
+					<table style="width: 100%" class="formlist">
+						<tr>
+							<th class="th2"></th>
+							<td>{%$form.content|htmlcode('0')%}</td>
+						</tr>
+						{%forlist from=$array key=i%}
+						{%if $array[i].isline==1%}
+						<tr>
+							<td colspan="2" class="content">{%$array[i].typename%}</td>
+						</tr>
+						{%else%}
+						<tr>
+							<th class="th2">{%if $array[i].isvalidate==1%}* {%/if%}{%$array[i].typename%}</th>
+							<td>
+								{%if $array[i].inputtype=='string'%}<input type="text" name="{%$array[i].attrname%}" size="{%$array[i].attrsize%}" maxlength="{%$array[i].attrlenther%}" value="{%$array[i].attrvalue%}" class="infoInput"/>{%/if%}
+								{%if $array[i].inputtype=='int'%}<input type="text" name="{%$array[i].attrname%}]" size="{%$array[i].attrsize%}" maxlength="{%$array[i].attrlenther%}" value="{%$array[i].attrvalue%}" class="infoInput"/>{%/if%}
+								{%if $array[i].inputtype=='datetime'%}
+									 <input type="text" name="{%$array[i].attrname%}" size="{%$array[i].attrsize%}" id="{%$array[i].attrname%}" onclick="WdatePicker({el:'{%$array[i].attrname%}',readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})" maxlength="{%$array[i].attrlenther%}" class="infoInput"/>
+								{%/if%}
+								{%if $array[i].inputtype=='selectinput'%}
+								<input type="text" name="{%$array[i].attrname%}" size="{%$array[i].attrsize%}" id="{%$array[i].attrname%}" value="" maxlength="{%$array[i].attrlenther%}" class="infoInput"/>
+								<select size="1" name="{%$array[i].attrname%}selectinputvalue" onchange="javascript:$('#{%$array[i].attrname%}').val(this.value)">
+									<option value="">{%$array[i].typename%}</option>
+									{%forlist from=$array[i].selectinputvalue key=ii%}
+									<option value="{%$array[i].selectinputvalue[ii].name%}">{%$array[i].selectinputvalue[ii].name%}</option>
+									{%/forlist%}
+								</select>
+								{%/if%}
+								{%if $array[i].inputtype=='img'%}
+									<input type="text" name="{%$array[i].attrname%}" size="{%$array[i].attrsize%}" value="{%$array[i].attrvalue%}" class="infoInput"/>
+								{%/if%}
+								{%if $array[i].inputtype=='addon'%}
+									<input type="text" name="{%$array[i].attrname%}" size="{%$array[i].attrsize%}" value="{%$array[i].attrvalue%}" class="infoInput"/>
+								{%/if%}
+								{%if $array[i].inputtype=='text'%}<textarea name="{%$array[i].attrname%}" cols="{%$array[i].attrsize%}" rows="{%$array[i].attrrow%}" class="infoInput">{%$array[i].attrvalue%}</textarea>{%/if%}
+								{%if $array[i].inputtype=='htmltext'%}<textarea name="{%$array[i].attrname%}" cols="{%$array[i].attrsize%}" rows="{%$array[i].attrrow%}" class="infoInput">{%$array[i].attrvalue%}</textarea>{%/if%}
+								{%if $array[i].inputtype=='editor'%}<textarea name="{%$array[i].attrname%}" cols="{%$array[i].attrsize%}" rows="{%$array[i].attrrow%}" class="infoInput">{%$array[i].attrvalue%}</textarea>{%/if%}
+								{%if $array[i].inputtype=='select'%}
+									<select size="1" name="{%$array[i].attrname%}">
+									{%forlist from=$array[i].attrvalue key=ii%}
+										<option {%if $array[i].attrvalue[ii].selected=='selected'%}selected="selected" {%/if%}value="{%$array[i].attrvalue[ii].name%}">{%$array[i].attrvalue[ii].name%}</option>
+									{%/forlist%}
+									</select>
+								{%/if%}
+								{%if $array[i].inputtype=='radio'%}
+									{%forlist from=$array[i].attrvalue key=ii%}
+										<input {%if $array[i].attrvalue[ii].selected=='selected'%}checked="checked" {%/if%}name="{%$array[i].attrname%}" type="radio" value="{%$array[i].attrvalue[ii].name%}" /> {%$array[i].attrvalue[ii].name%}
+									{%/forlist%}
+								{%/if%}
+								{%if $array[i].inputtype=='checkbox'%}
+									{%forlist from=$array[i].attrvalue key=ii%}
+										<input {%if $array[i].attrvalue[ii].selected=='selected'%}checked="checked" {%/if%}name="{%$array[i].attrname%}[]" type="checkbox" value="{%$array[i].attrvalue[ii].name%}" /> {%$array[i].attrvalue[ii].name%}
+									{%/forlist%}
+								{%/if%}
+								{%if $array[i].typeremark!=''%}<span>{%$array[i].typeremark%}</span>{%/if%}
+							</td>
+						</tr>
+						{%/if%}
+						{%/forlist%}
+						{%if $form.isseccode==1%}
+						<tr>
+							<th>验证码</th>
+							<td>
+								<input type="text" id="code" name="seccode" class="infoInput" maxlength="4" size="3" style="text-transform: uppercase;"/>
+								<img title="点击更换验证码" id="{%$form.formcode%}seccodesrc" onclick="sessionimg('{%$form.formcode%}seccodesrc','{%$rootdir%}')" src="{%$seccodelink%}" style="cursor: pointer;" align="absmiddle"/>
+							</td>
+						</tr>
+						{%/if%}
+						<tr>
+							<td></td>
+							<td>
+								<input type="submit" id="{%$form.formcode%}botton" name="Submit" value="确认提交" class="buttonface2" />
+							</td>
+						</tr>
+					</table>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	{%link file="cn/public/link.html"%}
+</div>
+{%link file="cn/public/footer.html"%}	
+</body>
+
+</html>

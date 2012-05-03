@@ -1,0 +1,21 @@
+<ul class="bbslist">
+	{%if count($array)>0%}
+	{%forlist from=$array key=i%}
+	<li>
+		<div class="sendname"><span class="colorgorningage">Name：{%$array[i].name%}</span><span class="padding-left10 colorgorning3">Time：{%$array[i].addtime|timeformat(3)%}</span></div>
+		<div class="messagelist">Details：{%$array[i].content%}</div>
+		{%if $array[i].recontent!=''%}
+		<div class="remessagelist colorgreen bgcolorthree2">
+			Administrator Reply ：<br/>{%$array[i].recontent%}<br/>
+			<span class="colorgorning3">Turnaround time：{%$array[i].retime|timeformat(3)%}</span>
+		</div>
+		{%/if%}
+	</li>
+	{%/forlist%}
+	<li>
+		<div class="sendname"><span class="colorgreg fontsize14">{%$num%}{%if $num>0%}  <u><a target="_blank" class="infolink04" href="{%$link%}">Browse all message</a></u>{%/if%}</span></div>
+	</li>
+	{%else%}
+	<li class="center colorgorningage">No message</li>
+	{%/if%}
+</ul>

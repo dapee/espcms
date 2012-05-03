@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodyauto")){
+			$('.manageadd').css({height:h-40});
+			$('.manageedit').css({height:h-40});
+		}
+	}
+	var sqllist_js_del_ok = "[%$ST.sqllist_js_del_ok%]";
+	var sqllist_js_del_no = "[%$ST.sqllist_js_del_no%]";
+	var iframename = "[%$iframename%]";
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.manageedit').css({height:h-40});
+		var options = {
+
+			beforeSubmit: function(){
+				parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+			},
+
+			success:saveResponse
+		}
+		$('#sqldel').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	})
+	function saveResponse(options){
+		parent.closeifram();
+		if (options=='true'){
+			alert(sqllist_js_del_ok);
+		}else{
+			alert(sqllist_js_del_no);
+		}
+		parent.onaletdoc()
+	}
+</script>
+</head>
+
+<body>
+<form name="sqldel" id="sqldel" method="post" action="index.php?archive=sqlmanage&action=sqldel">
+	<div id="mainbodyauto" class="manageedit">
+		<div class="maindobycontent">
+			<!--查看已选择的类型-->
+			<div class="suggestion">
+				<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.sqllist_del_mess%]</span></span>
+			</div>
+			<div class="sugtitle-line"></div>
+			<div class="listitle">
+				<table border="0" width="100%" bordercolor="#FFFFFF">
+					<tr>
+						<td width="10%">[%$ST.sqllist_import_list_select%]</td>
+						<td width="40%">[%$ST.sqllist_import_list_filename%]</td>
+						<td width="20%">[%$ST.sqllist_import_list_baktime%]</td>
+						<td width="15%">[%$ST.sqllist_import_list_filesize%]</td>
+						<td width="15%">[%$ST.sqllist_import_list_vol%]</td>
+					</tr>
+				</table>
+			</div>
+			[%if count($array) > 0%]
+				[%forlist from=$array key=list%]
+				<div class="infolist" title="[%$array[list].filename%]">
+					<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+						<tr>
+							<td width="10%">[%if $array[list].mark==1%]<input type="radio" [%$array[list].checked%]name="filename" value="[%$array[list].shortfile%]">[%/if%]</td>
+							<td width="40%">[%$array[list].filename%]</td>
+							<td width="20%">[%$array[list].addtime%]</td>
+							<td width="15%">[%$array[list].filesize%]</td>
+							<td width="15%">[%$array[list].vol%]</td>
+						</tr>
+					</table>
+				</div>
+				[%/forlist%]
+			[%else%]
+				<div class="infolist">
+				<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+					<tr>
+					    <td align="center">[%$ST.list_nothing_title%]</td>
+					</tr>
+				</table>
+				</div>
+			[%/if%]
+		</div>
+	</div>
+	<div id="downbotton">
+		<div id="subbotton">
+			<table border="0" width="100%">
+				[%if count($array) > 0%]
+				<tr>
+					<td id="right"><input type="submit" name="Submit" value="[%$ST.botton_del%]" class="buttonface" /></td>
+					<td id="left" class="padding-left5"><input type="button" name="cancel" onClick="javascript:parent.onaletdoc();" value="[%$ST.botton_del_reset%]" class="buttonface" /></td>
+				</tr>
+				[%else%]
+				<tr>
+					<td id="center"><input type="button" name="cancel" onClick="javascript:parent.onaletdoc();" value="[%$ST.botton_del_reset%]" class="buttonface" /></td>
+				</tr>
+				[%/if%]
+			</table>
+		</div>
+	</div>
+</form>
+</body>
+
+</html>

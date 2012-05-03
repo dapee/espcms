@@ -1,0 +1,29 @@
+<div id="listitle" class="listitle2">[%beark name=tablabel class=keytypewordlist%]</div>
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="8%">[%$array[list].ktid%]</td>
+			<td width="42%" title="[%$array[list].keyworklist%]">[%$array[list].keyworklist|cutstr(25)%]</td>
+			<td width="42%" title="[%$array[list].description%]">[%$array[list].description|cutstr(25)%]</td>
+			<td width="8%" id="infotype">
+				<table>
+					<tr>
+						<td><a class="setedit" onclick="checkkeydes('[%$array[list].keyworklist|addslashes('hc')%]','[%$array[list].description|addslashes('hc')%]');" href="#body" title="[%$ST.filemanage_view_check%]" hidefocus="true">[%$ST.filemanage_view_check%]</a></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

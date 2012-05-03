@@ -1,0 +1,41 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" title="[%$array[list].username%] - [%$array[list].rankname%]-[%$array[list].addtime|timeformat(3)%] - [%$ST.membermain_text_lasttime%][%$array[list].lasttime|timeformat(3)%]" [%if @this->powercheck('member','memberedit')==true %]ondblClick="javascript:parent.onbotton('[%$ST.membermain_edit_title%]','index.php?archive=membermain&action=memberedit&userid=[%$array[list].userid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'memberedit[%$array[list].userid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="4%"><input type="checkbox" name="memberselectinfoid" value="[%$array[list].userid%]"></td>
+			<td width="8%">[%$array[list].userid%]</td>
+			<td width="20%">[%$array[list].username%]</td>
+			<td width="15%">[%$array[list].rankname%]</td>
+			<td width="25%">[%$array[list].email%]</td>
+			<td width="8%">[%$array[list].integral%]</td>
+			<td width="8%">[%$array[list].visitcount%]</td>
+			<td width="5%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isclass==1%]<span class="audit_ok" title="[%$ST.membermain_text_class1%]"></span>[%else%]<span class="audit_no" title="[%$ST.membermain_text_class2%]"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="7%" id="infotype">
+				[%if @this->powercheck('member','memberedit')==true %]
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						<td><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.membermain_edit_title%]','index.php?archive=membermain&action=memberedit&userid=[%$array[list].userid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'memberedit[%$array[list].userid%]',self.frameElement.getAttribute('name'));" id="memberedit[%$array[list].userid%]" href="#body" title="[%$array[list].username%][%$ST.membermain_edit_title%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+					</tr>
+				</table>
+				[%/if%]
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

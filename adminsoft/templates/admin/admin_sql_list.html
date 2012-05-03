@@ -1,0 +1,34 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" title="[%$array[list].table%]">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="20%">[%$array[list].table%]</td>
+			<td width="10%">[%$array[list].type%]</td>
+			<td width="10%">[%$array[list].dbnum%]</td>
+			<td width="15%">[%$array[list].dbsize%]</td>
+			<td width="10%">[%$array[list].dbchip%]</td>
+			<td width="10%">[%$array[list].status%]</td>
+			<td width="13%">[%$array[list].charset%]</td>
+			<td width="12%" id="infotype">
+				<table>
+					<tr>
+						<td>
+							<a class="setedit2" onclick="javascript:submiturl('index.php?archive=sqlmanage&action=optimize&dbtable=[%$array[list].table%]','index.php?archive=management&action=load','[%$ST.run_ok%]','[%$ST.run_no%]',false,'','selectform','selectall','check_all')" href="#body" title="[%$ST.sqllist_optimize_set%]" hidefocus="true">[%$ST.sqllist_optimize_set%]</a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+	<tr>
+	    <td align="center">[%$ST.list_nothing_title%]</td>
+	</tr>
+</table>
+</div>
+[%/if%]

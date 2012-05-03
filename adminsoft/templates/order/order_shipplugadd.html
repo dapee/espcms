@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var ordershipping_js_title_empty  = "[%$ST.ordershipping_js_title_empty%]";
+	var ordershipping_js_price_empty  = "[%$ST.ordershipping_js_price_empty%]";
+	var ordershipping_js_markup_empty  = "[%$ST.ordershipping_js_markup_empty%]";
+	var ordershipping_js_insureper_empty  = "[%$ST.ordershipping_js_insureper_empty%]";
+	var ordershipping_js_add_ok = "[%$ST.ordershipping_js_add_ok%]";
+	var ordershipping_js_add_no = "[%$ST.ordershipping_js_add_no%]";
+	var iframename = "[%$iframename%]";
+	iframename = iframename=='' ? "jerichotabiframe_0" : iframename;
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var options = {
+			beforeSubmit: formverify,
+			success:saveResponse
+		};
+		$('#shipplugadd').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	})
+
+
+
+
+	function formverify(formData) {
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['title']==""){
+			document.shipplugadd.title.focus();
+			alert(ordershipping_js_title_empty);
+			return false;
+		}
+		if(get['price'].match(/^[0-9]{1}[0-9.]*$/ig)==null) {
+			document.shipplugadd.price.focus();
+			alert(ordershipping_js_price_empty);
+			return false;
+		}
+		if(get['markup'].match(/^[0-9]{1}[0-9.]*$/ig)==null) {
+			document.shipplugadd.markup.focus();
+			alert(ordershipping_js_markup_empty);
+			return false;
+		}
+		if(get['insureper'].match(/^[0-9]{1}[0-9.]*$/ig)==null) {
+			document.shipplugadd.insureper.focus();
+			alert(ordershipping_js_insureper_empty);
+			return false;
+		}
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		var tab=document.getElementById("shipplugaddtab").value;
+		if (options=='true'){
+			if (tab=='true'){
+				if(parent.frames[iframename].document.getElementById("selectform")){
+					parent.frames[iframename].refresh('selectform','selectall','check_all');
+				}
+			}
+			alert(ordershipping_js_add_ok);
+		}else{
+			alert(ordershipping_js_add_no);
+		}
+		if (tab=='true'){
+			parent.onaletdoc()
+		}
+	}
+</script>
+</head>
+
+<body>
+<form name="shipplugadd" id="shipplugadd" method="post" action="index.php?archive=shipplug&action=shipsave">
+<input type="hidden" name="inputclass" value="add">
+<input type="hidden" name="tab" id="shipplugaddtab" value="[%$tab%]">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.ordershipping_add_mess%]</span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.ordershipping_add_infoname%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.ordershipping_add_title%]</td>
+						<td  class="trtitle02"><input type="text" name="title" size="25" maxlength="25" class="infoInput"/> <span class="cautiontitle">[%$ST.ordershipping_add_title_mess%]</span></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.ordershipping_add_content%]</td>
+						<td  class="trtitle02"><textarea name="content" cols="60" rows="5" class="infoInput"></textarea></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.ordershipping_add_price%]</td>
+						<td  class="trtitle02"><input type="text" name="price" size="6" maxlength="6" value="0" class="infoInput"/> <span class="cautiontitle">[%$ST.ordershipping_add_price_mess%]</span></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.ordershipping_add_markup%]</td>
+						<td  class="trtitle02"><input type="text" name="markup" size="6" maxlength="6" value="0" class="infoInput"/> <span class="cautiontitle">[%$ST.ordershipping_add_markup_mess%]</span></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.ordershipping_add_otherinfo%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.ordershipping_add_iscash%]</td>
+						<td  class="trtitle02">
+							<input type="radio" value="1" name="iscash" /> [%$ST.open_botton_title%]&nbsp;
+							<input type="radio" value="0" name="iscash" checked="checked"/> [%$ST.close_botton_title%]
+							<span class="cautiontitle">[%$ST.ordershipping_add_iscash_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.ordershipping_add_isinsure%]</td>
+						<td  class="trtitle02">
+							<input type="radio" value="1" name="isinsure" onclick="ondisplay('validatetextdiv','trstyle2 displaytrue')"/> [%$ST.open_botton_title%]&nbsp;
+							<input type="radio" value="0" name="isinsure" checked="checked" onclick="ondisplay('validatetextdiv','trstyle2 displaynone')"/> [%$ST.close_botton_title%]
+							<span class="cautiontitle">[%$ST.ordershipping_add_isinsure_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2 displaynone" id="validatetextdiv">
+						<td class="trtitle011">[%$ST.ordershipping_add_insureper%]</td>
+						<td  class="trtitle02"><input type="text" name="insureper" size="4" maxlength="6" value="0" class="infoInput"/> % <span class="cautiontitle">[%$ST.ordershipping_add_insureper_mess%]</span></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td id="right"><input type="submit" name="Submit" value="[%$ST.botton_add%]" class="buttonface" /></td>
+				<td id="left" class="padding-left5"><input type="button" name="cancel" onClick="javascript:parent.onaletdoc();" value="[%$ST.botton_add_reset%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

@@ -1,0 +1,4 @@
+<a href="{%$homelink%}">Home</a>
+{%forlist from=$array key=i%}
+	» <a href="{%$array[i].link%}">{%$array[i].title%}</a>
+{%/forlist%}

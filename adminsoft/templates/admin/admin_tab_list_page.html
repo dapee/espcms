@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/dialog.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/clickmenu.js"></script>
+<script type="text/javascript" src="js/pagebotton.js"></script>
+<script type="text/javascript" src="js/jscroll.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$.fn.clickMenu.setDefaults({arrowSrc:'templates/images/arrow_right.gif'});
+		$('#listbottonul').clickMenu();
+		if ($.browser.msie){
+			var h = '[%$iframeheightwindow%]';
+			$('#mainbodyauto').css({height:h-99});
+			var formlist=document.getElementById('selectform');
+			var loadurl=formlist.elements[0].value;
+			var maxperpage=formlist.elements[1].value;
+			var maxhit=formlist.elements[2].value;
+			var nowpage=formlist.elements[3].value;
+			var loadname=formlist.elements[6].value;
+			var pagetextname=formlist.elements[7].value;
+			var pagebottonname=formlist.elements[8].value;
+			pageDimensions(1000000,maxperpage,maxhit,nowpage,loadurl,loadname,pagetextname,pagebottonname,'selectform');
+		}
+
+	})
+
+	function search(loadurl){
+		if ($.browser.version==6.0){
+			var h=document.body.clientHeight;
+		}else{
+			var h = $(window).height();
+		}
+		var formlist=document.getElementById('selectform');
+
+		var loadurl=loadurl;
+
+		var maxperpage=formlist.elements[1].value;
+
+		var maxhit=formlist.elements[2].value;
+
+		var nowpage=formlist.elements[3].value;
+
+		var loadname=formlist.elements[6].value;
+
+		var pagetextname=formlist.elements[7].value;
+
+		var pagebottonname=formlist.elements[8].value;
+		formlist.elements[0].value = loadurl;
+		pageDimensions(1000000,maxperpage,maxhit,nowpage,loadurl,loadname,pagetextname,pagebottonname,'selectform');
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodyauto")){
+			$('#mainbodyauto').css({height:h-99});
+		}
+		
+		if(document.getElementById("selectform")){
+			var formlist=document.getElementById('selectform');
+
+			var loadurl=formlist.elements[0].value;
+
+			var maxperpage=formlist.elements[1].value;
+
+			var maxhit=formlist.elements[2].value;
+
+			var nowpage=formlist.elements[3].value;
+
+			var loadname=formlist.elements[6].value;
+
+			var pagetextname=formlist.elements[7].value;
+
+			var pagebottonname=formlist.elements[8].value;
+			pageDimensions(1000000,maxperpage,maxhit,nowpage,loadurl,loadname,pagetextname,pagebottonname,'selectform');
+		}
+	}
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+	document.oncontextmenu=new Function('event.returnValue=false;');
+	document.onselectstart=new Function('event.returnValue=false;');
+</script>
+</head>
+
+<body>
+<div id="mainlistbotton">[%beark name=tabmenubotton class=$listfunction,$lng,$mid,$isclass,$tabarray%]</div>
+<div class="listitle">[%beark name=tablabel class=$listfunction%]</div>
+<div id="mainbodyauto" class="tablist">
+	<form name="selectform" id="selectform" method="post">
+		<input type="hidden" name="loadurl" id="loadurl" value="[%$loadurl%]">
+		<input type="hidden" name="maxperpage" id="maxperpage" value="[%$MaxPerPage%]">
+		<input type="hidden" name="maxhit" id="maxhit" value="[%$MaxHit%]">
+		<input type="hidden" name="nowpage" id="nowpage" value="[%$nowpage%]">
+		<input type="hidden" name="limitkey" id="limitkey" value="[%$limitkey%]">
+		<input type="hidden" name="limitclass" id="limitclass" value="[%$limitclass%]">
+		<input type="hidden" name="loadname" id="loadname" value="#loadingtabelist">
+		<input type="hidden" name="pagetextname" id="pagetextname" value="#pageinfo">
+		<input type="hidden" name="pagebottonname" id="pagebottonname" value="#Pagination">
+		<input type="hidden" name="oldloadurladd" id="oldloadurladd" value="[%$loadurl%]">
+		<div class="loadingdiv" id="loadingtabelist"></div>
+	</form>
+</div>
+<div class="pagelistdiv">
+	<div class="pageinfotext" id="pageinfo"></div>
+	<div class="pagebottonlist" id="pagebotton"><span id="Pagination" class="pagination"></span></div>
+</div>
+</body>
+
+</html>
+
+

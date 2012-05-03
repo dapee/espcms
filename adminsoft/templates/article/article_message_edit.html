@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var acmessagelmain_js_recontent_empty  = "[%$ST.acmessagelmain_js_recontent_empty%]";
+	var acmessagelmain_js_size_empty  = "[%$ST.acmessagelmain_js_size_empty%]";
+	var acmessagelmain_js_edit_ok = "[%$ST.acmessagelmain_js_edit_ok%]";
+	var acmessagelmain_js_edit_no = "[%$ST.acmessagelmain_js_edit_no%]";
+	var iframename = "[%$iframename%]";
+	iframename = iframename=='' ? "jerichotabiframe_0" : iframename;
+	var addtype = "[%$type%]";
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var options = {
+			beforeSubmit: formverify,
+			success:saveResponse,
+			resetForm: false
+		}
+		$('#infosave').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+		if (parent.document.getElementById('centerleft')){
+			parent.scrolclear();
+		}
+	})
+
+
+
+
+	function formverify(formData) {
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['recontent']==''){
+			document.infosave.recontent.focus();
+			alert(acmessagelmain_js_recontent_empty);
+			return false;
+		}
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		if (options=='true'){
+			if(parent.frames[iframename].document.getElementById("selectform")){
+				parent.frames[iframename].refresh('selectform','selectall','check_all');
+			}
+			alert(acmessagelmain_js_edit_ok);
+		}else{
+			alert(acmessagelmain_js_edit_no+"("+options+")");
+		}
+		if (parent.document.getElementById('centerleft')){
+			parent.scrolopen();
+		}
+		parent.onaletdoc()
+	}
+</script>
+</head>
+
+<body>
+<form name="infosave" id="infosave" method="post" action="index.php?archive=acmessagemain&action=infosave">
+<input type="hidden" name="inputclass" value="[%$type%]">
+<input type="hidden" name="lng" id="lng" value="[%$lng%]">
+<input type="hidden" name="dmid" value="[%$read.dmid%]">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.acmessagelmain_edit_mess%]</span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.acmessagelmain_add_name%]</td>
+						<td class="trtitle02">[%$read.name%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.acmessagelmain_add_content%]</td>
+						<td class="trtitle02">[%$read.content%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.acmessagelmain_add_recontent%]</td>
+						<td class="trtitle02"><textarea name="recontent" cols="50" rows="5" class="smallInput" style="width:98%;height:100px;">[%$read.recontent|Html2Text('0')%]</textarea></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.acmessagelmain_edit_mess_1%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.article_doc_add_linkdid%]</td>
+						<td class="trtitle02">[%$articelread.title%] ID=[%$articelread.did%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.acmessagelmain_text_ip%]</td>
+						<td class="trtitle02">[%$read.ipadd|ip(0)%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.acmessagelmain_text_name%]</td>
+						<td class="trtitle02">[%$read.name%]</td>
+					</tr>
+					[%if $member.username!=''%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.enquirymain_add_userid%]</td>
+						<td class="trtitle02">[%$member.username%]  [%if @this->powercheck('member','memberedit')==true %]<a class="tabclicklink" onclick="javascript:parent.onbotton('[%$ST.viewmember_botton%]','index.php?archive=membermain&action=memberedit&userid=[%$member.userid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'memberedit[%$member.userid%]',self.frameElement.getAttribute('name'));" id="memberedit[%$member.userid%]" href="#body" title="[%$member.username%]" hidefocus="true">[%$ST.viewmember_botton%]</a> [%/if%]</td>
+					</tr>
+					[%/if%]
+					[%if $adminview.username!=''%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.payreceiptlist_add_username%]</td>
+						<td class="trtitle02">[%$adminview.username%]</td>
+					</tr>
+					[%/if%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.acmessagelmain_text_addtime%]</td>
+						<td class="trtitle02">[%$read.addtime|timeformat(3)%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.acmessagelmain_text_retime%]</td>
+						<td class="trtitle02">
+							[%if $read.retime>0%][%$read.retime|timeformat(3)%][%else%]<span class="strong colorgreg">[%$ST.formmessmain_isreply_botton2%]</span>[%/if%]
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.acmessagelmain_text_support%]</td>
+						<td class="trtitle02">[%$read.support%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.acmessagelmain_text_oppose%]</td>
+						<td class="trtitle02">[%$read.oppose%]</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table width="100%">
+			<tr>
+				<td id="right"><input type="submit" id="docaddsubmitbotton" name="Submit" value="[%$ST.botton_remess%]" class="buttonface" /></td>
+				<td id="left" class="padding-left5"><input type="button" name="cancel" onClick="javascript:closewindow();" value="[%$ST.botton_remess_reset%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

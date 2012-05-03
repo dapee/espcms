@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=3.0"/>
+<title>{%$type.typename%} - {%$lngpack.sitename%}</title>
+<meta name="keywords" content="{%$lngpack.keyword%}" />
+<meta name="description" content="{%$lngpack.description%}" />
+<link href="{%$rootpath%}style/tempates_div.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/public.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/pagebotton.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{%$rootdir%}js/jquery.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/basicrun.js"></script>
+<script type="text/javascript" src="{%$rootdir%}index.php?ac=public&at=typepuv&tid={%$type.tid%}"></script>
+</head>
+
+<body>
+<div class="head">
+	{%link file="en/public/head.html"%}
+	{%get name=typelist class=tid:$type.tid,utid:$type.topid%}
+	{%if count($array)>0%}
+		<div class="framecenter">
+			<div class="fup2 center">
+			{%forlist from=$array key=i%}
+				{%if $array[i].level==1%}
+				<a class="typelink" title="{%$array[i].typename%}" href="{%$array[i].link%}">{%$array[i].typename%}</a>
+				{%else%}
+				<a class="typelink2" title="{%$array[i].typename%}" href="{%$array[i].link%}">{%$array[i].typename%}</a>
+				{%/if%}
+			{%/forlist%}
+			</div>
+			<div class="fdown"></div>
+		</div>
+	{%/if%}
+	{%/get%}
+	
+	<div class="framecenter">
+		<div class="fup2"><span class="spantitle">{%$type.typename%}</span></div>
+		<div class="fdown"></div>
+		<div class="fcontent">
+			{%if count($array) > 0%}
+			<ul class="piclist">
+				{%forlist from=$array key=i%}
+				<li title="{%$array[i].title%}">
+					<a href="{%$array[i].link%}"><img src="{%$array[i].pic|zoom(120,120)%}" alt="{%$array[i].title%}"></a>
+					<span class="t"><a class="infolist" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title|cutstr(10,'')%}</a></span><p><em>${%$array[i].bprice%}</em></p>
+				</li>
+				{%/forlist%}
+			</ul>
+			<div class="pagelist center margintop8">
+				<div id="pagelist">
+					{%$pagetext%}
+				</div>
+			</div>
+			<div class="pagelist center margintop8">
+				<div id="Pagination" class="pagination">
+					{%$pagebotton%}
+				</div>
+			</div>
+			{%else%}
+			<div class="pagelist center margintop8">
+				<div id="pagelist">Did not match any infomation</div>
+			</div>
+			{%/if%}
+		</div>
+	</div>
+</div>
+{%link file="en/public/footer.html"%}	
+</body>
+
+</html>

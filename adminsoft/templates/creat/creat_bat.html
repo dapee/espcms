@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="../js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var iframename = "[%$iframename%]";
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var optionsbat = {
+			beforeSubmit: bat_formverify,
+			success:function(){}
+		}
+		$("#createbat").submit(function() {
+			$(this).ajaxSubmit(optionsbat);
+			return false;
+		});
+	})
+	function bat_formverify(formData, jqForm, options) {
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		var loadurl='index.php?archive=createmain&action=createbatwindow&lng='+get['lng']+'&creattype='+get['creattype']+'&time='+get['time'];
+		parent.windowsdig('Loading','iframe:'+loadurl,'750px','400px','iframe',false);
+		return false;
+	}
+</script>
+</head>
+
+<body>
+<form method="post" name="createbat" id="createbat" action="index.php?archive=createmain&action=indexsave">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.createmain_bat_mess_title%]</span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.createmain_add_lng%]</td>
+						<td class="trtitle02">
+							[%if $is_alonelng==1%]
+								[%$home_lng%]
+								<input type="hidden" name="lng" value="[%$home_lng%]">
+							[%else%]
+								<select size="1" name="lng">
+								[%forlist from=$lnglist key=list%]
+									<option [%$lnglist[list].selected%] value="[%$lnglist[list].lng%]">[%$lnglist[list].lngtitle%]</option>
+								[%/forlist%]
+								</select>
+							[%/if%]
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.createmain_bat_add_type%]</td>
+						<td class="trtitle02">
+							<input type="radio" value="1" name="creattype" onclick="ondisplay('validatetextdiv','trstyle2 displaytrue')"/> [%$ST.createmain_bat_add_type1%]&nbsp;
+							<input type="radio" value="0" name="creattype" checked="checked" onclick="ondisplay('validatetextdiv','trstyle2 displaynone')"/> [%$ST.createmain_bat_add_type2%]
+						</td>
+					</tr>
+					<tr class="trstyle2 displaynone" id="validatetextdiv">
+						<td class="trtitle01">[%$ST.createmain_bat_add_time%]</td>
+						<td class="trtitle02">
+							<input type="text" name="time" id="time" maxlength="20" size="20" value="[%$time%]" onclick="WdatePicker({el:'time',readOnly:true,dateFmt:'yyyy-MM-dd'})" class="infoInput">
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td><input type="submit" name="Submit" value="[%$ST.botton_cerathtml%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

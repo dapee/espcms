@@ -1,0 +1,52 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" [%if @this->powercheck('communicate','bbsmainedit')==true%] ondblClick="javascript:parent.onbotton('[%$ST.setedit_botton%]','index.php?archive=bbsmain&action=bbsmainedit&bid=[%$array[list].bid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'bbsmainedit[%$array[list].bid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="3%"><input type="checkbox" name="selectinfoid" value="[%$array[list].bid%]"></td>
+			<td width="7%">[%$array[list].bid%]</td>
+			<td width="40%" id="left" class="padding-left3">[%$array[list].title|cutstr(35)%]</td>
+			<td width="15%">[%$array[list].addtime|timeformat(3)%]</td>
+			<td width="5%">[%$array[list].replynum%]</td>
+			<td width="5%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].istop==1%]<span class="select_ok"></span>[%else%]<span class="select_no"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="8%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isclass==1%]<span class="audit_ok" title="[%$ST.article_audit_ok%]"></span>[%else%]<span class="audit_no" title="[%$ST.article_audit_no%]"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="17%" id="infotype">
+				[%if @this->powercheck('communicate','bbsmainedit')==true%]
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						[%if $bbstype.ispage==1 && $array[list].upbid==0 &&  $array[list].replynum==0%]
+						<td><a class="setedit" id="rebbsedit[%$array[list].bid%]" onclick="javascript:parent.onbotton('[%$ST.forummain_text_replynum%]','index.php?archive=bbsmain&action=bbsmainedit&bid=[%$array[list].bid%]&type=add&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'rebbsedit[%$array[list].bid%]',self.frameElement.getAttribute('name'));" href="#body" title="[%$ST.forummain_text_replynum%]" hidefocus="true">[%$ST.forummain_text_replynum%]</a></td>
+						[%/if%]
+						<td class="padding-left3"><a class="setedit" id="bbsmainedit[%$array[list].bid%]" onclick="javascript:parent.onbotton('[%$ST.setedit_botton%]','index.php?archive=bbsmain&action=bbsmainedit&bid=[%$array[list].bid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'bbsmainedit[%$array[list].bid%]',self.frameElement.getAttribute('name'));" href="#body" title="[%$ST.setedit_botton%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+						[%if $array[list].replynum>0%]
+						<td class="padding-left3"><a class="setedit2" id="rebbsmanlist[%$array[list].bid%]" onclick="javascript:parent.onbotton('[%$ST.forummain_text_set_title%]','index.php?archive=management&action=list&listfunction=bbsmainlist&btid=[%$array[list].btid%]&upbid=[%$array[list].bid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'rebbsmanlist[%$array[list].bid%]',self.frameElement.getAttribute('name'));" href="#body" title="[%$ST.forummain_text_set_title%]" hidefocus="true">[%$ST.forummain_text_set_title%]</a></td>
+						[%/if%]
+					</tr>
+				</table>
+				[%/if%]
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

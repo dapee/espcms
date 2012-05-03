@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var modelmanage_js_modelname_empty  = "[%$ST.modelmanage_js_modelname_empty%]";
+	var modelmanage_js_pagemax_empty  = "[%$ST.modelmanage_js_pagemax_empty%]";
+	var modelmanage_js_add_ok = "[%$ST.modelmanage_js_add_ok%]";
+	var modelmanage_js_add_no = "[%$ST.modelmanage_js_add_no%]";
+	var iframename = "[%$iframename%]";
+	iframename = iframename=='' ? "jerichotabiframe_0" : iframename;
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var options = {
+			beforeSubmit: formverify,
+			success:saveResponse,
+			resetForm: true
+		}
+		$('#modeladd').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	})
+
+
+
+
+	function formverify(formData) {
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['modelname']==""){
+			document.modeladd.modelname.focus();
+			alert(modelmanage_js_modelname_empty);
+			return false;
+		}
+		if(get['pagemax'].match(/^[1-9][0-9.]*$/ig)==null) {
+			document.modeladd.pagemax.focus();
+			alert(modelmanage_js_pagemax_empty);
+			return false;
+		}
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		var tab=document.getElementById("modeladdtab").value;
+		if (options=='true'){
+			if (tab=='true'){
+				if(parent.frames[iframename].document.getElementById("selectform")){
+					parent.frames[iframename].refresh('selectform','selectall','check_all');
+				}
+			}
+			alert(modelmanage_js_add_ok);
+		}else{
+			alert(modelmanage_js_add_no);
+		}
+		if (tab=='true'){
+			parent.onaletdoc()
+		}
+	}
+</script>
+</head>
+
+<body>
+<form name="modeladd" id="modeladd" method="post" action="index.php?archive=modelmanage&action=modelsave">
+	<input type="hidden" name="inputclass" value="add">
+	<input type="hidden" name="tab" id="modeladdtab" value="[%$tab%]">
+	<div id="mainbodybottonauto" class="managebottonadd">
+		<div class="maindobycontent">
+			<!--查看已选择的类型-->
+			<div class="suggestion">
+				<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.modelmanage_add_mess%]</span></span>
+			</div>
+			<div class="manageeditdiv">
+				<div class="maneditcontent">
+					<table class="formtable">
+						<tr class="trstyle2">
+							<td width="15%" class="trtitle011">[%$ST.modelmanage_add_modelname%]</td>
+							<td width="85%" class="trtitle02"><input type="text" name="modelname" size="25" maxlength="20" class="infoInput"/> <span class="cautiontitle">[%$ST.modelmanage_add_modelname_mess%]</span></td>
+						</tr>
+						<tr class="trstyle2">
+							<td width="15%" class="trtitle01">[%$ST.modelmanage_add_pagemax%]</td>
+							<td width="85%" class="trtitle02"><input type="text" name="pagemax" size="5" value="20" maxlength="2" class="infoInput"/> <span class="cautiontitle">[%$ST.modelmanage_add_pagemax_mess%]</span></td>
+						</tr>
+						<tr class="trstyle2">
+							<td width="15%" class="trtitle01">[%$ST.modelmanage_add_pagesylte%]</td>
+							<td width="85%" class="trtitle02">
+								<select size="1" name="pagesylte">
+									<option selected value="1">[%$ST.modelmanage_add_pagesylte1%]</option>
+									<option value="2">[%$ST.modelmanage_add_pagesylte2%]</option>
+								</select>
+							</td>
+						</tr>
+						<tr class="trstyle2">
+							<td class="trtitle03" colspan="2">[%$ST.article_doc_tab_title03%]</td>
+						</tr>
+						<tr class="trstyle2">
+							<td width="15%" class="trtitle01">[%$ST.modelmanage_add_isbase%]</td>
+							<td width="85%" class="trtitle02">
+								<input type="radio" value="1" name="isbase"> [%$ST.open_botton_title%]&nbsp;
+								<input type="radio" value="0" name="isbase" checked="checked"/> [%$ST.close_botton_title%]
+								<span class="cautiontitle">[%$ST.modelmanage_add_isbase_mess%]</span>
+							</td>
+						</tr>
+						<tr class="trstyle2">
+							<td width="15%" class="trtitle01">[%$ST.modelmanage_add_istsn%]</td>
+							<td width="85%" class="trtitle02">
+								<input type="radio" value="1" name="istsn" checked="checked"/> [%$ST.open_botton_title%]&nbsp;
+								<input type="radio" value="0" name="istsn"/> [%$ST.close_botton_title%]
+								<span class="cautiontitle">[%$ST.modelmanage_add_istsn_mess%]</span>
+							</td>
+						</tr>
+						<tr class="trstyle2">
+							<td width="15%" class="trtitle01">[%$ST.modelmanage_add_isalbum%]</td>
+							<td width="85%" class="trtitle02">
+								<input type="radio" value="1" name="isalbum" checked="checked"/> [%$ST.open_botton_title%]&nbsp;
+								<input type="radio" value="0" name="isalbum"/> [%$ST.close_botton_title%]
+								<span class="cautiontitle">[%$ST.modelmanage_add_isalbum_mess%]</span>
+							</td>
+						</tr>
+						<tr class="trstyle2">
+							<td width="15%" class="trtitle01">[%$ST.modelmanage_add_isextid%]</td>
+							<td width="85%" class="trtitle02">
+								<input type="radio" value="1" name="isextid" checked="checked"/> [%$ST.open_botton_title%]&nbsp;
+								<input type="radio" value="0" name="isextid"/> [%$ST.close_botton_title%]
+								<span class="cautiontitle">[%$ST.modelmanage_add_isextid_mess%]</span>
+							</td>
+						</tr>
+						<tr class="trstyle2">
+							<td width="15%" class="trtitle01">[%$ST.modelmanage_add_issid%]</td>
+							<td width="85%" class="trtitle02">
+								<input type="radio" value="1" name="issid" checked="checked"/> [%$ST.open_botton_title%]&nbsp;
+								<input type="radio" value="0" name="issid"/> [%$ST.close_botton_title%]
+								<span class="cautiontitle">[%$ST.modelmanage_add_issid_mess%]</span>
+							</td>
+						</tr>
+						<tr class="trstyle2">
+							<td width="15%" class="trtitle01">[%$ST.modelmanage_add_isfgid%]</td>
+							<td width="85%" class="trtitle02">
+								<input type="radio" value="1" name="isfgid" checked="checked"/> [%$ST.open_botton_title%]&nbsp;
+								<input type="radio" value="0" name="isfgid"/> [%$ST.close_botton_title%]
+								<span class="cautiontitle">[%$ST.modelmanage_add_isfgid_mess%]</span>
+							</td>
+						</tr>
+						<tr class="trstyle2">
+							<td width="15%" class="trtitle01">[%$ST.modelmanage_add_islinkdid%]</td>
+							<td width="85%" class="trtitle02">
+								<input type="radio" value="1" name="islinkdid" checked="checked"/> [%$ST.open_botton_title%]&nbsp;
+								<input type="radio" value="0" name="islinkdid"/> [%$ST.close_botton_title%]
+								<span class="cautiontitle">[%$ST.modelmanage_add_islinkdid_mess%]</span>
+							</td>
+						</tr>
+						<tr class="trstyle2">
+							<td width="15%" class="trtitle01">[%$ST.modelmanage_add_isorder%]</td>
+							<td width="85%" class="trtitle02">
+								<input type="radio" value="1" name="isorder" checked="checked"/> [%$ST.open_botton_title%]&nbsp;
+								<input type="radio" value="0" name="isorder"/> [%$ST.close_botton_title%]
+								<span class="cautiontitle">[%$ST.modelmanage_add_isorder_mess%]</span>
+							</td>
+						</tr>
+						<tr class="trstyle2">
+							<td width="15%" class="trtitle01">[%$ST.modelmanage_add_ismessage%]</td>
+							<td width="85%" class="trtitle02">
+								<input type="radio" value="1" name="ismessage" checked="checked"/> [%$ST.open_botton_title%]&nbsp;
+								<input type="radio" value="0" name="ismessage"/> [%$ST.close_botton_title%]
+								<span class="cautiontitle">[%$ST.modelmanage_add_ismessage_mess%]</span>
+							</td>
+						</tr>
+						<tr class="trstyle2">
+							<td width="15%" class="trtitle01">[%$ST.modelmanage_add_ispurview%]</td>
+							<td width="85%" class="trtitle02">
+								<input type="radio" value="1" name="ispurview" checked="checked"/> [%$ST.open_botton_title%]&nbsp;
+								<input type="radio" value="0" name="ispurview"/> [%$ST.close_botton_title%]
+								<span class="cautiontitle">[%$ST.modelmanage_add_ispurview_mess%]</span>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="downbotton">
+		<div id="subbotton">
+			<table border="0" width="100%">
+				<tr>
+					<td id="right"><input type="submit" id="submitbotton" name="Submit" value="[%$ST.botton_add%]" class="buttonface" /></td>
+					<td id="left" class="padding-left5"><input type="button" name="cancel" onClick="javascript:parent.onaletdoc();" value="[%$ST.botton_add_reset%]" class="buttonface" /></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</form>
+</body>
+
+</html>
+
+

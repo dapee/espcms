@@ -1,0 +1,58 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" title="[%$array[list].typename%]"[%if @this->powercheck('communicate','bbstypeedit')==true %] ondblClick="javascript:parent.onbotton('[%$ST.setedit_botton%]','index.php?archive=bbstypemain&action=bbstypeedit&btid=[%$array[list].btid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'ifrmatlistedit[%$array[list].btid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="4%"><input type="checkbox" name="selectinfoid" value="[%$array[list].btid%]"></td>
+			<td width="7%">
+				<input type="hidden" name="infoid" id="infoid" value="[%$array[list].btid%]">
+				<input type="text" name="pid" size="3" value="[%$array[list].pid%]" class="infoInput">
+			</td>
+			<td width="7%">[%$array[list].btid%]</td>
+			<td width="6%">[%$array[list].lng%]</td>
+			<td width="30%">[%$array[list].typename%]</td>
+			<td width="10%">[%$array[list].puvname%]</td>
+			<td width="7%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].ismenu==1%]<span class="select_ok"></span>[%else%]<span class="select_no"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="11%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isseccode==1%]<span class="isseccode_ok" title="[%$ST.formmain_isseccode_ok%]"></span>[%else%]<span class="isseccode_no" title="[%$ST.formmain_isseccode_no%]"></span>[%/if%]</td>
+						<td>[%if $array[list].iswap==1%]<span class="iswap_ok" title="[%$ST.open_botton_title%]"></span>[%else%]<span class="iswap_no" title="[%$ST.close_botton_title%]"></span>[%/if%]</td>
+						<td>[%if $array[list].isclass==1%]<span class="audit_ok" title="[%$ST.open_botton_title%]"></span>[%else%]<span class="audit_no" title="[%$ST.close_botton_title%]"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="18%" id="infotype">
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						[%if @this->powercheck('communicate','bbsmainlist')==true %]
+						<td><a class="setedit2" onclick="javascript:parent.onbotton('[%$ST.forumtype_text_infolist_title%]','index.php?archive=management&action=list&listfunction=bbsmainlist&btid=[%$array[list].btid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'bbsmainlist[%$array[list].btid%]',self.frameElement.getAttribute('name'));" id="bbsmainlist[%$array[list].btid%]" href="#body" title="[%$ST.forumtype_text_infolist_title%]" hidefocus="true">[%$ST.forumtype_text_infolist_title%]</a></td>
+						[%/if%]
+						[%if @this->powercheck('communicate','bbstypeedit')==true %]
+						<td class="padding-left3"><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.setedit_botton%]','index.php?archive=bbstypemain&action=bbstypeedit&btid=[%$array[list].btid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'ifrmatlistedit[%$array[list].btid%]',self.frameElement.getAttribute('name'));" id="ifrmatlistedit[%$array[list].btid%]"  href="#body" title="[%$ST.setedit_botton%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+						[%/if%]
+						[%if @this->powercheck('communicate','bbstypedel')==true %]
+						<td class="padding-left3"><a class="setedit" onclick="javascript:submiturl('index.php?archive=bbstypemain&action=bbstypedel&btid=[%$array[list].btid%]&freshid='+Math.random(),'index.php?archive=management&action=load','[%$ST.run_ok%]','[%$ST.run_no%]',true,'[%$ST.del_messok%]','selectform','selectall','check_all');" href="#body" title="[%$ST.setdel_botton%]" hidefocus="true">[%$ST.setdel_botton%]</a></td>
+						[%/if%]
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+	<tr>
+	    <td align="center">[%$ST.list_nothing_title%]</td>
+	</tr>
+</table>
+</div>
+[%/if%]

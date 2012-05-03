@@ -1,0 +1,35 @@
+body{
+	direction:ltr;
+	text-align:left;
+}
+.divtitle{
+	float: left;
+	width:500px;
+	padding:5px;
+}
+.contentdiv{
+	float: left;
+	width:580px;
+	padding:5px;
+}
+.CodeArea{
+	width:95%;
+	height:140px;
+	direction:ltr;
+	text-align:left;
+}
+
+.Actions{
+	float:left;
+	width:580px;
+	padding:5px;
+}
+.Options{
+	float:left;
+	width:580px;
+	line-height: 150%;
+	padding:5px;
+}
+a.infolink02{font-size:12px;color:#e80323;text-decoration:none;font-weight:bold;}
+a:visited.infolink02{font-size:12px;color:#e80323;text-decoration:none;font-weight:bold;}
+a:hover.infolink02{color:#de9d00;font-size:12px;text-decoration:underline;font-weight:bold;}

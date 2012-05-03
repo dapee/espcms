@@ -1,0 +1,39 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" title="[%$array[list].title%]" onselectstart="return false;" [%if @this->powercheck('communicate','albumedit')==true %]ondblClick="javascript:parent.onbotton('[%$ST.setedit_botton%]','index.php?archive=albummain&action=albumaedit&amid=[%$array[list].amid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'articleeditbotton[%$array[list].amid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+     <table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="5%"><input type="checkbox" name="selectinfoid" value="[%$array[list].amid%]"></td>
+			<td width="10%">[%$array[list].amid%]</td>
+			<td width="40%">[%$array[list].title%]</td>
+			<td width="15%">[%$array[list].addtime|timeformat(3)%]</td>
+			<td width="10%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isclass==1%]<span class="audit_ok" title="[%$ST.article_audit_ok%]"></span>[%else%]<span class="audit_no" title="[%$ST.article_audit_no%]"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="20%" id="infotype">
+				[%if @this->powercheck('communicate','albumedit')==true %]
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						<td><a class="setedit3" onclick="javascript:parent.onbotton('[%$ST.albummain_botton_view%]','index.php?archive=management&action=list&listfunction=albumfilelist&amid=[%$array[list].amid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'typelist[%$array[list].amid%]',self.frameElement.getAttribute('name'));" id="typelist[%$array[list].amid%]" href="#body" title="[%$ST.albummain_botton_view%]" hidefocus="true">[%$ST.albummain_botton_view%]</a></td>
+						<td class="padding-left3"><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.setedit_botton%]','index.php?archive=albummain&action=albumaedit&amid=[%$array[list].amid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'articleeditbotton[%$array[list].amid%]',self.frameElement.getAttribute('name'));" id="articleeditbotton[%$array[list].amid%]" href="#body" title="[%$ST.setedit_botton%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+					</tr>
+				</table>
+				[%/if%]
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

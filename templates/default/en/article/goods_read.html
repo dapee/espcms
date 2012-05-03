@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>{%$read.title%} - {%$lngpack.sitename%}</title>
+<meta name="keywords" content="{%$lngpack.keyword%}" />
+<meta name="description" content="{%$lngpack.description%}" />
+<link href="{%$rootpath%}style/tempates_div.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/public.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/pagebotton.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/skin.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/jquery.lightbox-0.5.css" rel="stylesheet" type="text/css" media="screen" />
+<script type="text/javascript" src="{%$rootdir%}js/jquery.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/basicrun.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/picshow.min.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/jquery.lightbox-0.5.min.js"></script>
+<script type="text/javascript" src="{%$rootdir%}index.php?ac=public&at=readpuv&did={%$read.did%}"></script>
+<script type="text/javascript">
+$().ready(function() {
+	$("#clickmenubotton li span").hover(function() {
+		$(this).addClass("bgmenuhove2");
+		$(this).parent().find("ul.subnav").slideDown('fast').show(); 
+		$(this).parent().hover(function() {}, function(){
+			$(this).parent().find("ul.subnav").fadeOut('fast');
+			$(this).parent().find("span").removeClass("bgmenuhove2");
+		});
+	});
+	$('#mycarousel').jcarousel({start: 1});
+	$(function() {$('#mycarousel a').lightBox({
+		imageLoading: '{%$rootpath%}images/lightbox-ico-loading.gif',
+		imageBtnClose: '{%$rootpath%}images/lightbox-btn-close.gif',
+		imageBtnPrev: '{%$rootpath%}images/lightbox-btn-prev.gif',
+		imageBtnNext: '{%$rootpath%}images/lightbox-btn-next.gif'
+	});});
+});
+</script>
+</head>
+
+<body>
+<div class="head">
+	{%link file="en/public/head.html"%}
+	<!--bann-->
+	{%if $type.typepic!=''%}
+	<div class="bann">
+		<div class="bann">
+			<img title="tel" src="{%$rootdir%}{%$type.typepic%}"/>
+		</div>
+	</div>
+	{%/if%}
+	<div class="bann">
+		<div class="location">{%list name=path class=type:type,id:$type.tid%} » <b>{%$read.title%}</b></div>
+	</div>
+	
+	<div class="framecenter margintop10">
+		<div class="frameright ">
+			<div class="fup3"><span class="spantitle">{%$type.typename%}</span></div>
+			<div class="fcontent3">
+				{%get name=typelist class=tid:$type.tid,utid:$type.topid%}
+				<ul class="three">
+					{%forlist from=$array key=i%}
+						{%if $array[i].level==1%}
+						<li class="b"><a class="typelink" title="{%$array[i].typename%}" href="{%$array[i].link%}">{%$array[i].typename%}</a></li>
+						{%else%}
+						<li class="a"><a title="{%$array[i].typename%}" href="{%$array[i].link%}">{%$array[i].typename%}</a></li>
+						{%/if%}
+					{%/forlist%}
+				</ul>
+				{%/get%}
+			</div>
+			<div class="fdown3"></div>
+			
+			{%link file="en/public/left.html"%}
+		</div>
+		
+		<div class="pagecontent margintleft10">
+			<div class="pagecontentstr">
+				<div class="righttext center">
+					<div class="readpic"><img src="{%$read.pic|zoom(225,225)%}" alt="{%$array[i].title%}"></div>
+					<div class="readtitle">
+						<dl>
+							<dt><h4>{%$read.title%}</h4></dt>
+							<dd>Product ID：<strong class="priceclass">{%$read.tsn%}</strong></dd>
+							<dd class="fastline">Original Price：<strong class="priceclass">${%$read.oprice%}</strong></dd>
+							<dd>Price：<strong class="priceclass">${%$read.bprice%}</strong></dd>
+							<dd>
+								<div class="bshare-custom"><a title="分享到QQ空间" class="bshare-qzone"></a><a title="分享到新浪微博" class="bshare-sinaminiblog"></a><a title="分享到人人网" class="bshare-renren"></a><a title="分享到开心网" class="bshare-kaixin001"></a><a title="分享到豆瓣" class="bshare-douban"></a><a title="更多平台" class="bshare-more bshare-more-icon"></a><span class="BSHARE_COUNT bshare-share-count">0</span></div><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=2&amp;lang=zh"></script><script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC2.js"></script>
+							</dd>
+							<dd class="orderbotton"><a target="_blank" class="btninfo1" href="{%$read.buylink%}">ADD TO CART</a>&nbsp;&nbsp; <a target="_blank" class="btninfo2" href="{%$read.enqlink%}">INQUIRY</a></dd>
+						</dl>
+					</div>
+				</div>
+				{%if count($photo)>0%}
+				<div class="righttext">
+					<div class="readlist">
+						<div class="tg">Picture</div>
+						<div class="l">
+							<ul id="mycarousel"  class="jcarousel-skin-tango">
+								{%forlist from=$photo key=i%}
+								<li><a href="{%$rootdir%}{%$photo[i].picfile%}" title="{%$photo[i].picname%}"><img src="{%$photo[i].picfile|zoom(120,120)%}"/></a></li>
+								{%/forlist%}
+							</ul>
+						</div>
+					</div>
+				</div>
+				{%/if%}
+				
+				<div class="righttext">
+					<div class="readlist">
+						<div class="tg">Description</div>
+						<div class="l lineheight200" style="padding-left: 10px;padding-right:10px;">{%$read.content%}</div>
+					</div>
+				</div>
+				
+				{% if count($page)>0 %}
+				<div class="righttext center">
+					<table style="margin: 0 auto;">
+						<tr>
+							<td>
+								<div id="Pagination" class="pagination">
+									{%forlist from=$page key=i%}
+									{%if $page[i].n==1%}
+									<span class="current disabled">{%$page[i].num%}</span>
+									{%else%}
+									<span><a href="{%$page[i].link%}">{%$page[i].num%}</a></span>
+									{%/if%}
+									{%/forlist%}
+								</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				{%/if%}
+				
+				{%if $read.linkdid!=''%}
+				<div class="righttext">
+					<div class="readlist">
+						<div class="tg">Related Products</div>
+						<div class="l">
+							<ul class="piclist">
+								{%get name=list class=mid:$read.mid,tid:$read.tid,linkdid:$read.linkdid,max:5%}
+								{%forlist from=$array key=i%}
+								<li title="{%$array[i].title%}">
+									<a href="{%$array[i].link%}"><img src="{%$array[i].pic|zoom(120,120)%}" alt="{%$array[i].title%}"></a>
+									<span class="t"><a class="infolist" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title|cutstr(10,'')%}</a></span><p>Price<em>${%$array[i].bprice%}</em></p>
+								</li>
+								{%/forlist%}
+								{%/get%}
+							</ul>
+						</div>
+					</div>
+				</div>
+				{%/if%}
+				
+				{%list name=messlist class=did:$read.did,ismess:$read.ismess%}
+			</div>
+		</div>
+	</div>
+	{%link file="en/public/link.html"%}
+</div>
+{%link file="en/public/footer.html"%}	
+</body>
+
+</html>

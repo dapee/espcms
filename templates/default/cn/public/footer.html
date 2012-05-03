@@ -1,0 +1,33 @@
+<div class="fotterpage">
+	<div class="framecenter fotter">
+		<div class="fotterdown"></div>
+		<div class="parttype margintop5">
+			<ul>
+				{%get name=typepart class=mid:0%}
+					{%forlist from=$array key=i%}
+					<li>
+						<a class="infolist_fff" title="{%$array[i].typename%}" href="{%$array[i].link%}">{%$array[i].typename%}</a>
+					</li>
+					{%/forlist%}
+				{%/get%}
+			</ul>
+		</div>
+		<div class="parttype margintop5">
+			<ul>
+				{%get name=tags class=mid:3,max:10%}
+				       <ul>
+					{%forlist from=$array key=i%}
+					      <li><a class="infolist_fff" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title%}</a></li>  
+					{%/forlist%}
+				       </ul>
+				{%/get%}
+			</ul>
+		</div>
+		<div class="fotterstr">
+			<a class="infolist_fff" target="_blank" href="http://www.ecisp.cn">易思ESPCMS企业建站系统</a> [<a target="_blank" class="infolist_fff" href="http://www.earclink.com">EarcLink</a>] 版权所有 2002-2012 All Rights Reserved   <a class="infolist_fff" target="_blank" title="易思EasySitePM4.2企业建站系统" href="http://www.ecisp.cn">Powered by ESPCMS V5</a><br>
+			ESPCMS著作权信息：中华人民共和国国家版权局  ESPCMS计算机软件著作权登记证书：2011SR051710<br/>
+			声明：本站内容只是做为ESPCMS演示功能使用，不对其内容真假负责！<br/> <a target="_blank" href="{%$pathroot%}wap/">手机访问</a>
+		</div>
+	</div>
+</div>
+{%list name=im%}

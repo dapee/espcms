@@ -1,0 +1,32 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" title="[%$array[list].labelname%]" [%if @this->powercheck('article','recomedit')==true %]ondblClick="javascript:parent.onbotton('[%$array[list].labelname%][%$ST.recommanage_edit_title%]','index.php?archive=recommanage&action=recomedit&dlid=[%$array[list].dlid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'recommedit[%$array[list].dlid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="8%"><input type="checkbox" name="selectinfoid" value="[%$array[list].dlid%]"></td>
+			<td width="10%">[%$array[list].dlid%]</td>
+			<td width="12%">[%$array[list].lng%]</td>
+			<td width="40%">[%$array[list].labelname%]</td>
+			<td width="20%">[%$array[list].modelname%]</td>
+			<td width="10%" id="infotype">
+				[%if @this->powercheck('article','recomedit')==true %]
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						<td><a class="setedit" onclick="javascript:parent.onbotton('[%$array[list].labelname%][%$ST.recommanage_edit_title%]','index.php?archive=recommanage&action=recomedit&dlid=[%$array[list].dlid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'recommedit[%$array[list].dlid%]',self.frameElement.getAttribute('name'));" id="recommedit[%$array[list].dlid%]" href="#body" title="[%$array[list].labelname%][%$ST.recommanage_edit_title%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+					</tr>
+				</table>
+				[%/if%]
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+	<tr>
+	    <td align="center">[%$ST.list_nothing_title%]</td>
+	</tr>
+</table>
+</div>
+[%/if%]

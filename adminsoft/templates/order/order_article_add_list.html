@@ -1,0 +1,28 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" id="orderdiv[%$array[list].did%]">
+	<table border="0" style="width:100%">
+		<tr>
+			<td width="10%">[%$array[list].did%]</td>
+			<td width="60%" id="left" class="padding-left3">[%$array[list].title|cutstr(30)%]</td>
+			<td width="11%" id="right" class="padding-right3">
+				[%$order_moneytype%][%$array[list].bprice%]
+			</td>
+			<td width="8%">
+				<input type="text" name="orderhow[%$array[list].did%]"  id="orderhow[%$array[list].did%]" onBlur="javascript:isparseint([%$array[list].did%]);"  value="1" size="2" maxlength="5" class="infoInput">
+				<input type="hidden" name="orderdid[]" id="orderdid" value="[%$array[list].did%]">
+			</td>
+			<td width="11%" onclick="delinfolist('orderdiv[%$array[list].did%]','[%$array[list].did%]','didlist')"><img src="templates/images/del.gif"></td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="width:100%">
+		<tr>
+			<td align="center">[%$ST.list_nothing_add_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

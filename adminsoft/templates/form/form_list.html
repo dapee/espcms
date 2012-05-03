@@ -1,0 +1,53 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" title="[%$array[list].formgroupname%]（[%$array[list].formcode%]）"[%if @this->powercheck(165,171)==true %] ondblClick="javascript:parent.onbotton('[%$array[list].formgroupname|addslashes('hc')%][%$ST.formmain_edit_title%]','index.php?archive=formmain&action=formedit&id=[%$array[list].fgid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'formedit[%$array[list].fgid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="5%"><input type="checkbox" name="selectinfoid" value="[%$array[list].fgid%]"></td>
+			<td width="6%">[%$array[list].fgid%]</td>
+			<td width="8%">[%$array[list].lng%]</td>
+			<td width="39%">[%$array[list].formgroupname%]（[%$array[list].formcode%]）</td>
+			<td width="6%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].ismenu==1%]<span class="select_ok"></span>[%else%]<span class="select_no"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="6%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isseccode==1%]<span class="isseccode_ok" title="[%$ST.formmain_isseccode_ok%]"></span>[%else%]<span class="isseccode_no" title="[%$ST.formmain_isseccode_no%]"></span>[%/if%]</td>
+						<td>[%if $array[list].isclass==1%]<span class="audit_ok" title="[%$ST.formmain_audit_ok%]"></span>[%else%]<span class="audit_no" title="[%$ST.formmain_audit_no%]"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="30%" id="infotype">
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						<td><a class="setedit2" onclick="javascript:parent.onbotton('[%$array[list].formgroupname|addslashes('hc')%][%$ST.formmain_text_attlist_title%]','index.php?archive=management&action=list&listfunction=formattlist&fgid=[%$array[list].fgid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'attlist[%$array[list].fgid%]',self.frameElement.getAttribute('name'));" id="attlist[%$array[list].fgid%]" href="#body" title="[%$ST.viewmodeatt_botton%]" hidefocus="true">[%$ST.viewmodeatt_botton%]</a></td>
+						[%if @this->powercheck('communicate','messlist')==true %]
+						<td class="padding-left3"><a class="setedit3" onclick="javascript:parent.onbotton('[%$ST.formmain_text_bottonview%]','index.php?archive=management&action=list&listfunction=messlist&fgid=[%$array[list].fgid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'messlist[%$array[list].fgid%]',self.frameElement.getAttribute('name'));" id="messlist[%$array[list].fgid%]" href="#body" title="[%$ST.formmain_text_bottonview%]" hidefocus="true">[%$ST.formmain_text_bottonview%]</a></td>
+						[%/if%]
+						[%if @this->powercheck('communicate','formedit')==true %]
+						<td class="padding-left3"><a class="setedit" onclick="javascript:parent.onbotton('[%$array[list].formgroupname|addslashes('hc')%][%$ST.formmain_edit_title%]','index.php?archive=formmain&action=formedit&id=[%$array[list].fgid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'formedit[%$array[list].fgid%]',self.frameElement.getAttribute('name'));" id="formedit[%$array[list].fgid%]" href="#body" title="[%$array[list].formgroupname%][%$ST.formmain_edit_title%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+						[%/if%]
+						[%if @this->powercheck('communicate','delformattr')==true %]
+						<td class="padding-left3"><a class="setedit" onclick="javascript:submiturl('index.php?archive=formmain&action=delform&id=[%$array[list].fgid%]&freshid='+Math.random(),'index.php?archive=management&action=load','[%$ST.run_ok%]','[%$ST.run_no%]',true,'[%$ST.del_messok%]','selectform','selectall','check_all');" href="#body" title="[%$ST.setdel_botton%]" hidefocus="true">[%$ST.setdel_botton%]</a></td>
+						[%/if%]
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

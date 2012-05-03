@@ -1,0 +1,50 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" title="[%$array[list].typename%]-[%$array[list].attrname%]-[%$array[list].attrcue%]"[%if @this->powercheck('member','memattedit')==true %] ondblClick="javascript:parent.onbotton('[%$ST.memattmanage_edit%]','index.php?archive=memattmanage&action=memattedit&maid=[%$array[list].maid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'attedit[%$array[list].maid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="4%"><input type="checkbox" name="selectinfoid" value="[%$array[list].maid%]"></td>
+			<td width="8%">
+				<input type="hidden" name="infoid" id="infoid" value="[%$array[list].maid%]">
+				<input type="text" name="pid" size="3" value="[%$array[list].pid%]" class="infoInput" >
+			</td>
+			<td width="8%">[%$array[list].maid%]</td>
+			<td width="20%">[%$array[list].typename%]</td>
+			<td width="20%">[%$array[list].attrname%]</td>
+			<td width="14%">[%$array[list].inputtype%]</td>
+			<td width="8%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isvalidate==1%]<span class="select_ok"></span>[%else%]<span class="select_no"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="8%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isclass==1%]<span class="audit_ok" title="[%$ST.modelmanage_audit_ok%]"></span>[%else%]<span class="audit_no" title="[%$ST.modelmanage_audit_no%]"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="10%" id="infotype">
+				[%if @this->powercheck('member','memattedit')==true %]
+				<table>
+					<tr>
+						<td><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.memattmanage_edit%]','index.php?archive=memattmanage&action=memattedit&maid=[%$array[list].maid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'attedit[%$array[list].maid%]',self.frameElement.getAttribute('name'));" id="attedit[%$array[list].maid%]" href="#body" title="[%$ST.memattmanage_edit%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+					</tr>
+				</table>
+				[%/if%]
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

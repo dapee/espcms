@@ -1,0 +1,50 @@
+.pagination {
+	font-family: 微软雅黑, 宋体, arial, helvetica, sans-serif;
+	height:35px;
+	line-height:35px;
+	overflow: hidden;
+}
+.pagination a {
+	border-right: #b7d8ee 1px solid;
+	border-top: #b7d8ee 1px solid;
+	border-left: #b7d8ee 1px solid;
+	border-bottom: #b7d8ee 1px solid;
+	padding-right: 6px;
+	padding-left: 5px;
+	padding-bottom: 4px;
+	margin: 0px 1px;
+	color: #679298;
+	padding-top: 5px;
+	text-decoration: none;
+}
+.pagination a:hover {
+	border-right: #b7d8ee 1px solid;
+	border-top: #b7d8ee 1px solid;
+	border-left: #b7d8ee 1px solid;
+	border-bottom: #b7d8ee 1px solid;
+	color: #de4547;
+	background-color: #d2eaf6;
+}
+div.pagination a:active {
+	border-right: #b7d8ee 1px solid;
+	border-top: #b7d8ee 1px solid;
+	border-left: #b7d8ee 1px solid;
+	border-bottom: #b7d8ee 1px solid;
+	color: #de4547;
+	background-color: #d2eaf6;
+}
+.pagination span.current {
+	border-right: #b7d8ee 1px solid;
+	border-left: #b7d8ee 1px solid;
+	border-top: #b7d8ee 1px solid;
+	border-bottom: #b7d8ee 1px solid;
+	padding-right: 6px;
+	padding-left: 5px;
+	padding-bottom: 4px;
+	margin: 0px 1px;
+	color: #5e78c5;
+	padding-top: 5px;
+}
+.pagination span.disabled {
+	background-color: #d2eaf6;
+}

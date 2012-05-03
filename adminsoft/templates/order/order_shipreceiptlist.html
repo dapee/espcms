@@ -1,0 +1,36 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" title="[%$array[list].shippingsn%] - [%$array[list].addtime|timeformat(3)%]"[%if @this->powercheck('order','shipreceiptedit')==true %] ondblClick="javascript:parent.onbotton('[%$ST.shipreceiptlist_edit_title%]','index.php?archive=shipreceipt&action=shipreceiptedit&osrid=[%$array[list].osrid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'osridedit[%$array[list].osrid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="5%"><input type="checkbox" name="selectinfoid" value="[%$array[list].osrid%]"></td>
+			<td width="8%">[%$array[list].osrid%]</td>
+			<td width="20%">[%$array[list].shippingsn%]</td>
+			<td width="20%">[%$array[list].ordersn%]</td>
+			<td width="12%">[%$array[list].shippingmoney%]</td>
+			<td width="17%">[%$array[list].addtime|timeformat(3)%]</td>
+			<td width="8%">
+				[%if $array[list].isclass==1%][%$ST.shipreceiptlist_text_class1%][%else%][%$ST.shipreceiptlist_text_class2%][%/if%]
+			</td>
+			<td width="10%" id="infotype">
+				[%if @this->powercheck('order','shipreceiptedit')==true %]
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						<td><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.shipreceiptlist_edit_title%]','index.php?archive=shipreceipt&action=shipreceiptedit&osrid=[%$array[list].osrid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'osridedit[%$array[list].osrid%]',self.frameElement.getAttribute('name'));" id="osridedit[%$array[list].osrid%]" href="#body" title="[%$array[list].shippingsn%][%$ST.shipreceiptlist_edit_title%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+					</tr>
+				</table>
+				[%/if%]
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+	<tr>
+	    <td align="center">[%$ST.list_nothing_title%]</td>
+	</tr>
+</table>
+</div>
+[%/if%]

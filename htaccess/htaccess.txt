@@ -1,0 +1,39 @@
+<FilesMatch "\.(bak|inc|lib|sh|tpl|lbi|dwt)$">
+    order deny,allow
+    deny from all
+</FilesMatch>
+
+RewriteEngine On
+#RewriteBase /
+
+# direct one-word access
+# article
+RewriteRule ^([\w/]*)(article)_(list)_([0-9]+)[_]*([0-9]*)\.([a-zA-Z]+)$       $1index\.php\?page=$5&ac=$2&at=$3&tid=$4 [QSA,L]
+RewriteRule ^([\w/]*)(article)_(read)_([0-9]+)\.([a-zA-Z]+)$       $1index\.php\?ac=$2&at=$3&did=$4 [QSA,L]
+RewriteRule ^([\w/]*)(article)_(read)_([0-9]+)_([0-9]+)\.([a-zA-Z]+)$       $1index\.php\?ac=$2&at=$3&did=$4&page=$5 [QSA,L]
+RewriteRule ^([\w/]*)(special)_(list)_([0-9]+)[_]*([0-9]*)\.([a-zA-Z]+)$       $1index\.php\?page=$5&ac=$2&at=$3&sid=$4 [QSA,L]
+RewriteRule ^([\w/]*)(search)_([a-zA-Z]+)\.([a-zA-Z]+)$       $1index\.php\?ac=$2&at=$3 [QSA,L]
+RewriteRule ^([\w/]*)(messmain)_([a-zA-Z]+)_([0-9]+)\.([a-zA-Z]+)$       $1index\.php\?ac=$2&at=$3&did=$4 [QSA,L]
+RewriteRule ^([\w/]*)(messmain)_([a-zA-Z]+)\.([a-zA-Z]+)$		 $1index\.php\?ac=$2&at=$3 [QSA,L]
+RewriteRule ^([\w/]*)(form)_([a-zA-Z]+)_([0-9]+)\.([a-zA-Z]+)$      $1index\.php\?ac=$2&at=$3&fgid=$4 [QSA,L]
+RewriteRule ^([\w/]*)(order)_([a-zA-Z]+)\.([a-zA-Z]+)$      $1index\.php\?ac=$2&at=$3 [QSA,L]
+RewriteRule ^([\w/]*)(order)_([a-zA-Z]+)_([0-9]+)\.([a-zA-Z]+)$       $1index\.php\?ac=$2&at=$3&did=$4 [QSA,L]
+RewriteRule ^([\w/]*)(ordermain)_([a-zA-Z]+)\.([a-zA-Z]+)$      $1index\.php\?ac=$2&at=$3 [QSA,L]
+RewriteRule ^([\w/]*)(ordermain)_(list)_([0-9]+)[_]*([0-9]*)\.([a-zA-Z]+)$       $1index\.php\?page=$5&ac=$2&at=$3 [QSA,L]
+RewriteRule ^([\w/]*)(ordermain)_([a-zA-Z]+)_([0-9]+)\.([a-zA-Z]+)$       $1index\.php\?ac=$2&at=$3&oid=$4 [QSA,L]
+RewriteRule ^([\w/]*)(enquiry)_([a-zA-Z]+)\.([a-zA-Z]+)$      $1index\.php\?ac=$2&at=$3 [QSA,L]
+RewriteRule ^([\w/]*)(enquiry)_([a-zA-Z]+)_([0-9]+)\.([a-zA-Z]+)$       $1index\.php\?ac=$2&at=$3&did=$4 [QSA,L]
+RewriteRule ^([\w/]*)(enquirymain)_([a-zA-Z]+)\.([a-zA-Z]+)$      $1index\.php\?ac=$2&at=$3 [QSA,L]
+RewriteRule ^([\w/]*)(enquirymain)_(list)_([0-9]+)[_]*([0-9]*)\.([a-zA-Z]+)$       $1index\.php\?page=$5&ac=$2&at=$3 [QSA,L]
+RewriteRule ^([\w/]*)(enquirymain)_([a-zA-Z]+)_([0-9]+)\.([a-zA-Z]+)$       $1index\.php\?ac=$2&at=$3&eid=$4 [QSA,L]
+RewriteRule ^([\w/]*)(forum)_([a-zA-Z]+)\.([a-zA-Z]+)$      $1index\.php\?ac=$2&at=$3 [QSA,L]
+RewriteRule ^([\w/]*)(forum)_(list)_([0-9]+)[_]*([0-9]*)\.([a-zA-Z]+)$       $1index\.php\?page=$5&ac=$2&at=$3&btid=$4 [QSA,L]
+RewriteRule ^([\w/]*)(forum)_(read)_([0-9]+)[_]*([0-9]*)\.([a-zA-Z]+)$       $1index\.php\?page=$5&ac=$2&at=$3&bid=$4 [QSA,L]
+RewriteRule ^([\w/]*)(forum)_(add)_([0-9]+)\.([a-zA-Z]+)$       $1index\.php\?ac=$2&at=$3&btid=$4 [QSA,L]
+RewriteRule ^([\w/]*)(forummain)_([a-zA-Z]+)\.([a-zA-Z]+)$      $1index\.php\?ac=$2&at=$3 [QSA,L]
+RewriteRule ^([\w/]*)(forummain)_(list)_([0-9]+)[_]*([0-9]*)\.([a-zA-Z]+)$       $1index\.php\?page=$5&ac=$2&at=$3 [QSA,L]
+RewriteRule ^([\w/]*)(forummain)_([a-zA-Z]+)_([0-9]+)\.([a-zA-Z]+)$       $1index\.php\?ac=$2&at=$3&bid=$4 [QSA,L]
+RewriteRule ^([\w/]*)(public)_([a-zA-Z]+)\.([a-zA-Z]+)$      $1index\.php\?ac=$2&at=$3 [QSA,L]
+RewriteRule ^([\w/]*)(public)_([a-zA-Z]+)_([\.0-9a-zA-Z]+)\.([a-zA-Z]+)$       $1index\.php\?ac=$2&at=$3&rd=$4 [QSA,L]
+RewriteRule ^([\w/]*)(member)_([a-zA-Z]+)\.([a-zA-Z]+)$      $1index\.php\?ac=$2&at=$3 [QSA,L]
+RewriteRule ^([\w/]*)(membermain)_([a-zA-Z]+)\.([a-zA-Z]+)$      $1index\.php\?ac=$2&at=$3 [QSA,L]

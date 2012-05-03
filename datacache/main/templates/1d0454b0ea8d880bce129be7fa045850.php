@@ -1,0 +1,3 @@
+<?php if (count($this->_tpl_vars['array'])>0){$divid_i=1;for($i=0;$i<count($this->_tpl_vars['array']); $i++){?>
+<li><span class="names"><?php echo $this->timeformat($this->_tpl_vars['array'][$i]['addtime'],2) ?></span> <a class="infolist" title="<?php echo $this->_tpl_vars['array'][$i]['title'] ?>" href="<?php echo $this->_tpl_vars['array'][$i]['link'] ?>"><?php echo $this->_tpl_vars['array'][$i]['ctitle'] ?></a> </li>
+<?php }} ?>

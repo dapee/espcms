@@ -1,0 +1,39 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" title="[%$array[list].email%]" onselectstart="return false;" [%if @this->powercheck('marketing','mailinvitemailedit')==true %]ondblClick="javascript:parent.onbotton('[%$ST.setedit_botton%]','index.php?archive=mailinvite&action=mailinvitemailedit&mlvid=[%$array[list].mlvlid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'mailetypeidt[%$array[list].mlvlid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="5%"><input type="checkbox" name="selectinfoid" value="[%$array[list].mlvlid%]"></td>
+			<td width="8%">[%$array[list].mlvlid%]</td>
+			<td width="40%">[%$array[list].email%]</td>
+			<td width="14%">[%$array[list].name%]</td>
+			<td width="15%">[%$array[list].addtime|timeformat(3)%]</td>
+			<td width="8%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isclass==1%]<span class="audit_ok" title="[%$ST.article_audit_ok%]"></span>[%else%]<span class="audit_no" title="[%$ST.article_audit_no%]"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="15%" id="infotype">
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						[%if @this->powercheck('marketing','mailinvitemailedit')==true %]
+						<td class="padding-left3"><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.setedit_botton%]','index.php?archive=mailinvite&action=mailinvitemailedit&mlvlid=[%$array[list].mlvlid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'mailetypeidt[%$array[list].mlvlid%]',self.frameElement.getAttribute('name'));" id="mailetypeidt[%$array[list].mlvlid%]" href="#body" title="[%$ST.setedit_botton%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+						[%/if%]
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

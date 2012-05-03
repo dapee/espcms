@@ -1,0 +1,53 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" title="[%$array[list].name%]">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="10%">[%$array[list].skid%]</td>
+			<td width="35%">[%$array[list].name%]</td>
+			<td width="15%">[%$array[list].code%]</td>
+			<td width="10%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].lockin==1%]<span class="select_ok"></span>[%else%]<span class="select_no"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="10%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isclass==1%]<span class="select_ok"></span>[%else%]<span class="select_no"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="20%" id="infotype">
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						[%if @this->powercheck('templates','setting')==true %]
+						<td>
+							[%if $array[list].isclass==0%]
+							<a class="setedit" onclick="javascript:submiturl('index.php?archive=skinmain&action=setting&skid=[%$array[list].skid%]&code=[%$array[list].code%]&isclass=1&freshid='+Math.random(),'index.php?archive=management&action=load','[%$ST.run_ok%]','[%$ST.skinmain_class_log_mess%]',true,'[%$ST.skinmain_isclass_mess%]','selectform','selectall','check_all');" href="#body" title="[%$ST.setdel_botton%]" hidefocus="true">[%$ST.setedit_userok%]</a>
+							[%else%]
+							<a class="setedit4" href="#body" title="[%$ST.setedit_userclose%]" hidefocus="true">[%$ST.setedit_userclose%]</a>
+							[%/if%]
+						</td>
+						[%/if%]
+						[%if @this->powercheck('templates','delskin')==true && $array[list].lockin==0%]
+						<td class="padding-left3"><a class="setedit" onclick="javascript:submiturl('index.php?archive=skinmain&action=delskin&skid=[%$array[list].skid%]&isclass=[%$array[list].isclass%]&freshid='+Math.random(),'index.php?archive=management&action=load','[%$ST.run_ok%]','[%$ST.skinmain_del_log_mess%]',true,'[%$ST.del_messok%]','selectform','selectall','check_all');" href="#body" title="[%$ST.setdel_botton%]" hidefocus="true">[%$ST.setdel_botton%]</a></td>
+						[%/if%]
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

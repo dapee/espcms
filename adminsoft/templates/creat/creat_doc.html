@@ -1,0 +1,165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var createmain_js_mid_empty  = "[%$ST.createmain_js_mid_empty%]";
+	var createmain_js_id_empty  = "[%$ST.createmain_js_id_empty%]";
+	var iframename = "[%$iframename%]";
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var options_doc = {
+			beforeSubmit: formverify_doc,
+			success:saveResponse
+		}
+		$("#creatdoc").submit(function() {
+			$(this).ajaxSubmit(options_doc);
+			return false;
+		});
+	});
+	function formverify_doc(formData, jqForm, options) {
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['mid']==0){
+			document.creatdoc.mid.focus();
+			alert(createmain_js_mid_empty);
+			return false;
+		}
+		if(get['startid']!='' || get['endid']!='' ){
+			if(get['startid'].match(/^[1-9]{1}[0-9]*$/ig)==null && get['endid'].match(/^[1-9]{1}[0-9]*$/ig)==null ) {
+				document.creatdoc.startid.focus();
+				alert(createmain_js_id_empty);
+				return false;
+			}
+		}
+		var loadurl='index.php?archive=createmain&action=createdocwindow&class=type&lng='+get['lng']+'&mid='+get['mid']+'&tid='+get['tid']+'&startid='+get['startid']+'&endid='+get['endid'];
+		parent.windowsdig('Loading','iframe:'+loadurl,'750px','400px','iframe',false);
+		return false;
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		if (options=='true'){
+			alert(createmain_js_add_ok);
+		}else{
+			alert(createmain_js_add_no);
+		}
+		parent.onaletdoc()
+	}
+
+	function searchoption(mid,title){
+		var lng=document.creatdoc.lng.value;
+		lng = (lng=='big5') ? 'cn' : lng;
+		selectlinkagelng('tid','index.php?archive=connected&action=sctypelist&islinkd=1&optiontitle='+title+'&mid='+mid+'&lng='+lng);
+	}
+
+	function lngtype(lng){
+		lng = (lng=='big5') ? 'cn' : lng;
+		selectlinkagelng('midbotton','index.php?archive=connected&action=scmodellist&creattype=type&isbase=2&lng='+lng);
+		searchoption(1000000,"[%$ST.all_botton|escape('url')%]");
+	}
+	
+</script>
+</head>
+
+<body>
+<form method="post" name="creatdoc" id="creatdoc" action="index.php?archive=createmain&action=typesave">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.createmain_doc_creat_title%]</span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.createmain_add_lng%]</td>
+						<td class="trtitle02">
+							[%if $is_alonelng==1%]
+								[%$home_lng%]
+								<input type="hidden" name="lng" id="lng" value="[%$home_lng%]">
+							[%else%]
+								<select size="1" name="lng" id="lng" onchange="javascript:lngtype(this.value);">
+								[%forlist from=$lnglist key=list%]
+									<option [%$lnglist[list].selected%] value="[%$lnglist[list].lng%]">[%$lnglist[list].lngtitle%]</option>
+								[%/forlist%]
+								</select>
+							[%/if%]
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.createmain_add_mid%]</td>
+						<td class="trtitle02">
+							<select size="1" name="mid" id="midbotton" onchange="javascript:searchoption(this.value,'[%$ST.all_botton|escape('url')%]')">
+								<option value="0">[%$ST.createmain_add_mid_option%]</option>
+								[%forlist from=$modelarray key=list%]
+								<option value="[%$modelarray[list].mid%]">[%$modelarray[list].modelname%]</option>
+								[%/forlist%]
+							</select>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.createmain_add_tid%]</td>
+						<td class="trtitle02">
+							<select size="1" name="tid" id="tid">
+								<option value="0">[%$ST.all_botton%]</option>
+							</select>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.createmain_add_s_id%]</td>
+						<td class="trtitle02">
+							<input type="text" name="startid" size="5" maxlength="4" class="infoInput"/>
+							<span class="cautiontitle">[%$ST.createmain_add_s_id_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.createmain_add_e_id%]</td>
+						<td class="trtitle02">
+							<input type="text" name="endid" size="5" maxlength="4" class="infoInput"/>
+							<span class="cautiontitle">[%$ST.createmain_add_e_id_mess%]</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td><input type="submit" name="Submit" value="[%$ST.botton_cerathtml%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

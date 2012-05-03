@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>{%$sub.subjectname%} - {%$lngpack.sitename%}</title>
+<meta name="keywords" content="{%$lngpack.keyword%}" />
+<meta name="description" content="{%$lngpack.description%}" />
+<link href="{%$rootpath%}style/tempates_div.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/public.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/pagebotton.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{%$rootdir%}js/jquery.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/basicrun.js"></script>
+<script type="text/javascript" src="{%$rootdir%}index.php?ac=public&at=typepuv&tid={%$sub.sid%}"></script>
+<script type="text/javascript">
+$().ready(function() {
+	$("#clickmenubotton li span").hover(function() {
+		$(this).addClass("bgmenuhove2");
+		$(this).parent().find("ul.subnav").slideDown('fast').show(); 
+		$(this).parent().hover(function() {}, function(){
+			$(this).parent().find("ul.subnav").fadeOut('fast');
+			$(this).parent().find("span").removeClass("bgmenuhove2");
+		});
+	});
+});
+</script>
+</head>
+
+<body>
+<div class="head">
+	{%link file="en/public/head.html"%}
+	<!--bann-->
+	{%if $sub.subpic!=''%}
+	<div class="bann">
+		<div class="bann">
+			<img title="tel" src="{%$rootdir%}{%$sub.subpic%}"/>
+		</div>
+	</div>
+	{%/if%}
+	
+	<div class="bann">
+		<div class="location">{%list name=path class=type:sub,id:$sub.sid%}</div>
+	</div>
+	
+	<div class="framecenter margintop10">
+		<div class="frameright ">
+			<div class="fup3"><span class="spantitle">Popular Brands</span></div>
+			<div class="fcontent3">
+				{%get name=subtype class=mid:$sub.mid%}
+				<ul class="three">
+					{%forlist from=$array key=i%}
+						<li class="b"><a class="typelink" title="{%$array[i].subjectname%}" href="{%$array[i].link%}">{%$array[i].subjectname%}</a></li>
+					{%/forlist%}
+				</ul>
+				{%/get%}
+			</div>
+			<div class="fdown3"></div>
+			
+			{%link file="en/public/left.html"%}
+		</div>
+		
+		<div class="frameleft margintleft10">
+			{%if count($array) > 0%}
+			<div class="pagelist center">
+				<ul class="goodslist">
+					{%forlist from=$array key=i%}
+					<li>
+						<a href="{%$array[i].link%}"><img src="{%$array[i].pic|zoom(120,120)%}" alt="{%$array[i].title%}"></a>
+						<span class="t"><a class="infolist" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].ctitle%}</a></span>
+						<p>Price：<em>${%$array[i].bprice%}</em></p>
+						<p><a href="{%$array[i].enqlink%}">INQUIRY</a> <a href="{%$array[i].buylink%}">ADD TO CART</a></p>
+					</li>
+					{%/forlist%}
+				</ul>
+			</div>
+			<div class="pagelist center margintop8">
+				<div id="pagelist">
+					{%$pagetext%}
+				</div>
+			</div>
+			<div class="pagelist center margintop8">
+				<div id="Pagination" class="pagination">
+					{%$pagebotton%}
+				</div>
+			</div>
+			{%else%}
+			<div class="pagelist center margintop8">
+				<div id="pagelist">Did not match any infomation</div>
+			</div>
+			{%/if%}
+		</div>
+	</div>
+	
+	{%link file="en/public/link.html"%}
+</div>
+{%link file="en/public/footer.html"%}	
+</body>
+
+</html>

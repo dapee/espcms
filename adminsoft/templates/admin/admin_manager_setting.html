@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		var w = $(window).width();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+		$('.maneditcontent_editor').css({ width: w-170});
+	}
+	var setting_js_save_ok = "[%$ST.setting_js_save_ok%]";
+	var setting_js_save_no = "[%$ST.setting_js_save_no%]";
+	var iframename = "[%$iframename%]";
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		var w = '[%$iframewidthwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		$('.maneditcontent_editor').css({ width: w-170});
+		var options = {
+
+			beforeSubmit: formverify,
+
+			success:saveResponse,
+			resetForm: false
+		}
+		$('#setting').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	})
+
+
+
+
+	function formverify(formData) {
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		if (options=='true'){
+			alert(setting_js_save_ok);
+		}else{
+			alert(setting_js_save_no);
+		}
+	}
+</script>
+</head>
+
+<body>
+<form name="setting" id="setting" method="post" action="index.php?archive=management&action=setsave">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<!--查看已选择的类型-->
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.setting_edit_mess%]</span></span>
+		</div>
+		<div class="lefteditor">
+			<ul>
+				<li [%if $groupid==1%]class="hover" [%/if%]id="tabbottonul1"  onmousedown="javascript:windowsclass('#tabbottonul1','#tabcontentdiv1','tabbottonul','tabcontentdiv',1,6,'hover','');">[%$ST.setting_edit_title1%]</li>
+				<li [%if $groupid==2%]class="hover" [%/if%]id="tabbottonul2"  onmousedown="javascript:windowsclass('#tabbottonul2','#tabcontentdiv2','tabbottonul','tabcontentdiv',2,6,'hover','');">[%$ST.setting_edit_title2%]</li>
+				<li [%if $groupid==3%]class="hover" [%/if%]id="tabbottonul3"  onmousedown="javascript:windowsclass('#tabbottonul3','#tabcontentdiv3','tabbottonul','tabcontentdiv',3,6,'hover','');">[%$ST.setting_edit_title3%]</li>
+				<li [%if $groupid==4%]class="hover" [%/if%]id="tabbottonul4"  onmousedown="javascript:windowsclass('#tabbottonul4','#tabcontentdiv4','tabbottonul','tabcontentdiv',4,6,'hover','');">[%$ST.setting_edit_title4%]</li>
+				<li [%if $groupid==5%]class="hover" [%/if%]id="tabbottonul5"  onmousedown="javascript:windowsclass('#tabbottonul5','#tabcontentdiv5','tabbottonul','tabcontentdiv',5,6,'hover','');">[%$ST.setting_edit_title5%]</li>
+				<li [%if $groupid==6%]class="hover" [%/if%]id="tabbottonul6"  onmousedown="javascript:windowsclass('#tabbottonul6','#tabcontentdiv6','tabbottonul','tabcontentdiv',6,6,'hover','');">[%$ST.setting_edit_title6%]</li>
+			</ul>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent_editor">
+			[%forlist from=$array key=i%]
+			<table class="formtable [%if $array[i].key!=$groupid%]displaynone[%/if%]" id="tabcontentdiv[%$array[i].key%]">
+				[%forlist from=$array[i].list key=ii%]
+				[%if $array[i].list[ii].isline==1%]
+				<tr class="trstyle2">
+					<td class="trtitle03" colspan="2">[%$array[i].list[ii].str%]</td>
+				</tr>
+					[%if $array[i].list[ii].valname=='title_mail'%]
+					<tr class="trstyle2">
+						<td class="trtitle01"></td>
+						<td class="trtitle02"><a class="infolink05" onclick="javascript:submiturl('index.php?archive=mailtemplatemain&action=maildemo','index.php?archive=management&action=load','[%$ST.run_ok%]','[%$ST.run_no%]',false,'','selectform','selectall','check_all')" href="#body" title="[%$ST.mailtemplatemain_send_demo%]" hidefocus="true">[%$ST.mailtemplatemain_send_demo%]</a> <span class="cautiontitle">[%$ST.mailtemplatemain_send_demo_mess%]</span></td>
+					</tr>
+					[%/if%]
+				[%else%]
+				<tr class="trstyle2">
+					<td class="trtitle01">[%$array[i].list[ii].content%]</td>
+					<td class="trtitle02">
+						[%if $array[i].list[ii].valtype=='string'%]
+						<input type="text" name="[%$array[i].list[ii].valname%]" size="50" maxlength="250" value="[%$array[i].list[ii].value%]" class="infoInput"/>
+						[%/if%]
+						[%if $array[i].list[ii].valtype=='password'%]
+						<input type="password" name="[%$array[i].list[ii].valname%]" size="50" maxlength="250" value="[%$array[i].list[ii].value%]" class="infoInput"/>
+						[%/if%]
+						[%if $array[i].list[ii].valtype=='text'%]
+						<textarea name="[%$array[i].list[ii].valname%]" cols="50" rows="5" class="smallInput" style="width:98%;height:50px;">[%$array[i].list[ii].value%]</textarea>
+						[%/if%]
+						[%if $array[i].list[ii].valtype=='font'%]
+						<input type="text" name="[%$array[i].list[ii].valname%]" size="30" maxlength="250" value="[%$array[i].list[ii].value%]" class="infoInput"/>
+						[%/if%]
+						[%if $array[i].list[ii].valtype=='int'%]
+						<input type="text" name="[%$array[i].list[ii].valname%]" size="10" maxlength="20" value="[%$array[i].list[ii].value%]" class="infoInput"/>
+						[%/if%]
+						[%if $array[i].list[ii].valtype=='bool'%]
+						<input type="radio" value="1" name="[%$array[i].list[ii].valname%]"[%if $array[i].list[ii].value==1%] checked="checked"[%/if%]/> [%$array[i].list[ii].b1%]&nbsp;
+						       <input type="radio" value="0" name="[%$array[i].list[ii].valname%]"[%if $array[i].list[ii].value==0%] checked="checked"[%/if%]/> [%$array[i].list[ii].b2%]
+						[%/if%]
+						[%if $array[i].list[ii].valtype=='select'%]
+							<select size="1" name="[%$array[i].list[ii].valname%]" id="[%$array[i].list[ii].valname%]">
+							[%forlist from=$lngarray key=list%]
+								<option [%if $array[i].list[ii].value==$lngarray[list].lng%]selected[%/if%] value="[%$lngarray[list].lng%]">[%$lngarray[list].lngtitle%]</option>
+							[%/forlist%]
+							</select>
+						[%/if%]
+						[%if $array[i].list[ii].valtype=='selectkey'%]
+							<select size="1" name="[%$array[i].list[ii].valname%]" id="[%$array[i].list[ii].valname%]">
+							[%forlist from=$array[i].list[ii].selectkey key=iii%]
+								<option [%$array[i].list[ii].selectkey[iii].selected%] value="[%$array[i].list[ii].selectkey[iii].key%]">[%$array[i].list[ii].selectkey[iii].name%]</option>
+							[%/forlist%]
+							</select>
+						[%/if%]
+						[%if empty( $array[i].list[ii].str )!=fase && $array[i].list[ii].valtype!='text'%]<span class="cautiontitle">[%$array[i].list[ii].str%]</span>[%/if%]
+						
+					</td>
+				</tr>
+					[%if empty( $array[i].list[ii].str )!=fase && $array[i].list[ii].valtype=='text'%]
+					<tr class="trstyle2">
+						<td></td>
+						<td class="trtitle02"><span class="cautiontitle">[%$array[i].list[ii].str%]</span></td>
+					</tr>
+					[%/if%]
+				[%/if%]
+				[%/forlist%]
+				<tr>
+					<td colspan="2"></td>
+				</tr>
+			</table>
+			[%/forlist%]
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td id="center"><input type="submit" name="Submit" value="[%$ST.botton_edit%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

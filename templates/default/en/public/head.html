@@ -1,0 +1,48 @@
+<div class="logo">
+	<table style="width: 100%">
+		<tr>
+			<td style="width:238px;"><img title="logo" src="{%$rootpath%}images/logo_en.jpg"/></td>
+			<td valign="top" class="padding-right3">
+				<table style="width: 100%">
+					<tr>
+						<td class="right" style="height:35px;">
+							{%get name=lng%}
+								{%forlist from=$array key=i%}
+								<a href="{%$array[i].link%}">{%$array[i].lngtitle%}</a>
+								{%/forlist%}
+							{%/get%}
+						</td>
+					<tr>
+						<td class="right" ><img title="tel" src="{%$rootpath%}images/telonline_en.jpg"/></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div class="menubotton">
+	<table class="menu">
+		<tr>
+			<td class="menuleft"></td>
+			<td class="menucenter">
+				<ul class="topnav" id="clickmenubotton">
+					{%get name=menu class=path:$path,current:$current%}
+						{%forlist from=$array key=i%}
+						<li {%if $array[i].path==$path && $array[i].current==$current%}class="hover"{%/if%}><span><a class="toplink{%if $array[i].path==$path && $array[i].current==$current%}2{%/if%}" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title%}</a></span>
+							{% if count( $array[i].larray ) > 0 %}
+							<ul class="subnav" style="display: none; "> 
+								{%forlist from=$array[i].larray key=ii%}
+								<li><a class="novlink" href="{%$array[i].larray[ii].link%}" title="{%$array[i].larray[ii].title%}">{%$array[i].larray[ii].title%}</a></li>
+								{%/forlist%}
+							</ul>
+							{%/if%}
+						</li>
+						{%/forlist%}
+					{%/get%}
+				</ul>
+			</td>
+			<td class="menuright"></td>
+		</tr>
+	</table>
+</div>

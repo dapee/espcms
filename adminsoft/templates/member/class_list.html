@@ -1,0 +1,45 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" title="[%$array[list].rankname%]" [%if @this->powercheck('member','classedit')==true %]ondblClick="javascript:parent.onbotton('[%$ST.memclassmanage_edit_title%]','index.php?archive=memclassmanage&action=classedit&mcid=[%$array[list].mcid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'memberclassedit[%$array[list].mcid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="10%">[%if $array[list].lockin==0%]<input type="checkbox" name="selectinfoid" value="[%$array[list].mcid%]">[%/if%]</td>
+			<td width="10%">[%$array[list].mcid%]</td>
+			<td width="40%">[%$array[list].rankname%]</td>
+			<td width="10%">[%$array[list].integra%]</td>
+			<td width="10%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isinter==1%]<span class="select_ok"></span>[%else%]<span class="select_no"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="10%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isclass==1%]<font class="colorthree strong">[%$ST.open_botton_title%][%else%]<font class="colorgreg strong">[%$ST.close_botton_title%][%/if%]</font></td>
+					</tr>
+				</table>
+			</td>
+			<td width="10%" id="infotype">
+				[%if @this->powercheck('member','classedit')==true %]
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						<td><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.memclassmanage_edit_title%]','index.php?archive=memclassmanage&action=classedit&mcid=[%$array[list].mcid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'memberclassedit[%$array[list].mcid%]',self.frameElement.getAttribute('name'));" id="memberclassedit[%$array[list].mcid%]" href="#body" title="[%$array[list].rankname%][%$ST.memclassmanage_edit_title%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+					</tr>
+				</table>
+				[%/if%]
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+	<tr>
+	    <td align="center">[%$ST.list_nothing_title%]</td>
+	</tr>
+</table>
+</div>
+[%/if%]

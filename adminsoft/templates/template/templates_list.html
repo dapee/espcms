@@ -1,0 +1,62 @@
+[%if $updirtype==1%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF" onclick="javascript:search('[%$uploadurl%]');">
+			<tr>
+				<td width="45%" id="left" class="padding-left3"><img src="templates/images/fileicon/dir.png"> /[%$dirlist%]</td>
+				<td width="10%"></td>
+				<td width="20%"></td>
+				<td width="25%" id="infotype">
+					<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+						<tr>
+							<td><a class="setedit3" id="center" href="#body" onclick="javascript:search('[%$uploadurl%]');" title="[%$ST.filemanage_view_updir%]" hidefocus="true">[%$ST.filemanage_view_updir%]</a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+</div>
+[%/if%]
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist">
+	[%if $array[list].bottype=='dir'%]
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF" title="[%$ST.filemanage_view_opendir%]" onclick="javascript:search('[%$array[list].loadurl%]');">
+	[%else%]
+	<table border="0"  style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+	[%/if%]
+		<tr>
+			<td width="45%" id="left" class="padding-left3"><img src="templates/images/fileicon/[%$array[list].type%].png"> [%$array[list].filename%]</td>
+			<td width="10%">[%$array[list].type%]</td>
+			<td width="20%">[%$array[list].time|timeformat(3)%]</td>
+			<td width="25%" id="infotype">
+				[%if $array[list].bottype!='dir'%]
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						[%if @this->powercheck('templates','templateedit')==true %]
+						<td>
+							<a class="setedit" onclick="javascript:parent.onbotton('[%$ST.templatemain_edit_title%]','index.php?archive=templatemain&action=templateedit&dir=[%$templateDIR%]&filename=[%$array[list].basename%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'tempfileedit[%$array[list].tmid%]',self.frameElement.getAttribute('name'));" id="tempfileedit[%$array[list].tmid%]" href="#body" title="[%$array[list].templatename%][%$ST.templatemain_edit_title%]" hidefocus="true">[%$ST.setedit_botton%]</a>
+						</td>
+						<td class="padding-left3">
+							<a class="setedit" onclick="javascript:parent.onbotton('[%$ST.templatemain_copy_title%]','index.php?archive=templatemain&action=templateedit&dir=[%$templateDIR%]&filename=[%$array[list].basename%]&type=copy&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'tempfilecopy[%$array[list].tmid%]',self.frameElement.getAttribute('name'));" id="tempfilecopy[%$array[list].tmid%]" href="#body" title="[%$array[list].templatename%][%$ST.templatemain_copy_title%]" hidefocus="true">[%$ST.setcopy_botton%]</a>
+						</td>
+						[%/if%]
+						[%if @this->powercheck('templates','templatedel')==true %]
+						<td class="padding-left3"><a class="setedit" onclick="javascript:submiturl('index.php?archive=templatemain&action=templatedel&dir=[%$templateDIR%]&filename=[%$array[list].basename%]&freshid='+Math.random(),'index.php?archive=management&action=load','[%$ST.run_ok%]','[%$ST.run_no%]',true,'[%$ST.templatemain_del_log_mess%]','selectform','selectall','check_all');" href="#body" title="[%$ST.setdel_botton%]" hidefocus="true">[%$ST.setdel_botton%]</a></td>
+						[%/if%]
+					</tr>
+				</table>
+				[%/if%]
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

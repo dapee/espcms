@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var seomanage_js_keytypename_empty  = "[%$ST.seomanage_js_keytypename_empty%]";
+	var seomanage_js_keyworklist_empty  = "[%$ST.seomanage_js_keyworklist_empty%]";
+	var seomanage_js_description_empty  = "[%$ST.seomanage_js_description_empty%]";
+	var article_js_noselect_empty  = "[%$ST.article_js_noselect_empty%]";
+	var article_doc_add_tid  = "[%$ST.article_doc_add_tid%]";
+	var seomanage_js_add_ok = "[%$ST.seomanage_js_add_ok%]";
+	var seomanage_js_add_no = "[%$ST.seomanage_js_add_no%]";
+	var refalse = "[%$refalse%]";
+	var iframename = "[%$iframename%]";
+	iframename = iframename=='' ? "jerichotabiframe_0" : iframename;
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var options = {
+			beforeSubmit: formverify,
+			success:saveResponse,
+			resetForm: true
+		}
+		$('#keylinktypeadd').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+		parent.scrolclear();
+	})
+
+
+
+
+	function formverify(formData) {
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['keytypename']==""){
+			document.keylinktypeadd.keytypename.focus();
+			alert(seomanage_js_keytypename_empty);
+			return false;
+		}
+		if(get['keyworklist']==""){
+			document.keylinktypeadd.keyworklist.focus();
+			alert(seomanage_js_keyworklist_empty);
+			return false;
+		}
+		if(get['description']==""){
+			document.keylinktypeadd.description.focus();
+			alert(seomanage_js_description_empty);
+			return false;
+		}
+		if(get['tid']==0){
+			document.keylinktypeadd.tid.focus();
+			alert(article_doc_add_tid+article_js_noselect_empty);
+			return false;
+		}
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		var tab=document.getElementById("keylinkaddtab").value;
+		if (options=='true'){
+			if (tab=='true'){
+				if(parent.frames[iframename].document.getElementById("selectform")){
+					parent.frames[iframename].refresh('selectform','selectall','check_all');
+				}
+			}
+			alert(seomanage_js_add_ok);
+		}else{
+			alert(seomanage_js_add_no+'Return message:'+options);
+		}
+		if (tab=='true'){
+			parent.scrolopen();
+			parent.onaletdoc();
+		}
+	}
+</script>
+</head>
+
+<body>
+<form name="keylinktypeadd" id="keylinktypeadd" method="post" action="index.php?archive=seomanage&action=keylinktypesave">
+<input type="hidden" name="inputclass" value="add">
+<input type="hidden" name="tab" id="keylinkaddtab" value="[%$tab%]">
+<input type="hidden" name="mid" value="[%$mid%]">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<!--查看已选择的类型-->
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.seomanage_add_mess2%]</span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.subjectmanage_type_add_mid%]</td>
+						<td width="85%" class="trtitle02 colorgblue">[%$model%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="15%" class="trtitle011">[%$ST.seomanage_add_keytypename%]</td>
+						<td width="85%" class="trtitle02"><input type="text" name="keytypename" size="60" maxlength="100" class="infoInput"/> <span class="cautiontitle">[%$ST.seomanage_add_keytypename_mess%]</span></td>
+					</tr>
+					<tr class="trstyle3">
+						<td width="15%" class="trtitle011">[%$ST.seomanage_add_keyworklist%]</td>
+						<td width="85%" class="trtitle02">
+							<textarea name="keyworklist" id="keyworklist"  style="width:98%;height:60px;" class="smallInput"></textarea>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="15%" class="trtitle01"></td>
+						<td width="85%" class="trtitle02">
+							<a class="filecheck" href="#body" onclick="javascript:parent.windowsdig('[%$ST.selectkeyword_botton%]','iframe:index.php?archive=seomanage&action=listwindow&inputtext=keyworklist&listfunction=key&checkfrom=input&mid=[%$mid%]&tid='+document.keylinktypeadd.tid.value+'&iframename='+self.frameElement.getAttribute('name'),'650px','380px','iframe');">[%$ST.selectkeyword_botton%]</a>
+							<span class="cautiontitle">[%$ST.seomanage_add_keyworklist_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle3">
+						<td width="15%" class="trtitle011">[%$ST.seomanage_add_description%]</td>
+						<td width="85%" class="trtitle02">
+							<textarea name="description" cols="50" class="smallInput" style="width:98%;height:60px;" ></textarea>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="15%" class="trtitle01"></td>
+						<td width="85%" class="trtitle02"><span class="cautiontitle">[%$ST.seomanage_add_description_mess%]</span></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.article_doc_tab_title02%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.article_doc_add_tid%]</td>
+						<td class="trtitle02">
+							<select size="1" name="tid" id="tid">
+								<option selected="selected" value="0">[%$ST.article_doc_add_tid_option%]</option>
+								[%forlist from=$typelist key=list%]
+								<option [%$typelist[list].selected%] value="[%$typelist[list].tid%]">[%$typelist[list].level|treelist('&nbsp;&nbsp;&nbsp;')%]├─ [%$typelist[list].typename%]</option>
+								[%/forlist%]
+							</select>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td id="right"><input type="submit" id="docaddsubmitbotton" name="Submit" value="[%$ST.botton_add%]" class="buttonface" /></td>
+				<td id="left" class="padding-left5"><input type="button" name="cancel" onClick="javascript:closewindow();" value="[%$ST.botton_add_reset%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

@@ -1,0 +1,52 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" title="[%$array[list].title%] - [%$array[list].addtime|timeformat(3)%]" onselectstart="return false;" [%if @this->powercheck('article','docedit')==true %]ondblClick="javascript:parent.onbotton('[%$array[list].title|addslashes('hc')%]-[%$ST.article_edit_title%]','index.php?archive=article&action=docedit&did=[%$array[list].did%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'articleeditbotton[%$array[list].did%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="4%"><input type="checkbox" name="articleselectinfoid" value="[%$array[list].did%]"></td>
+			<td width="7%"><input type="hidden" name="articleinfoid" id="articleinfoid" value="[%$array[list].did%]"><input type="text" name="articlepid" size="2" value="[%$array[list].pid%]" class="infoInput" ></td>
+			<td width="7%">[%$array[list].did%]</td>
+			<td width="40%" id="left" class="padding-left3">
+				[%if $array[list].islink==0%]
+				<a target="_blank" class="infolink04" alt="[%$array[list].title%]" href="[%$array[list].readlink%]">[%$array[list].ctitle|cutstr(23)%]</a>
+				[%else%]
+				[%$array[list].ctitle|cutstr(23)%]
+				[%/if%]
+			</td>
+			<td width="10%">[%$array[list].typename|cutstr(5)%]</td>
+			<td width="11%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].pic!=''%]<span class="pic_ok" title="[%$ST.article_pic_ok%]"></span>[%else%]<span class="pic_no" title="[%$ST.article_pic_no%]"></span>[%/if%]</td>
+						<td>[%if $array[list].islink==1%]<span class="iswindow_ok" title="[%$ST.article_audit_ok%]"></span>[%else%]<span class="iswindow_no" title="[%$ST.article_audit_no%]"></span>[%/if%]</td>
+						<td>[%if $array[list].isorder==1%]<span class="order_ok" title="[%$ST.article_audit_ok%]"></span>[%else%]<span class="order_no" title="[%$ST.article_audit_no%]"></span>[%/if%]</td>
+						<td>[%if $array[list].isclass==1%]<span class="audit_ok" title="[%$ST.article_audit_ok%]"></span>[%else%]<span class="audit_no" title="[%$ST.article_audit_no%]"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="20%" id="infotype">
+				[%if @this->powercheck('article','docedit')==true %]
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						<td><a class="setedit" onclick="javascript:parent.onbotton('[%$array[list].title|addslashes('hc')%]-[%$ST.article_edit_title%]','index.php?archive=article&action=docedit&did=[%$array[list].did%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'articleeditbotton[%$array[list].did%]',self.frameElement.getAttribute('name'));" id="articleeditbotton[%$array[list].did%]" href="#body" title="[%$array[list].title%][%$ST.article_edit_title%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+						<td class="padding-left3"><a class="setedit" onclick="javascript:parent.onbotton('[%$array[list].title|addslashes('hc')%]-[%$ST.setcopy_botton%]','index.php?archive=article&action=docedit&did=[%$array[list].did%]&type=add&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'articleeditbotton[%$array[list].did%]',self.frameElement.getAttribute('name'));" id="articleeditbotton[%$array[list].did%]" href="#body" title="[%$array[list].title%][%$ST.setcopy_botton%]" hidefocus="true">[%$ST.setcopy_botton%]</a></td>
+						[%if $array[list].ismess==1 && @this->powercheck('article','acmessagelist')==true %]
+						<td class="padding-left3"><a class="setedit2" onclick="javascript:parent.onbotton('[%$ST.botton_view_message%]','index.php?archive=management&action=list&listfunction=acmessagelist&did=[%$array[list].did%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'articlemessage[%$array[list].did%]',self.frameElement.getAttribute('name'));" id="articlemessage[%$array[list].did%]" href="#body" title="[%$ST.botton_view_message%]" hidefocus="true">[%$ST.botton_view_message%]</a></td>
+						[%/if%]
+					</tr>
+				</table>
+				[%/if%]
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

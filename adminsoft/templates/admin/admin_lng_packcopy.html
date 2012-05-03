@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var language_js_lngtitle_empty = "[%$ST.language_js_lngtitle_empty%]";
+	var language_js_packcopy_ok = "[%$ST.language_js_packcopy_ok%]";
+	var language_js_packcopy_no = "[%$ST.language_js_packcopy_no%]";
+	var iframename = "[%$iframename%]";
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var options = {
+			beforeSubmit: formverify,
+			success:saveResponse
+		}
+		$('#lngpackcopy').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	})
+
+
+
+
+	function formverify(formData) {
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		if (options=='true'){
+			alert(language_js_packcopy_ok);
+		}else{
+			alert(language_js_packcopy_no);
+		}
+		parent.onaletdoc()
+	}
+</script>
+</head>
+
+<body>
+<form name="lngpackcopy" id="lngpackcopy" method="post" action="index.php?archive=language&action=packcopy">
+<input type="hidden" name="id" value="[%$lngread.id%]">
+<input type="hidden" name="lng" value="[%$lngread.lng%]">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.language_packcopy_mess%]<u>[%$lngread.lngtitle%]</u></span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.language_add_copy_mess%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="15%" class="trtitle01">[%$ST.language_add_copy_lng1%]</td>
+						<td width="85%" class="trtitle02">[%$lngread.lng%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="15%" class="trtitle01">[%$ST.language_add_lngtitle%]</td>
+						<td width="85%" class="trtitle02">[%$lngread.lngtitle%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="15%" class="trtitle01">[%$ST.language_add_copy_lng%]</td>
+						<td width="85%" class="trtitle02">
+							<select size="1" name="tolng" id="tolng">
+							[%forlist from=$lnglist key=list%]
+								[%if $lngread.id!=$lnglist[list].id || $lngread.lng!=$lnglist[list].lng%]
+								<option [%$lnglist[list].selected%] value="[%$lnglist[list].lng%]">[%$lnglist[list].lngtitle%]</option>
+								[%/if%]
+							[%/forlist%]
+							</select>
+							<span class="cautiontitle">[%$ST.language_add_copy_lng_mess%]</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td id="right"><input type="submit" name="Submit" value="[%$ST.botton_copy%]" class="buttonface" /></td>
+				<td id="left" class="padding-left5"><input type="button" name="cancel" onClick="javascript:parent.onaletdoc();" value="[%$ST.botton_copy_reset%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

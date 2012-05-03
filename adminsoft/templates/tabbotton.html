@@ -1,0 +1,124 @@
+[%if $loadfun=='articlelist'%]
+<div class="modeltitle">按所属模型查看</div>
+<div class="scrolltext">
+	<div class="srcolcontent" style="height:75px;">
+		<ul>
+			[%forlist from=$modelarray key=i%]
+			[%if $modelarray[i].selected=='selected'%]
+			<li><b>[%$modelarray[i].modelname%]</b></li>
+			[%else%]
+			<li><a href="[%$modelarray[i].url%]" title="[%$modelarray[i].modelname%]">[%$modelarray[i].modelname%]</a></li>
+			[%/if%]
+			[%/forlist%]
+		</ul>
+	</div>
+</div>
+
+<div class="modeltitle2">按分类查看</div>
+<div class="scrolltext">
+	<div class="srcolcontent" style="height:250px;" id="srcolcontent">
+		<ul>
+			[%forlist from=$typelist key=i%]
+			[%if $typelist[i].level>0%]<li class="tree[%$typelist[i].level%]">[%else%]<li>[%/if%]
+				[%if $typelist[i].selected=='selected'%]
+				<b>[%$typelist[i].typename%]</b>
+				[%else%]
+					[%if $typelist[i].styleid==4%]
+						<p class="tabclick" datatype="iframe" datalink="index.php?archive=article&action=docedit&did=[%$typelist[i].linkid%]&tid=[%$typelist[i].tid%]&mid=[%$typelist[i].mid%]&type=edit&iframename=jerichotabiframe_0" iconimg="templates/images/tab.gif" jerichotabindex="10000"><a href="#body" class="tabclicklink" hidefocus="true">[%$typelist[i].typename%]</a></p>
+					[%else%]
+						<a href="[%$typelist[i].url%]" title="[%$typelist[i].typename%]">[%$typelist[i].typename%]</a>
+					[%/if%]
+				[%/if%]
+			</li>
+			[%/forlist%]
+		</ul>
+	</div>
+</div>
+[%/if%]
+
+[%if $loadfun=='seolinklist' || $loadfun=='seolinktypelist'%]
+<div class="modeltitle">按所属模型查看</div>
+<div class="scrolltext">
+	<div class="srcolcontent" style="height:75px;">
+		<ul>
+			[%forlist from=$modelarray key=i%]
+			[%if $modelarray[i].selected=='selected'%]
+			<li><b>[%$modelarray[i].modelname%]</b></li>
+			[%else%]
+			<li><a href="[%$modelarray[i].url%]" title="[%$modelarray[i].modelname%]">[%$modelarray[i].modelname%]</a></li>
+			[%/if%]
+			[%/forlist%]
+		</ul>
+	</div>
+</div>
+
+<div class="modeltitle2">按分类查看</div>
+<div class="scrolltext">
+	<div class="srcolcontent" style="height:250px;" id="srcolcontent">
+		<ul>
+			[%forlist from=$typelist key=i%]
+			[%if $typelist[i].level>0%]<li class="tree[%$typelist[i].level%]">[%else%]<li>[%/if%]
+				[%if $typelist[i].selected=='selected'%]
+				<b>[%$typelist[i].typename%]</b>
+				[%else%]
+				<a href="[%$typelist[i].url%]" title="[%$typelist[i].typename%]">[%$typelist[i].typename%]</a>
+				[%/if%]
+			</li>
+			[%/forlist%]
+		</ul>
+	</div>
+</div>
+[%/if%]
+
+[%if $loadfun=='typelist' || $loadfun=='subjectlist' || $loadfun=='recomlist'%]
+<div class="modeltitle">按所属模型查看</div>
+<div class="scrolltext">
+	<div class="srcolcontent" style="height:75px;" id="modelleftcontent">
+		<ul>
+			[%forlist from=$modelarray key=i%]
+				[%if $modelarray[i].selected=='selected'%]
+				<li><b>[%$modelarray[i].modelname%]</b></li>
+				[%else%]
+				<li><a href="[%$modelarray[i].url%]" title="[%$modelarray[i].modelname%]">[%$modelarray[i].modelname%]</a></li>
+				[%/if%]
+			[%/forlist%]
+		</ul>
+	</div>
+</div>
+[%/if%]
+
+[%if $loadfun=='memberlist'%]
+<div class="modeltitle">按会员等级查看</div>
+<div class="scrolltext">
+	<div class="srcolcontent" style="height:75px;" id="modelleftcontent">
+		<ul>
+			[%forlist from=$memberclass key=i%]
+				[%if $memberclass[i].selected=='selected'%]
+				<li><b>[%$memberclass[i].rankname%]</b></li>
+				[%else%]
+				<li><a href="[%$memberclass[i].url%]" title="[%$memberclass[i].rankname%]">[%$memberclass[i].rankname%]</a></li>
+				[%/if%]
+			[%/forlist%]
+		</ul>
+	</div>
+</div>
+[%/if%]
+
+[%if $loadfun=='advertlist'%]
+<div class="modeltitle">按广告位查看</div>
+<div class="scrolltext">
+	<div class="srcolcontent" style="height:75px;" id="modelleftcontent">
+		<ul>
+			[%forlist from=$adtype key=i%]
+				[%if $adtype[i].selected=='selected'%]
+				<li><b>[%$adtype[i].adtypename%]</b></li>
+				[%else%]
+				<li><a href="[%$adtype[i].url%]" title="[%$adtype[i].adtypename%]">[%$adtype[i].adtypename%]</a></li>
+				[%/if%]
+			[%/forlist%]
+		</ul>
+	</div>
+</div>
+[%/if%]
+
+

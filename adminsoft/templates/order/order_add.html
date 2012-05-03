@@ -1,0 +1,298 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/cityselect.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var ordermain_js_email_empty  = "[%$ST.ordermain_js_email_empty%]";
+	var ordermain_js_alias_empty  = "[%$ST.ordermain_js_alias_empty%]";
+	var ordermain_js_tel_empty  = "[%$ST.ordermain_js_tel_empty%]";
+	var ordermain_js_address_empty  = "[%$ST.ordermain_js_address_empty%]";
+	var ordermain_js_osid_empty  = "[%$ST.ordermain_js_osid_empty%]";
+	var ordermain_js_opid_empty  = "[%$ST.ordermain_js_opid_empty%]";
+	var ordermain_js_add_ok = "[%$ST.ordermain_js_add_ok%]";
+	var ordermain_js_add_no = "[%$ST.ordermain_js_add_no%]";
+	var ordermain_add_username_mess = "[%$ST.ordermain_add_username_mess%]";
+	var ordermain_js_input_no = "[%$ST.ordermain_js_input_no%]";
+	var ordermain_js_input_ok = "[%$ST.ordermain_js_input_ok%]";
+	var ordermain_js_orderamout_err = "[%$ST.ordermain_js_orderamout_err%]";
+	var ordermain_js_goods_no = "[%$ST.ordermain_js_goods_no%]";
+	var iframename = "[%$iframename%]";
+	iframename = iframename=='' ? "jerichotabiframe_0" : iframename;
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var options = {
+			beforeSubmit: formverify,
+			success:saveResponse
+		}
+		$('#orderadd').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	})
+
+
+
+
+	function formverify(formData) {
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['didlist']=='') {
+			alert(ordermain_js_goods_no);
+			return false;
+		}
+		if(get['username'].match(/^[a-zA-Z]{1}[a-zA-Z0-9]{4,16}$/ig)==null) {
+			document.orderadd.username.focus();
+			alert(ordermain_add_username_mess);
+			return false;
+		}
+		if(get['email'].match(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/ig)==null) {
+			document.orderadd.email.focus();
+			alert(ordermain_js_email_empty);
+			return false;
+		}
+		if(get['alias']=='') {
+			document.orderadd.alias.focus();
+			alert(ordermain_js_alias_empty);
+			return false;
+		}
+		if(get['tel']=='' && get['mobile']=='') {
+			document.orderadd.tel.focus();
+			alert(ordermain_js_tel_empty);
+			return false;
+		}
+		if(get['address']=='') {
+			document.orderadd.address.focus();
+			alert(ordermain_js_address_empty);
+			return false;
+		}
+		if(get['osid']==0) {
+			document.orderadd.osid.focus();
+			alert(ordermain_js_osid_empty);
+			return false;
+		}
+		if(get['opid']==0) {
+			document.orderadd.opid.focus();
+			alert(ordermain_js_opid_empty);
+			return false;
+		}
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		if (options=='true'){
+			if(parent.frames[iframename].document.getElementById("selectform")){
+				parent.frames[iframename].refresh('selectform','selectall','check_all');
+			}
+			alert(ordermain_js_add_ok);
+		}else{
+			alert(ordermain_js_add_no);
+		}
+		parent.onaletdoc()
+	}
+</script>
+</head>
+
+<body>
+<form name="orderadd" id="orderadd" method="post" action="index.php?archive=ordermain&action=save">
+<input type="hidden" name="inputclass" value="add">
+<input type="hidden" name="userid" value="0">
+<input type="hidden" name="didlist" id="didlist">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.ordermain_add_textinfo_2%]</span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.ordermain_add_info%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td colspan="2">
+							<table style="width:100%">
+								<tr>
+									<td class="listitle2">[%beark name=tablabel class=orderaddendlist%]</td>
+								</tr>
+								<tr>
+									<td id="orderlistinfo">
+										<div class="infolist">
+											<table border="0" style="width:100%">
+												<tr>
+													<td align="center">[%$ST.list_nothing_add_title%]</td>
+												</tr>
+											</table>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="infolist displaynone" id="orderamoutinfo">
+										<table border="0" style="border-collapse:collapse" width="100%">
+											<tr>
+												<td id="left" class="padding-left3"><b>[%$ST.ordermain_infolist_text_amount%]</b></td>
+												<td id="right" class="padding-right3">[%$ST.ordermain_infolist_text_spamount%][%$order_moneytype%][%$productmoney_f%] - [%$ST.ordermain_infolist_text_zkamount%][%$order_moneytype%][%$discountmoney_f%] = [%$order_moneytype%][%$discount_productmoney_f%]</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.ordermain_add_countinfo%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.ordermain_add_username%]</td>
+						<td class="trtitle02">
+							<input type="text" name="username" maxlength="20" size="20" class="infoInput" onblur="checkorderusername(this.value);">
+							<span class="cautiontitle" id="usernameerr">[%$ST.ordermain_add_username_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.ordermain_add_alias%]</td>
+						<td class="trtitle02"><input type="text" name="alias" value="" maxlength="20" size="20" class="infoInput"></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.ordermain_add_sex%]</td>
+						<td class="trtitle02">
+							<input type="radio" value="1" name="sex" checked="checked"> [%$ST.select_sex_1%]&nbsp;
+							<input type="radio" value="0" name="sex"> [%$ST.select_sex_0%]
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.ordermain_add_tel%]</td>
+						<td class="trtitle02"><input type="text" name="tel" maxlength="20" size="20" class="infoInput"><span class="cautiontitle">[%$ST.ordermain_add_tel_mess%]</span></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.ordermain_add_motel%]</td>
+						<td class="trtitle02"><input type="text" name="mobile" maxlength="20" size="20" class="infoInput"></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.ordermain_add_email%]</td>
+						<td class="trtitle02"><input type="text" name="email" value="" maxlength="100" size="40" class="infoInput"></td>
+					</tr>
+					<tr class="trstyle2" id="select4">
+						<td class="trtitle01">[%$ST.ordermain_add_country%]</td>
+						<td class="trtitle02">
+							<select size="1" name="cityone" class="select" id="cityone">
+								<option value="0">[%$ST.ordermain_add_country_option%]</option>
+								<option value="1">[%$ST.ordermain_add_country_value%]</option>
+							</select>
+							<select size="1" name="citytwo" class="select" id="citytwo">
+								<option value="0">[%$ST.ordermain_add_province_option%]</option>
+							</select>
+							<select size="1" name="citythree" class="select" id="citythree">
+								<option value="0">[%$ST.ordermain_add_city_option%]</option>
+							</select>
+							<select size="1" name="district" class="select" id="district">
+								<option value="0">[%$ST.ordermain_add_district_option%]</option>
+							</select>
+							<span id="cityloading">Loading…</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.ordermain_add_address%]</td>
+						<td class="trtitle02"><input type="text" name="address" value="" maxlength="120" size="60" class="infoInput"></td>
+					</tr>
+					<tr class="trstyle2" id="select6">
+						<td class="trtitle01">[%$ST.ordermain_add_zipcode%]</td>
+						<td class="trtitle02"><input type="text" name="zipcode" value="" maxlength="10" size="10" class="infoInput"></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.ordermain_add_sendtime%]</td>
+						<td class="trtitle02">
+							<select size="1" name="sendtime" class="select">
+								<option value="1" selected>[%$ST.ordermain_add_sendtime1%]</option>
+								<option value="2">[%$ST.ordermain_add_sendtime2%]</option>
+								<option value="3">[%$ST.ordermain_add_sendtime3%]</option>
+								<option value="4">[%$ST.ordermain_add_sendtime4%]</option>
+							</select>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.ordermain_add_content%]</td>
+						<td class="trtitle02"><textarea name="content" rows="3" cols="60"></textarea></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.ordermain_add_invpayee%]</td>
+						<td class="trtitle02"><input type="text" name="invpayee" maxlength="100" size="25" class="infoInput"></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.ordermain_add_invcontent%]</td>
+						<td class="trtitle02">
+							<input type="text" name="invcontent" maxlength="100" size="25" class="infoInput">
+							<span class="cautiontitle">[%$ST.ordermain_add_invcontent_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.ordermain_add_payshipinfo%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.ordermain_add_shiptype%]</td>
+						<td class="trtitle02">
+							<select name="osid" id="osid">
+								<option selected value="0">[%$ST.ordermain_add_shiptype_option%]</option>
+								[%forlist from=$shipplug key=i%]
+								<option value="[%$shipplug[i].osid%]">[%$shipplug[i].title%] [%$ST.ordermain_add_shiptype_price%][%$shipplug[i].price%]</option>
+								[%/forlist%]
+							</select>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.ordermain_add_paytype%]</td>
+						<td class="trtitle02">
+							<select name="opid" id="opid">
+								<option selected value="0">[%$ST.ordermain_add_paytype_option%]</option>
+								[%forlist from=$payplug key=i%]
+								<option value="[%$payplug[i].opid%]">[%$payplug[i].payname%] [%$ST.ordermain_add_paytype_price%][%$payplug[i].payis%]%</option>
+								[%/forlist%]
+							</select>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" style="margin: 0 auto;">
+			<tr>
+				<td><input type="button" name="windowbutton" onclick="javascript:parent.windowsdig('[%$ST.ordermain_infolist_botton_addinfo%]','iframe:index.php?archive=article&action=listwindow&checkfrom=orderadd&getbyid=orderlistinfo&inputtext=order&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),'780px','450px','iframe');" value="[%$ST.ordermain_infolist_botton_addinfo%]" class="buttonface"  title="[%$ST.ordermain_infolist_botton_addinfo%]" /></td>
+				<td class="padding-left5"><input type="submit" id="submitbotton" name="Submit" value="[%$ST.botton_add%]" class="buttonface" /></td>
+				<td class="padding-left5"><input type="button" name="cancel" onClick="javascript:parent.onaletdoc();" value="[%$ST.botton_add_reset%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

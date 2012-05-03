@@ -1,0 +1,40 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" title="[%$array[list].title%] - [%$array[list].addtime|timeformat(3)%]" onselectstart="return false;" [%if @this->powercheck('communicate','advertedit')==true %]ondblClick="javascript:parent.onbotton('[%$array[list].title|addslashes('hc')%]-[%$ST.setedit_botton%]','index.php?archive=advertmain&action=advertedit&adid=[%$array[list].adid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'articleeditbotton[%$array[list].adid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="5%"><input type="checkbox" name="selectinfoid" value="[%$array[list].adid%]"></td>
+			<td width="8%"><input type="hidden" name="infoid" value="[%$array[list].adid%]"><input type="text" name="infopid" size="3" value="[%$array[list].pid%]" class="infoInput" ></td>
+			<td width="8%">[%$array[list].adid%]</td>
+			<td width="38%">[%$array[list].title|cutstr(20)%]</td>
+			<td width="20%">[%$array[list].adtypename%]</td>
+			<td width="8%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isclass==1%]<span class="audit_ok" title="[%$ST.article_audit_ok%]"></span>[%else%]<span class="audit_no" title="[%$ST.article_audit_no%]"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="13%" id="infotype">
+				[%if @this->powercheck('communicate','advertedit')==true %]
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						<td><a class="setedit" onclick="javascript:parent.onbotton('[%$array[list].title|addslashes('hc')%]-[%$ST.setedit_botton%]','index.php?archive=advertmain&action=advertedit&adid=[%$array[list].adid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'articleeditbotton[%$array[list].adid%]',self.frameElement.getAttribute('name'));" id="articleeditbotton[%$array[list].adid%]" href="#body" title="[%$array[list].title%][%$ST.setedit_botton%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+						<td class="padding-left3"><a class="setedit" onclick="javascript:parent.onbotton('[%$array[list].title|addslashes('hc')%]-[%$ST.setcopy_botton%]','index.php?archive=advertmain&action=advertedit&adid=[%$array[list].adid%]&type=add&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'articleeditbotton[%$array[list].adid%]',self.frameElement.getAttribute('name'));" id="articleeditbotton[%$array[list].adid%]" href="#body" title="[%$array[list].title%][%$ST.setcopy_botton%]" hidefocus="true">[%$ST.setcopy_botton%]</a></td>
+					</tr>
+				</table>
+				[%/if%]
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

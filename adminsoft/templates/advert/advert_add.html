@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="../js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var advertmain_js_atid_empty  = "[%$ST.advertmain_js_atid_empty%]";
+	var advertmain_js_title_empty  = "[%$ST.advertmain_js_title_empty%]";
+	var advertmain_js_url_empty  = "[%$ST.advertmain_js_url_empty%]";
+	var advertmain_js_filename_empty  = "[%$ST.advertmain_js_filename_empty%]";
+	var advertmain_js_add_ok = "[%$ST.advertmain_js_add_ok%]";
+	var advertmain_js_add_no = "[%$ST.advertmain_js_add_no%]";
+	var iframename = "[%$iframename%]";
+	iframename = iframename=='' ? "jerichotabiframe_0" : iframename;
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var options = {
+			beforeSubmit: formverify,
+			success:saveResponse,
+			resetForm: false
+		}
+		$('#infosave').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+		if (parent.document.getElementById('centerleft')){
+			parent.scrolclear();
+		}
+	})
+
+
+
+
+	function formverify(formData) {
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['atid']==0){
+			document.infosave.atid.focus();
+			alert(advertmain_js_atid_empty);
+			return false;
+		}
+		if(get['title']==''){
+			document.infosave.title.focus();
+			alert(advertmain_js_title_empty);
+			return false;
+		}
+		if(get['url']!=''){
+			if(get['url'].match(/^http:\/\/[a-zA-Z.0-9-%&?=/_]+$/ig)==null) {
+				document.infosave.url.focus();
+				alert(advertmain_js_url_empty);
+				return false;
+			}
+		}
+		if(get['filename']=='' && (get['atid']==1 || get['atid']==2)) {
+			alert(advertmain_js_filename_empty);
+			return false;
+		}
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		var tab=document.getElementById("addtab").value;
+		if (options=='true'){
+			if (tab=='true'){
+				if(parent.frames[iframename].document.getElementById("selectform")){
+					parent.frames[iframename].refresh('selectform','selectall','check_all');
+				}
+			}
+			alert(advertmain_js_add_ok);
+		}else{
+			alert(advertmain_js_add_no+"("+options+")");
+		}
+		if (tab=='true'){
+			if (parent.document.getElementById('centerleft')){
+				parent.scrolopen();
+			}
+			parent.onaletdoc()
+		}
+	}
+	function selectinfo(val){
+		var strhtml1='<ul class="addpiclist"><li><a title="[%$ST.selectfile_botton%]" onclick="javascript:parent.windowsdig(\'[%$ST.filemanage_select_title%]\',\'iframe:index.php?archive=filemanage&action=filewindow&listfunction=filelist&filetype=img&checkfrom=picshow&getbyid=addsrcpic&fileinputid=filename&maxselect=1&iframename=\'+self.frameElement.getAttribute(\'name\'),\'900px\',\'480px\',\'iframe\')" href="#body"><p><img id="addsrcpic" src="templates/images/pic.png"></p></a></li></ul><input type="hidden" name="filename" id="filename" size="50" maxlength="50" class="infoInput"/>';
+		var strhtml2='<input type="text" name="filename" size="50" id="filename" value="" maxlength="150" class="infoInput"/> <a class="filecheck" onclick="javascript:parent.windowsdig(\'[%$ST.filemanage_select_title%]\',\'iframe:index.php?archive=filemanage&action=filewindow&listfunction=filelist&filetype=mover&checkfrom=input&getbyid=&fileinputid=filename&maxselect=1&iframename=\'+self.frameElement.getAttribute(\'name\'),\'900px\',\'480px\',\'iframe\')" href="#body">[%$ST.selectfile_botton%]</a>';
+		if (val==1){
+			$('#filenamestr').removeClass('trstyle2 displaynone').addClass('trstyle2 displaytrue');
+			$("#strhtml").empty();
+			$("#strhtml").append(strhtml1);
+		}else if(val==2){
+			$('#filenamestr').removeClass('trstyle2 displaynone').addClass('trstyle2 displaytrue');
+			$("#strhtml").empty();
+			$("#strhtml").append(strhtml2);
+		}else if(val==3){
+			$('#filenamestr').removeClass('trstyle2 displaytrue').addClass('trstyle2 displaynone');
+			$("#strhtml").empty();
+		}
+	}
+</script>
+</head>
+
+<body>
+<form name="infosave" id="infosave" method="post" action="index.php?archive=advertmain&action=infosave">
+<input type="hidden" name="inputclass" value="add">
+<input type="hidden" name="tab" id="addtab" value="[%$tab%]">
+<input type="hidden" name="lng" id="lng" value="[%$lng%]">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.advertmain_add_mess%]</span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.advertmain_add_atid%]</td>
+						<td class="trtitle02">
+							<select size="1" name="atid" id="atid">
+								<option value="0">[%$ST.advertmain_add_atid_optin%]</option>
+								[%forlist from=$typelist key=list%]
+								<option [%$typelist[list].selected%] value="[%$typelist[list].atid%]">[%$typelist[list].adtypename%]</option>
+								[%/forlist%]
+							</select>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.advertmain_add_name%]</td>
+						<td class="trtitle02">
+							<input type="text" name="title" size="60" maxlength="80" class="infoInput"/>
+							<span class="cautiontitle">[%$ST.advertmain_add_name_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.advertmain_add_url%]</td>
+						<td class="trtitle02">
+							<input type="text" name="url" value="http://" size="60" maxlength="185" class="infoInput"/>
+							<span class="cautiontitle">[%$ST.advertmain_add_url_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.advertmain_add_adtype%]</td>
+						<td class="trtitle02">
+							<select size="1" name="adtype" onchange="javascript:selectinfo(this.value)">
+								[%forlist from=$adtype key=list%]
+								<option value="[%$adtype[list].key%]">[%$adtype[list].name%]</option>
+								[%/forlist%]
+							</select>
+						</td>
+					</tr>
+					<tr class="trstyle2" id="filenamestr">
+						<td class="trtitle011">[%$ST.advertmain_add_filename%]</td>
+						<td class="trtitle02" id="strhtml">
+							<ul class="addpiclist">
+								<li><a title="[%$ST.selectfile_botton%]" onclick="javascript:parent.windowsdig('[%$ST.filemanage_select_title%]','iframe:index.php?archive=filemanage&action=filewindow&listfunction=filelist&filetype=img&checkfrom=picshow&getbyid=addsrcpic&fileinputid=filename&maxselect=1&iframename='+self.frameElement.getAttribute('name'),'900px','480px','iframe')" href="#body"><p><img id="addsrcpic" src="templates/images/pic.png"></p></a></li>
+							</ul>
+							<input type="hidden" name="filename" id="filename" size="50" maxlength="50" class="infoInput"/>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.advertmain_text_istime%]</td>
+						<td class="trtitle02">
+							<input type="radio" value="1" name="istime" onclick="showdiv(1,'#starttimediv|#endtimediv','0|1','trstyle2 displaynone|trstyle2 displaytrue',1,1)"/> [%$ST.open_botton_title%]&nbsp;
+							<input type="radio" value="0" name="istime" checked="checked" onclick="showdiv(0,'#starttimediv|#endtimediv','0|1','trstyle2 displaynone|trstyle2 displaytrue',1,1)"/> [%$ST.close_botton_title%]
+							<span class="cautiontitle">[%$ST.advertmain_text_istime_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2 displaynone"  id="starttimediv">
+						<td class="trtitle01">[%$ST.advertmain_add_starttime%]</td>
+						<td class="trtitle02">
+							<input type="text" name="starttime" size="20" maxlength="30" id="starttime" value="[%$nowtime|timeformat(2)%]" class="infoInput"/>
+							<a class="datetime" onclick="WdatePicker({el:'starttime',isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd'})" href="#body">[%$ST.selectdata_botton%]</a>
+						</td>
+					</tr>
+					<tr class="trstyle2 displaynone" id="endtimediv">
+						<td class="trtitle01">[%$ST.advertmain_add_endtime%]</td>
+						<td class="trtitle02">
+							<input type="text" name="endtime" size="20" maxlength="30" id="endtime" value="[%$nowtime|timeformat(2)%]" class="infoInput"/>
+							<a class="datetime" onclick="WdatePicker({el:'endtime',isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd'})" href="#body">[%$ST.selectdata_botton%]</a>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td id="right"><input type="submit" id="submitbotton" name="Submit" value="[%$ST.botton_add%]" class="buttonface" /></td>
+				<td id="left" class="padding-left5"><input type="button" name="cancel" onClick="javascript:closewindow();" value="[%$ST.botton_add_reset%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

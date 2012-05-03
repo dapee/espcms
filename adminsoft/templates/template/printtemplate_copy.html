@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var printtemplatemain_js_name_empty  = "[%$ST.printtemplatemain_js_name_empty%]";
+	var printtemplatemain_js_pic_empty  = "[%$ST.printtemplatemain_js_pic_empty%]";
+	var printtemplatemain_js_content_empty  = "[%$ST.printtemplatemain_js_content_empty%]";
+	var printtemplatemain_js_select_empty  = "[%$ST.printtemplatemain_js_select_empty%]";
+	var printtemplatemain_js_copy_ok = "[%$ST.printtemplatemain_js_copy_ok%]";
+	var printtemplatemain_js_copy_no = "[%$ST.printtemplatemain_js_copy_no%]";
+	var iframename = "[%$iframename%]";
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var options = {
+			beforeSubmit: formverify,
+			success:saveResponse
+		}
+		$('#printtemplatecopy').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	})
+
+
+
+
+	function formverify(formData) {
+		for (var i=0; i< formData.length; i++){
+			if (formData[i].name == "content"){
+				formData[i].value=$("#pedit").contents().find("#divlist").html();
+			}
+		}
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['templatename']==''){
+			document.printtemplatecopy.templatename.focus();
+			alert(printtemplatemain_js_name_empty);
+			return false;
+		}
+		if(get['pic']=='') {
+			document.printtemplatecopy.pic.focus();
+			alert(printtemplatemain_js_pic_empty);
+			return false;
+		}
+		if(get['content']=='') {
+			alert(printtemplatemain_js_content_empty);
+			return false;
+		}
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		if (options=='true'){
+			parent.frames[iframename].refresh('selectform','selectall','check_all');
+			alert(printtemplatemain_js_copy_ok);
+		}else{
+			alert(printtemplatemain_js_copy_no);
+		}
+		parent.onaletdoc()
+	}
+	function inputvalue() {
+
+		var classtype=$(":input[name=\"classtype\"]").val();
+		if (classtype==0){
+			alert(printtemplatemain_js_select_empty);
+			return false;
+		}
+
+		var classtypename=$("select[name=\"classtype\"] option:selected").text();
+
+		var fontfamily=$("select[name=\"fontfamily\"] option:selected").val();
+
+		var fontsize=$("select[name=\"fontsize\"] option:selected").val();
+
+		var fontweight=$("select[name=\"fontweight\"] option:selected").val();
+
+		var textdecoration=$("select[name=\"textdecoration\"] option:selected").val();
+
+		var letterspacing=$("select[name=\"letterspacing\"] option:selected").val();
+		var ss=Math.round(Math.random()*10000);
+		window.self.frames['pedit'].addch(classtype+ss,classtypename,fontfamily,fontsize,fontweight,textdecoration,letterspacing);
+	}
+</script>
+</head>
+
+<body>
+<form name="printtemplatecopy" id="printtemplatecopy" method="post" action="index.php?archive=printtemplatemain&action=save">
+<input type="hidden" name="inputclass" value="copy">
+<input type="hidden" name="styleclass" value="2">
+<input type="hidden" name="typeclass" value="print">
+<input type="hidden" name="lng" value="[%$read.lng%]">
+<input type="hidden" name="tmid" value="[%$read.tmid%]">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.printtemplatemain_add_mess%]</span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr>
+						<td  class="trtitle03" colspan="2">[%$ST.printtemplatemain_add_mess_text%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.printtemplatemain_add_name%]</td>
+						<td class="trtitle02">
+							<input type="text" name="templatename" value="[%$read.templatename%]" size="30" maxlength="30" class="infoInput"/>
+							<span class="cautiontitle">[%$ST.printtemplatemain_add_name_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.printtemplatemain_add_pic%]</td>
+						<td class="trtitle02">
+							<input type="text" name="pic" size="10" value="[%$read.pic%]" maxlength="50" class="infoInput"/>
+							<span class="cautiontitle">[%$ST.printtemplatemain_add_pic_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.printtemplatemain_add_seprint%]</td>
+						<td class="trtitle02">
+							<select size="1" name="classtype" class="select" id="classtype">
+								<option selected value="0">请选择打印项</option>
+								[%forlist key=list from=$print%]
+								<option value="[%$print[list].value%]">[%$print[list].title%]</option>
+								[%/forlist%]
+							</select>
+							<select size="1" name="fontfamily" class="select" id="fontfamily">
+								<option selected value="宋体">字体[宋体]</option>
+								<option value="黑体">黑体</option>
+								<option value="Arial">Arial</option>
+								<option value="Verdana">Verdana</option>
+								<option value="fantasy">fantasy</option>
+							</select>
+							<select size="1" name="fontsize" class="select" id="fontsize">
+								<option selected value="10pt">大小[10号字]</option>
+								<option value="12pt">12</option>
+								<option value="14pt">14</option>
+								<option value="18pt">18</option>
+								<option value="24pt">24</option>
+							</select>
+							<select size="1" name="fontweight" class="select" id="fontweight">
+								<option selected value="normal">加粗[正常]</option>
+								<option value="700">加粗</option>
+							</select>
+							<select size="1" name="textdecoration" class="select" id="textdecoration">
+								<option selected value="none">下划线[无]</option>
+								<option value="underline">下划线</option>
+							</select>
+							<select size="1" name="letterspacing" class="select" id="letterspacing">
+								<option selected value="0">间距[0]</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+								<option value="13">13</option>
+								<option value="14">14</option>
+								<option value="15">15</option>
+							</select>
+							<input type="button" name="stylebutton" value="[%$ST.newinput_botton%]" onClick="javascript:inputvalue();" class="bottons04">
+						</td>
+					</tr>
+					<tr>
+						<td  class="trtitle03" colspan="2">[%$ST.printtemplatemain_add_mess_text2%]</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<input type="hidden" name="content">
+							<iframe id="pedit" name="pedit" width="99%" height="450" src="index.php?archive=printtemplatemain&action=pifrmat&tmid=[%$read.tmid%]" marginwidth="0" marginheight="0"></iframe>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td id="right"><input type="submit" id="printtemplateeditsubmit" name="Submit" value="[%$ST.botton_copy%]" class="buttonface" /></td>
+				<td id="left" class="padding-left5"><input type="button" name="cancel" onClick="javascript:parent.onaletdoc();" value="[%$ST.botton_copy_reset%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

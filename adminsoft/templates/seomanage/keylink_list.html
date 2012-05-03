@@ -1,0 +1,37 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" title="[%$array[list].keywordname%]" [%if @this->powercheck('marketing','keylinkedit')==true %]ondblClick="javascript:parent.onbotton('[%$array[list].keywordname|addslashes('hc')%][%$ST.seomanage_edit_title%]','index.php?archive=seomanage&action=keylinkedit&id=[%$array[list].kid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'keylink[%$array[list].kid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="5%"><input type="checkbox" name="selectinfoid" value="[%$array[list].kid%]"></td>
+			<td width="10%">
+				<input type="hidden" name="infoid" id="infoid" value="[%$array[list].kid%]">
+				<input type="text" name="pid" size="3" value="[%$array[list].pid%]" class="infoInput" >
+			</td>
+			<td width="10%">[%$array[list].kid%]</td>
+			<td width="30%">[%$array[list].keywordname%]</td>
+			<td width="15%">[%$array[list].hit%]</td>
+			<td width="10%">[%if $array[list].islink==1%][%$ST.seomanage_islink_ok%][%else%][%$ST.seomanage_islink_no%][%/if%]</td>
+			<td width="10%">[%if $array[list].istop==1%][%$ST.seomanage_audit_ok%][%else%][%$ST.seomanage_audit_no%][%/if%]</td>
+			<td width="10%" id="infotype">
+				[%if @this->powercheck('marketing','keylinkedit')==true %]
+				<table>
+					<tr>
+						<td><a class="setedit" onclick="javascript:parent.onbotton('[%$array[list].keywordname|addslashes('hc')%][%$ST.seomanage_edit_title%]','index.php?archive=seomanage&action=keylinkedit&id=[%$array[list].kid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'keylink[%$array[list].kid%]',self.frameElement.getAttribute('name'));" id="keylink[%$array[list].kid%]" href="#body" title="[%$ST.setedit_botton%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+					</tr>
+				</table>
+				[%/if%]
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+	<tr>
+	    <td align="center">[%$ST.list_nothing_title%]</td>
+	</tr>
+</table>
+</div>
+[%/if%]

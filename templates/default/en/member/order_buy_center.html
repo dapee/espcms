@@ -1,0 +1,411 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>{%$lngpack.ordertitle%} - {%$lngpack.sitename%}</title>
+<meta name="keywords" content="{%$lngpack.keyword%}" />
+<meta name="description" content="{%$lngpack.description%}" />
+<link href="{%$rootpath%}style/tempates_div.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/public.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/pagebotton.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{%$rootdir%}js/jquery.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/basicrun.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/ajax_city.js"></script>
+<script type="text/javascript">
+$().ready(function() {
+	$("#clickmenubotton li span").hover(function() {
+		$(this).addClass("bgmenuhove2");
+		$(this).parent().find("ul.subnav").slideDown('fast').show(); 
+		$(this).parent().hover(function() {}, function(){
+			$(this).parent().find("ul.subnav").fadeOut('fast');
+			$(this).parent().find("span").removeClass("bgmenuhove2");
+		});
+	});
+});
+</script>
+</head>
+
+<body>
+<div class="head">
+	{%link file="en/public/head.html"%}
+	<div class="bann"><img src="{%$rootpath%}images/bann.jpg"/></div>
+	{%if $out=='buylist'%}
+	<script type="text/javascript">
+		var order_amout_err = "{%$lngpack.order_amout_err%}";
+	</script>
+	<div class="bann">
+		<div class="location"><a href="{%$homelink%}">Home</a> » {%$lngpack.ordertitle%} » <b>Your Shopping Cart</b></div>
+	</div>
+	<div class="framecenter margintop8">
+			<table style="width:95%;margin:0px auto;margin-top:30px;margin-bottom:30px;">
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td><span class="messicon"><img src="{%$rootpath%}images/cart_go.gif" /></span></td>
+								<td><span class="messtext strong fontsize14">Your Shopping Cart</span></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td><hr class="hrline"/></td>
+				</tr>
+				<tr>
+					<td style="padding-top:10px">
+						{% if count($array) > 0 %}
+						<form name="mainform" method="post" action="{%$mlink.orderupdae%}">
+						<table class="tablelist" width="100%" style="margin:0 auto;">
+							<tr>
+								<td class="td01 center">Cart Items</td>
+								<td class="td01 center">Product ID</td>
+								<td class="td01 center">Item Price</td>
+								<td class="td01 center">Qty</td>
+								<td class="td01 center">Item Total</td>
+								<td class="td01 center">Remove</td>
+							</tr>
+							{%forlist from=$array key=i%}
+							<tr>
+								<td class="td02 left"><a target="_blank" href="{%$array[i].link%}">{%$array[i].title%}</a></td>
+								<td class="td02 center">{%$array[i].tsn%}</td>
+								<td class="td02 center">
+									{%$moneytype%}{%$array[i].bprice%}
+									<input type="hidden" name="bprice[]" value="{%$array[i].bprice%}">
+									<input type="hidden" name="did[]" value="{%$array[i].did%}">
+								</td>
+								<td class="td02 center">
+									<input type="text" name="amount[]" id="amount{%$array[i].did%}" value="{%$array[i].amount%}" onBlur="javascript:orderamount({%$array[i].did%});" size="2" maxlength="5" class="infoInput">
+								</td>
+								<td class="td02 center">
+									{%$moneytype%}{%$array[i].countprice%}
+									<input type="hidden" name="countprice[]" id="countprice" value="{%$array[i].countprice%}">
+								</td>
+								<td class="td02 center"><a class="infolink04" href="javascript:if (confirm('Are you sure you want to remove it?')) location.href='{%$array[i].dellink%}';">Remove</a></td>
+							</tr>
+							{%/forlist%}
+							<tr>
+								<td colspan="6" class="td02 right"><span class="font05 colorgreg strong">Items:{%$moneytype%}{%$ordertotal%}</span></td>
+							</tr>
+							<tr class="tdheight4">
+								<td colspan="6" class="td02 right">
+									<input type="submit" class="buttonface2" name="Submit" value="Update">&nbsp;
+									<input name="addch" class="buttonface2" type="button" value="Delete" onclick="javascript:if (confirm('Are you sure you want to empty it?')) location.href='{%$mlink.clearcart%}';">
+								</td>
+							</tr>
+							<tr>
+								<td colspan="6" class="td02 center">
+									<table class="tablelist" width="100%" style="margin:0 auto;">
+										<tr>
+											<td class="left"><input name="addch" class="buttonface2" type="button" value="Keep shopping" onclick="javascript:location.href='{%$homelink%}';"></td>
+											<td class="right"><input name="addch" class="buttonface2" type="button" value="Checkout" onclick="javascript:location.href='{%$mlink.orderpay%}';"></td>										</tr>
+									</table>
+									
+									
+								</td>
+							</tr>
+						</table>
+						</form>
+						{%else%}
+						<table class="tablelist" width="100%" style="margin:0 auto;">
+							<tr>
+								<td colspan="6" class="td02 center">0 items added to Cart!</td>
+							</tr>
+						</table>
+						{%/if%}
+					</td>
+				</tr>
+			</table>
+	</div>
+	{%elseif $out=='buyedit'%}
+	<!--购物车信息填写-->
+	<script type="text/javascript">
+	var address_title = "{%$lngpack.address_title%}";
+	var zipcode_empty = "{%$lngpack.zipcode_empty%}";
+	var alias_empty = "{%$lngpack.alias_empty%}";
+	var email_err = "{%$lngpack.email_err%}";
+	var tel_empty = "{%$lngpack.tel_empty%}";
+	</script>
+	<div class="bann">
+		<div class="location"><a href="{%$homelink%}">Home</a> » {%$lngpack.ordertitle%} » <b>Shopping Carts</b></div>
+	</div>
+	<div class="framecenter margintop8">
+			<form name="ordersaveform" method="post" action="{%$mlink.ordersave%}" onsubmit="return ordersave()">
+			<input type="hidden" name="userid" value="{%$member.userid%}">
+			<input type="hidden" name="productmoney" value="{%$productmoney%}">
+			<input type="hidden" name="discount_productmoney" value="{%$discount_productmoney%}">
+			<input type="hidden" name="discountmoney" value="{%$discountmoney%}">
+			<table style="width:90%;margin:0px auto;margin-top:30px;margin-bottom:30px;">
+				<tr>
+					<td>
+						<table width="100%">
+							<tr>
+								<td width="5%"><span class="messicon"><img src="{%$rootpath%}images/cart_go.gif" /></span></td>
+								<td width="20%" class="left"><span class="messtext strong fontsize14">Shopping Cart Items</span> </td>
+								<td class="right"><a class="linimage" href="{%$mlink.buylist%}">Update</a></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td><hr class="hrline"/></td>
+				</tr>
+				{% if count($array) > 0 %}
+				<tr>
+					<td style="padding-top:10px">
+						<table class="tablelist" width="100%" style="margin:0 auto;">
+							<tr>
+								<td class="td01 center">Cart Items</td>
+								<td class="td01 center">Product ID</td>
+								<td class="td01 center">Item Price</td>
+								<td class="td01 center">Qty</td>
+								<td class="td01 center">Item Total</td>
+							</tr>
+							{%forlist from=$array key=i%}
+							<tr>
+								<td class="td02 center">
+									<input type="hidden" name="ptitle[]" value="{%$array[i].title%}">
+									<a target="_blank" class="infolink05" href="{%$array[i].link%}">{%$array[i].title%}</a>
+								</td>
+								<td class="td02 center"><input type="hidden" name="tsn[]" value="{%$array[i].tsn%}">{%$array[i].tsn%}</td>
+								<td class="td02 center">
+									{%$moneytype%}{%$array[i].bprice%}
+									<input type="hidden" name="bprice[]" value="{%$array[i].bprice%}">
+									<input type="hidden" name="oprice[]" value="{%$array[i].oprice%}">
+									<input type="hidden" name="did[]" value="{%$array[i].did%}">
+								</td>
+								<td class="td02 center">{%$array[i].amount%}<input type="hidden" name="amount[]" id="orderhow" value="{%$array[i].amount%}"></td>
+								<td class="td02 center">{%$moneytype%}{%$array[i].countprice%}<input type="hidden" name="countprice[]" id="countprice" value="{%$array[i].countprice%}"></td>
+							</tr>
+							{%/forlist%}
+							<tr>
+								<td colspan="6" class="td02 right"><span class="font05 colorgreg strong">Price{%$moneytype%}{%$productmoney_f%} - Discount{%$moneytype%}{%$discountmoney%} = {%$moneytype%}{%$discount_productmoney_f%}</span></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td><span class="messicon"><img src="{%$rootpath%}images/page_edit.gif" /></span></td>
+								<td><span class="messtext strong fontsize14">Receiving information</span> </td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td><hr class="hrline"/></td>
+				</tr>
+				<tr>
+					<td style="padding-top:10px">
+						<table class="tablelist" width="100%" style="margin:0 auto;">
+							<tr>
+							    <td class="td02 right" width="20%">Name:</td>
+							    <td class="td02 left"><input type="text" name="alias" value="{%$member.alias%}" maxlength="50" size="20" class="infoInput"></td>
+							</tr>
+							<tr>
+								<td class="td02 right">Sex:</td>
+								<td class="td02 left">
+								<input type="radio" value="1" name="sex" {%if $member.sex==1%}checked{%/if%}> Male&nbsp;
+								<input type="radio" value="0" name="sex" {%if $member.sex==0%}checked{%/if%}> Female
+								</td>
+							</tr>
+							<tr>
+							    <td class="td02 right">E-mail:</td>
+							    <td class="td02 left"><input type="text" name="email" value="{%$member.email%}" maxlength="100" size="50" class="infoInput" style="width:40%;" ></td>
+							</tr>
+							<tr>
+							    <td class="td02 right">Tel:</td>
+							    <td class="td02 left"><input type="text" name="tel" value="{%$member.tel%}" maxlength="50" size="50" class="infoInput" style="width:40%;" ></td>
+							</tr>
+							<tr>
+							    <td class="td02 right">Mobile:</td>
+							    <td class="td02 left"><input type="text" name="mobile" value="{%$member.mobile%}" maxlength="50" size="50" class="infoInput" style="width:40%;" ></td>
+							</tr>
+							<tr>
+								<td class="td02 right">Address:</td>
+								<td class="td02 left"><input type="text" name="address" value="{%$member.address%}" style="width:70%;" maxlength="120" size="60" class="infoInput"></td>
+							</tr>
+							<tr>
+								<td class="td02 right">Zipcode</td>
+								<td class="td02 left"><input type="text" name="zipcode" value="{%$member.zipcode%}" maxlength="10" size="10" class="infoInput"></td>
+							</tr>
+							<tr>
+							    <td class="td02 right">Delivery Time:</td>
+							    <td class="td02 left">
+								<select size="1" name="sendtime" class="select">
+								    <option value="1">Working day, weekend and holiday delivery available</option>
+								    <option value="2">Only weekends, holidays and delivery (working days do not send)</option>
+								    <option value="3">Only working days delivery (weekends, holidays do not send)</option>
+								    <option value="4">Try to arrange delivery time, please Remarks</option>
+								</select>
+							    </td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td><span class="messicon"><img src="{%$rootpath%}images/page_edit.gif" /></span></td>
+								<td><span class="messtext strong fontsize14">Delivery mode</span> </td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td><hr class="hrline"/></td>
+				</tr>
+				<tr>
+					<td style="padding-top:10px">
+						<table class="tablelist" width="100%" style="margin:0 auto;">
+							{% if count($shipplug) > 0 %}
+							{%forlist from=$shipplug key=i%}
+							<tr>
+							    <td class="td02 right" width="20%">{%$shipplug[i].title%}</td>
+							    <td class="td02 left">
+								    <input type="radio" name="osid" value="{%$shipplug[i].osid%}"{%if key=>i==1%} checked{%/if%}>
+							            Freight:{%$moneytype%}{%$shipplug[i].price%} <BR>{%$shipplug[i].content%}
+							    </td>
+							</tr>
+							{%/forlist%}
+							{%else%}
+							<tr>
+							    <td class="center">No delivery methods</td>
+							</tr>
+							{%/if%}
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td><span class="messicon"><img src="{%$rootpath%}images/page_edit.gif" /></span></td>
+								<td><span class="messtext strong fontsize14">Payment</span> </td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td><hr class="hrline"/></td>
+				</tr>
+				<tr>
+					<td style="padding-top:10px">
+						<table class="tablelist" width="100%" style="margin:0 auto;">
+							{% if count($payplug) > 0 %}
+							{%forlist from=$payplug key=i%}
+							<tr>
+							    <td class="td02 right" width="20%">{%$payplug[i].payname%}</td>
+							    <td class="td02 left">
+								    <input type="radio" name="opid" value="{%$payplug[i].opid%}" {%if key=>i==1%} checked{%/if%}>
+							            Fee:{%$payplug[i].payis%}% <BR>{%$payplug[i].paycontent%}
+							    </td>
+							</tr>
+							{%/forlist%}
+							{%else%}
+							<tr>
+							    <td class="center">No payment</td>
+							</tr>
+							{%/if%}
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td><span class="messicon"><img src="{%$rootpath%}images/page_edit.gif" /></span></td>
+								<td><span class="messtext strong fontsize14">Other information</span> </td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td><hr class="hrline"/></td>
+				</tr>
+				<tr>
+					<td style="padding-top:10px">
+						<table class="tablelist" width="100%" style="margin:0 auto;">
+							<tr>
+							    <td class="td02 right" width="20%">Remarks:</td>
+							    <td class="td02 left"><textarea name="content" rows="3" cols="60" style="width:100%;height:100px;"></textarea></td>
+							</tr>
+							<tr>
+							    <td class="td02 right" width="20%">Invoice Title:</td>
+							    <td class="td02 left"><input type="text" name="invpayee" maxlength="30" size="40" class="infoInput" style="width:40%;"/></td>
+							</tr>
+							<tr>
+							    <td class="td02 right" width="20%">Invoice:</td>
+							    <td class="td02 left"><input type="text" name="invcontent" maxlength="30" size="20" class="infoInput" style="width:40%"/></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="center" style="padding-top:20px"><input type="submit" name="submit" id="submit" class="buttonface2" value="Submit Order"></td>
+				</tr>
+				{%else%}
+				<tr>
+					<td style="padding-top:10px">
+					<table class="tablelist" width="100%" style="margin:0 auto;">
+						<tr>
+							<td colspan="6" class="td02 center">0 items added to Cart!</td>
+						</tr>
+					</table>
+					</td>
+				</tr>
+				{%/if%}
+			</table>
+		</form>
+	</div>
+	{%elseif $out=='buyok'%}
+	<div class="bann">
+		<div class="location"><a href="{%$homelink%}">Home</a> » {%$lngpack.ordertitle%} » <b>Submitted successfully</b></div>
+	</div>
+	<div class="framecenter margintop8">
+			<table style="width:90%;margin:0px auto;margin-top:30px;margin-bottom:30px;">
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td><span class="messicon"><img src="{%$rootpath%}images/cart_go.gif" /></span></td>
+								<td><span class="messtext strong fontsize14">Thanks for Your Order!Order No.:<span class="colorgreg">{%$ordersn%}</span></span></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td><hr class="hrline"/></td>
+				</tr>
+				<tr>
+					<td style="padding-top:10px">
+						<table class="tablelist" width="100%" style="margin:0 auto;">
+							<tr>
+								<td class="td02 center">Your order was sent to us but requires payment before it can be completed</td>
+							</tr>
+							<tr>
+								<td class="td02 center">Once you've provided payment, your order will be completed. The outstanding balance of your order is {%$moneytype%}{%$orderamount%}.<span class="colorgreg"></span></td>
+							</tr>
+							<tr>
+								<td class="td02 center">{%$orderonline%}</td>
+							</tr>
+							<tr>
+								<td class="td02 center"><a class="infolist_orning" href="{%$mlink.center%}">My Account</a> Or <a class="infolist_orning" href="{%$homelink%}">Home</a></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+	</div>
+	{%/if%}
+	<!--版权声明-->
+	{%link file="en/public/link.html"%}
+</div>
+{%link file="en/public/footer.html"%}
+
+</body>
+
+</html>

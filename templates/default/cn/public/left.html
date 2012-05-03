@@ -1,0 +1,97 @@
+<div class="fup1 margintop5"><span class="spantitle">产品搜索</span></div>
+<div class="fcontent1">
+	{%get name=search class=mid:3,tid:5,att:1%}
+	<form name="infosearch" method="post" action="{%$link%}">
+	<input type="hidden" name="lng" value="{%$lng%}">
+	<input type="hidden" name="mid" value="{%$mid%}">
+	<table  class="formlist2">
+		<tr>
+			<td class="right">搜索关键字</td>
+			<td><input id="keyword" name="keyword" type="text" class="infoInput" size="20"/></td>
+		</tr>
+		{%forlist from=$searchatt key=list%}
+			<tr>
+				<td class="right">{%$searchatt[list].typename%}</td>
+				<td>
+					{%if ($searchatt[list].inputtype=='select')%}
+					<select size="1" name="att[{%$searchatt[list].attrname%}]" id="{%$searchatt[list].attrname%}">
+						<option value="">{%$ST.botton_select_name%}{%$searchatt[list].typename%}</option>
+						{%forlist from=$searchatt[list].attrvalue key=ii%}
+						<option {%$searchatt[list].attrvalue[ii].selected%} value="{%$searchatt[list].attrvalue[ii].name%}">{%$searchatt[list].attrvalue[ii].name%}</option>
+						{%/forlist%}
+					</select>
+					{%elseif ($searchatt[list].inputtype=='radio')%}
+						{%forlist from=$searchatt[list].attrvalue key=ii%}
+						<input type="radio" value="att[{%$searchatt[list].attrvalue[ii].name%}]" name="{%$searchatt[list].attrname%}" {%if $searchatt[list].attrvalue[ii].selected=='selected'%}checked="checked"{%/if%}/> {%$searchatt[list].attrvalue[ii].name%}&nbsp;
+						{%/forlist%}
+					{%elseif ($searchatt[list].inputtype=='checkbox')%}
+						{%forlist from=$searchatt[list].attrvalue key=ii%}
+						<input type="checkbox" value="att[{%$searchatt[list].attrvalue[ii].name%}]" name="{%$searchatt[list].attrname%}[]"/> {%$searchatt[list].attrvalue[ii].name%}&nbsp;
+						{%/forlist%}
+					{%else%}
+						<input type="text" name="att[{%$searchatt[list].attrname%}]" size="20" id="{%$searchatt[list].attrname%}" value="{%$searchatt[list].attrvalue%}" maxlength="{%$searchatt[list].attrlenther%}" class="infoInput"/>
+					{%/if%}
+				</td>
+			</tr>
+		{%/forlist%}
+		{%if count($array)%}
+		<tr>
+			<td class="right">分类</td>
+			<td>
+				<select size="1" name="tid" class="select" id="tid">
+					{%forlist from=$array key=i%}
+					<option value="{%$array[i].tid%}" title="{%$array[i].typename%}">{%if $array[i].level>1%}├{%/if%}{%$array[i].level|treelist('─')%} {%$array[i].typename|cutstr(6)%}</option>
+					{%/forlist%}
+				</select>
+			</td>
+		</tr>
+		{%/if%}
+		<tr>
+			<td></td>
+			<td><input name="submitsearch" type="submit" class="buttonface" value="开始搜索" /></td>
+		</tr>
+	</table>
+	</form>
+	{%/get%}
+</div>
+<div class="fdown1"></div>
+
+<div class="fup margintop5"><span class="spantitle">新闻推荐</span><span class="spanmone"><a class="morn" href="{%find:type class=4 out=link%}">更多新闻</a></span></div>
+<div class="fcontent">
+	<ul class="textlist">
+	{%get name=list class=mid:1,max:7%}
+		{%forlist from=$array key=i%}
+		<li><a class="infolist" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title%}</a></li>
+		{%/forlist%}
+	{%/get%}
+	</ul>
+</div>
+<div class="fdown"></div>
+
+
+<div class="fup margintop5"><span class="spantitle">TAG</span></div>
+<div class="fcontent lineheight200">
+	{%get name=tags class=mid:1,max:10%}
+		{%forlist from=$array key=i%}
+		<a class="tag{%key=>i%}"  title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title%}</a>
+		{%/forlist%}
+	{%/get%}
+</div>
+<div class="fdown"></div>
+
+<div class="fup2 margintop5"><span class="spantitle">订阅邮件</span></div>
+<div class="fcontent1">
+{%get name=invite class=mlvid:1%}
+<form name="inviteform" method="post" action="{%$link%}">
+<input type="hidden" name="mlvid" value="{%$read.mlvid%}">
+<input type="hidden" name="lng" value="{%$read.lng%}">
+<table  class="formlist2">
+	<tr>
+		<td><input id="email" name="email" type="text" class="infoInput" size="20"/></td>
+		<td><input name="submitsearch" type="submit" class="buttonface1" value="确认订阅" /></td>
+	</tr>
+</table>
+</form>
+{%/get%}
+</div>
+<div class="fdown1"></div>

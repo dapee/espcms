@@ -1,0 +1,674 @@
+[%if $menutype == 'loglist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="10%">[%$ST.loglist_text_id%]</td>
+		<td width="20%">[%$ST.loglist_text_username%]</td>
+		<td width="10%">[%$ST.loglist_text_time%]</td>
+		<td width="10%">[%$ST.loglist_text_ip%]</td>
+		<td width="10%">[%$ST.loglist_text_function%]</td>
+		<td width="40%">[%$ST.loglist_text_mess%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'mangerlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="4%"><input type="checkbox" name="check_all" value="1" id="check_all" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="6%">[%$ST.mangerlist_text_id%]</td>
+		<td width="15%">[%$ST.mangerlist_text_username%]</td>
+		<td width="13%">[%$ST.mangerlist_text_name%]</td>
+		<td width="10%">[%$ST.mangerlist_text_group%]</td>
+		<td width="14%">[%$ST.mangerlist_text_addtime%]</td>
+		<td width="5%">[%$ST.mangerlist_text_hit%]</td>
+		<td width="10%">[%$ST.mangerlist_text_ip%]</td>
+		<td width="7%">[%$ST.mangerlist_text_class%]</td>
+		<td width="16%">[%$ST.mangerlist_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'grouplist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="10%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="10%">[%$ST.grouplist_text_id%]</td>
+		<td width="60%">[%$ST.grouplist_text_name%]</td>
+		<td width="10%">[%$ST.grouplist_text_class%]</td>
+		<td width="10%">[%$ST.grouplist_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'sqllist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="20%">[%$ST.sqllist_text_name%]</td>
+		<td width="10%">[%$ST.sqllist_text_type%]</td>
+		<td width="10%">[%$ST.sqllist_text_count%]</td>
+		<td width="15%">[%$ST.sqllist_text_size%]</td>
+		<td width="10%">[%$ST.sqllist_text_osize%]</td>
+		<td width="10%">[%$ST.sqllist_text_class%]</td>
+		<td width="13%">[%$ST.sqllist_text_encode%]</td>
+		<td width="12%">[%$ST.sqllist_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'languagelist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="8%"><a id="btlimit_pid" class="infolink06" href="javascript:onlimit('pid','asc','#btlimit_pid','#limit_pid','#limit_id','selectform','selectall','check_all')" hidefocus="true">[%$ST.language_text_pid%]</a><span id="limit_pid" class="limitdesc displaynone"></span></td>
+		<td width="8%"><a id="btlimit_id" class="infolink06" href="javascript:onlimit('id','asc','#btlimit_id','#limit_id','#limit_pid','selectform','selectall','check_all')"  hidefocus="true">[%$ST.language_text_id%]</a><span id="limit_id" class="limitdesc"></span></td>
+		<td width="20%">[%$ST.language_text_name%]</td>
+		<td width="13%">[%$ST.language_text_key%]</td>
+		<td width="8%">[%$ST.language_text_class%]</td>
+		<td width="38%">[%$ST.language_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'lanpacklist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="4%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="5%"><a id="btlimit_id" class="infolink06" href="javascript:onlimit('lpid','desc','#btlimit_id','#limit_id','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.languagepack_text_id%]</a><span id="limit_id" class="limitasc"></span></td>
+		<td width="21%">[%$ST.languagepack_text_title%]</td>
+		<td width="18%">[%$ST.languagepack_text_key%]</td>
+		<td width="42%">[%$ST.languagepack_text_langstr%]</td>
+		<td width="10%">[%$ST.languagepack_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'callinglist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="10%"><a id="btlimit_pid" class="infolink06" href="javascript:onlimit('pid','asc','#btlimit_pid','#limit_pid','#limit_id','selectform','selectall','check_all')" hidefocus="true">[%$ST.callmain_text_pid%]</a><span id="limit_pid" class="limitdesc displaynone"></span></td>
+		<td width="10%"><a id="btlimit_id" class="infolink06" href="javascript:onlimit('cid','asc','#btlimit_id','#limit_id','#limit_pid','selectform','selectall','check_all')"  hidefocus="true">[%$ST.callmain_text_id%]</a><span id="limit_id" class="limitdesc"></span></td>
+		<td width="30%">[%$ST.callmain_text_name%]</td>
+		<td width="20%">[%$ST.callmain_text_type%]</td>
+		<td width="10%">[%$ST.callmain_text_class%]</td>
+		<td width="10%">[%$ST.callmain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'seolinklist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="10%"><a id="btlimit_pid" class="infolink06" href="javascript:onlimit('pid','asc','#btlimit_pid','#limit_pid','#limit_id','selectform','selectall','check_all')" hidefocus="true">[%$ST.seomanage_text_pid%]</a><span id="limit_pid" class="limitdesc displaynone"></span></td>
+		<td width="10%"><a id="btlimit_id" class="infolink06" href="javascript:onlimit('kid','asc','#btlimit_id','#limit_id','#limit_pid','selectform','selectall','check_all')"  hidefocus="true">[%$ST.seomanage_text_kid%]</a><span id="limit_id" class="limitdesc"></span></td>
+		<td width="30%">[%$ST.seomanage_text_keywordname%]</td>
+		<td width="15%">[%$ST.seomanage_text_hit%]</td>
+		<td width="10%">[%$ST.seomanage_text_islink%]</td>
+		<td width="10%">[%$ST.seomanage_text_class%]</td>
+		<td width="10%">[%$ST.seomanage_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%#%]内链接TAB列表[%#%]
+[%if $menutype == 'keywordlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="10%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="15%">[%$ST.seomanage_text_kid%]</td>
+		<td>[%$ST.seomanage_text_keywordname%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'keytypewordlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="8%">[%$ST.seomanage_text_kid%]</td>
+		<td width="42%">[%$ST.seomanage_add_keyworklist%]</td>
+		<td width="42%">[%$ST.seomanage_add_description%]</td>
+		<td width="8%">[%$ST.seomanage_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'seolinktypelist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="10%"><a id="btlimit_id" class="infolink06" href="javascript:onlimit('ktid','asc','#btlimit_id','#limit_id','#limit_pid','selectform','selectall','check_all')"  hidefocus="true">[%$ST.seomanage_text_kid%]</a><span id="limit_id" class="limitdesc"></span></td>
+		<td width="10%">[%$ST.lng_title%]</td>
+		<td width="25%">[%$ST.seomanage_text_keywordtypename%]</td>
+		<td width="40%">[%$ST.seomanage_text_keywordnamelist%]</td>
+		<td width="10%">[%$ST.seomanage_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+
+[%if $menutype == 'modellist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="10%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="10%"><a id="btlimit_id" class="infolink06" href="javascript:onlimit('mid','asc','#btlimit_id','#limit_id','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.modelmanage_text_mid%]</a><span id="limit_id" class="limitdesc"></span></td>
+		<td width="50%">[%$ST.modelmanage_text_modelname%]</td>
+		<td width="10%">[%$ST.modelmanage_text_class%]</td>
+		<td width="20%">[%$ST.modelmanage_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'modelattlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="6%"><a id="btlimit_attr_pid" class="infolink06" href="javascript:onlimit('pid','asc','#btlimit_attr_pid','#limit_attr_pid','#limit_attr_aid','selectform','selectall','check_all')" hidefocus="true">[%$ST.modelmanage_att_text_pid%]</a><span id="limit_attr_pid" class="limitdesc displaynone"></span></td>
+		<td width="6%"><a id="btlimit_attr_aid" class="infolink06" href="javascript:onlimit('aid','asc','#btlimit_attr_aid','#limit_attr_aid','#limit_attr_pid','selectform','selectall','check_all')"  hidefocus="true">[%$ST.modelmanage_text_mid%]</a><span id="limit_attr_aid" class="limitdesc"></span></td>
+		<td width="18%">[%$ST.modelmanage_att_text_modelname%]</td>
+		<td width="17%">[%$ST.modelmanage_att_text_attrname%]</td>
+		<td width="12%">[%$ST.modelmanage_att_text_type%]</td>
+		<td width="7%">[%$ST.modelmanage_att_text_issearch%]</td>
+		<td width="7%">[%$ST.modelmanage_att_text_isvalidate%]</td>
+		<td width="7%">[%$ST.modelmanage_att_text_issys%]</td>
+		<td width="7%">[%$ST.modelmanage_attr_isclass_validatetext%]</td>
+		<td width="8%">[%$ST.modelmanage_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'typelist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="3%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="6%"><a id="btlimit_pid" class="infolink06" href="javascript:onlimit('pid','desc','#btlimit_pid','#limit_pid','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.typemanage_text_pid%]</a><span id="limit_pid" class="limitasc"></span></td>
+		<td width="5%">[%$ST.typemanage_text_tid%]</td>
+		<td width="22%">[%$ST.typemanage_text_typename%]</td>
+		<td width="8%">[%$ST.typemanage_text_purview%]</td>
+		<!--<td width="13%">[%$ST.modelmanage_text_class%]</td>
+		<td width="33%">[%$ST.modelmanage_text_set%]</td>
+		-->
+		<td width="56%">[%$ST.modelmanage_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'articlelist' || $menutype == 'modelarticlelist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="4%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="7%"><a id="ddbtlimit_pid" class="infolink06" href="javascript:onlimit('pid','desc','#ddbtlimit_pid','#ddlimit_pid','#limit_did','selectform','selectall','check_all')"  hidefocus="true">[%$ST.article_text_pid%]</a><span id="ddlimit_pid" class="limitdesc displaynone"></span></td>
+		<td width="7%"><a id="btlimit_did" class="infolink06" href="javascript:onlimit('did','asc','#btlimit_did','#limit_did','#ddlimit_pid','selectform','selectall','check_all')"  hidefocus="true">[%$ST.article_text_did%]</a><span id="limit_did" class="limitdesc"></span></td>
+		<td width="40%">[%$ST.article_text_title%]</td>
+		<td width="10%">[%$ST.article_text_type%]</td>
+		<td width="11%">[%$ST.article_text_class%]</td>
+		<td width="20%">[%$ST.article_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'subjectlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="4%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="8%"><a id="btlimit_pid" class="infolink06" href="javascript:onlimit('pid','desc','#btlimit_pid','#limit_pid','#limit_sid','selectform','selectall','check_all')"  hidefocus="true">[%$ST.subjectmanage_text_pid%]</a><span id="limit_pid" class="limitdesc displaynone"></span></td>
+		<td width="8%"><a id="btlimit_sid" class="infolink06" href="javascript:onlimit('sid','asc','#btlimit_sid','#limit_sid','#limit_pid','selectform','selectall','check_all')"  hidefocus="true">[%$ST.subjectmanage_text_tid%]</a><span id="limit_sid" class="limitdesc"></span></td>
+		<td width="6%">[%$ST.lng_title%]</td>
+		<td width="34%">[%$ST.subjectmanage_text_subjectname%]</td>
+		<td width="10%">[%$ST.subjectmanage_text_purview%]</td>
+		<td width="10%">[%$ST.subjectmanage_text_class%]</td>
+		<td width="20%">[%$ST.subjectmanage_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'recomlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="8%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="10%"><a id="btlimit_dlid" class="infolink06" href="javascript:onlimit('dlid','asc','#btlimit_dlid','#limit_dlid','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.recommanage_text_tid%]</a><span id="limit_dlid" class="limitdesc"></span></td>
+		<td width="12%">[%$ST.lng_title%]</td>
+		<td width="40%">[%$ST.recommanage_text_labelname%]</td>
+		<td width="20%">[%$ST.recommanage_text_mid%]</td>
+		<td width="10%">[%$ST.recommanage_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'memclasslist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="10%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="10%">[%$ST.memclassmanage_text_mcid%]</td>
+		<td width="40%">[%$ST.memclassmanage_text_rankname%]</td>
+		<td width="10%">[%$ST.memclassmanage_text_inter%]</td>
+		<td width="10%">[%$ST.memclassmanage_text_isinter%]</td>
+		<td width="10%">[%$ST.memclassmanage_text_class%]</td>
+		<td width="10%">[%$ST.memclassmanage_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'memberattlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="4%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="8%"><a id="btlimit_pid" class="infolink06" href="javascript:onlimit('pid','desc','#btlimit_pid','#limit_pid','#limit_maid','selectform','selectall','check_all')"  hidefocus="true">[%$ST.memattmanage_text_pid%]</a><span id="limit_pid" class="limitdesc displaynone"></span></td>
+		<td width="8%"><a id="btlimit_maid" class="infolink06" href="javascript:onlimit('maid','asc','#btlimit_maid','#limit_maid','#limit_pid','selectform','selectall','check_all')"  hidefocus="true">[%$ST.memattmanage_text_mcid%]</a><span id="limit_maid" class="limitdesc"></span></td>
+		<td width="20%">[%$ST.memattmanage_text_typename%]</td>
+		<td width="20%">[%$ST.memattmanage_text_attrname%]</td>
+		<td width="14%">[%$ST.memattmanage_text_type%]</td>
+		<td width="8%">[%$ST.memattmanage_text_isvalidate%]</td>
+		<td width="8%">[%$ST.memattmanage_text_class%]</td>
+		<td width="10%">[%$ST.memattmanage_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%#%]会员列表[%#%]
+[%if $menutype == 'memberlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="4%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="8%"><a id="btlimit_userid" class="infolink06" href="javascript:onlimit('userid','asc','#btlimit_userid','#limit_userid','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.membermain_text_did%]</a><span id="limit_userid" class="limitdesc"></span></td>
+		<td width="20%">[%$ST.membermain_text_username%]</td>
+		<td width="15%">[%$ST.membermain_text_rankname%]</td>
+		<td width="25%">[%$ST.membermain_text_email%]</td>
+		<td width="8%">[%$ST.membermain_text_integral%]</td>
+		<td width="8%">[%$ST.membermain_text_visitcount%]</td>
+		<td width="5%">[%$ST.membermain_text_class%]</td>
+		<td width="7%">[%$ST.membermain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'shiplist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="8%"><a id="btlimit_pid" class="infolink06" href="javascript:onlimit('pid','desc','#btlimit_pid','#limit_pid','#limit_osid','selectform','selectall','check_all')"  hidefocus="true">[%$ST.ordershipping_text_pid%]</a><span id="limit_pid" class="limitdesc displaynone"></span></td>
+		<td width="10%"><a id="btlimit_osid" class="infolink06" href="javascript:onlimit('osid','asc','#btlimit_osid','#limit_osid','#limit_pid','selectform','selectall','check_all')"  hidefocus="true">[%$ST.ordershipping_text_osid%]</a><span id="limit_osid" class="limitdesc"></span></td>
+		<td width="25%">[%$ST.ordershipping_text_name%]</td>
+		<td width="12%">[%$ST.ordershipping_text_price%]</td>
+		<td width="10%">[%$ST.ordershipping_text_iscash%]</td>
+		<td width="10%">[%$ST.ordershipping_text_isinsure%]</td>
+		<td width="10%">[%$ST.ordershipping_text_class%]</td>
+		<td width="10%">[%$ST.ordershipping_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%#%]支付方式列表[%#%]
+[%if $menutype == 'paylist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="8%"><a id="btlimit_pid" class="infolink06" href="javascript:onlimit('pid','desc','#btlimit_pid','#limit_pid','#limit_opid','selectform','selectall','check_all')"  hidefocus="true">[%$ST.orderpay_text_pid%]</a><span id="limit_pid" class="limitdesc displaynone"></span></td>
+		<td width="10%"><a id="btlimit_opid" class="infolink06" href="javascript:onlimit('opid','asc','#btlimit_opid','#limit_opid','#limit_pid','selectform','selectall','check_all')"  hidefocus="true">[%$ST.orderpay_text_opid%]</a><span id="limit_opid" class="limitdesc"></span></td>
+		<td width="25%">[%$ST.orderpay_text_name%]</td>
+		<td width="12%">[%$ST.orderpay_text_paycode%]</td>
+		<td width="12%">[%$ST.orderpay_text_price%]</td>
+		<td width="12%">[%$ST.orderpay_text_payplugver%]</td>
+		<td width="8%">[%$ST.orderpay_text_class%]</td>
+		<td width="8%">[%$ST.orderpay_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'payreceiptlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="8%"><a id="btlimit_oprid" class="infolink06" href="javascript:onlimit('oprid','asc','#btlimit_oprid','#limit_oprid','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.payreceiptlist_text_oprid%]</a><span id="limit_oprid" class="limitdesc"></span></td>
+		<td width="23%">[%$ST.payreceiptlist_text_paysn%]</td>
+		<td width="22%">[%$ST.payreceiptlist_text_ordersn%]</td>
+		<td width="12%">[%$ST.payreceiptlist_text_orderamount%]</td>
+		<td width="12%">[%$ST.payreceiptlist_text_bankaccount%]</td>
+		<td width="8%">[%$ST.payreceiptlist_text_class%]</td>
+		<td width="10%">[%$ST.payreceiptlist_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'shipreceiptlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="8%"><a id="btlimit_osrid" class="infolink06" href="javascript:onlimit('osrid','asc','#btlimit_osrid','#limit_osrid','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.shipreceiptlist_text_oprid%]</a><span id="limit_osrid" class="limitdesc"></span></td>
+		<td width="20%">[%$ST.shipreceiptlist_text_shippingsn%]</td>
+		<td width="20%">[%$ST.shipreceiptlist_text_ordersn%]</td>
+		<td width="12%">[%$ST.shipreceiptlist_text_shippingmoney%]</td>
+		<td width="17%">[%$ST.shipreceiptlist_text_addtime%]</td>
+		<td width="8%">[%$ST.shipreceiptlist_text_class%]</td>
+		<td width="10%">[%$ST.shipreceiptlist_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'orderlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="4%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="7%"><a id="btlimit_osrid" class="infolink06" href="javascript:onlimit('oid','asc','#btlimit_osrid','#limit_osrid','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.ordermain_text_oid%]</a><span id="limit_osrid" class="limitdesc"></span></td>
+		<td width="16%">[%$ST.ordermain_text_ordersn%]</td>
+		<td width="8%">[%$ST.ordermain_text_ordertype%]</td>
+		<td width="10%">[%$ST.ordermain_text_money%]</td>
+		<td width="10%">[%$ST.ordermain_text_consignee%]</td>
+		<td width="14%">[%$ST.ordermain_text_addtime%]</td>
+		<td width="10%">[%$ST.ordermain_text_paysn%]</td>
+		<td width="10%">[%$ST.ordermain_text_shippingsn%]</td>
+		<td width="11%">[%$ST.ordermain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'orderaddlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="4%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="12%">[%$ST.ordermain_infolist_text_id%]</td>
+		<td width="84%">[%$ST.ordermain_infolist_text_name%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'orderaddendlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="10%">[%$ST.ordermain_infolist_text_id%]</td>
+		<td width="60%">[%$ST.ordermain_infolist_text_name%]</td>
+		<td width="11%">[%$ST.ordermain_infolist_text_price%]</td>
+		<td width="8%">[%$ST.ordermain_infolist_text_count%]</td>
+		<td width="11%">[%$ST.ordermain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'orderaddendlistedit'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="10%">[%$ST.ordermain_infolist_text_id%]</td>
+		<td width="50%">[%$ST.ordermain_infolist_text_name%]</td>
+		<td width="11%">[%$ST.ordermain_infolist_text_price%]</td>
+		<td width="8%">[%$ST.ordermain_infolist_text_count%]</td>
+		<td width="11%">[%$ST.ordermain_infolist_text_total%]</td>
+		<td width="10%">[%$ST.ordermain_infolist_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'enquirylist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="10%"><a id="btlimit_osrid" class="infolink06" href="javascript:onlimit('eid','asc','#btlimit_osrid','#limit_osrid','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.enquirymain_text_eid%]</a><span id="limit_osrid" class="limitdesc"></span></td>
+		<td width="20%">[%$ST.enquirymain_text_enquirysn%]</td>
+		<td width="15%">[%$ST.enquirymain_text_linkman%]</td>
+		<td width="10%">[%$ST.enquirymain_text_userid%]</td>
+		<td width="17%">[%$ST.enquirymain_text_addtime%]</td>
+		<td width="10%">[%$ST.enquirymain_text_isclass%]</td>
+		<td width="13%">[%$ST.enquirymain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'enquiryaddendlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="10%">[%$ST.enquirymain_infolist_text_id%]</td>
+		<td width="50%">[%$ST.enquirymain_infolist_text_name%]</td>
+		<td width="25%">[%$ST.enquirymain_infolist_text_sn%]</td>
+		<td width="15%">[%$ST.ordermain_infolist_text_count%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'formlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="6%"><a id="btlimit_fgid" class="infolink06" href="javascript:onlimit('fgid','asc','#btlimit_fgid','#limit_fgid','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.formmain_text_mid%]</a><span id="limit_fgid" class="limitdesc"></span></td>
+		<td width="8%">[%$ST.formmain_text_lng%]</td>
+		<td width="39%">[%$ST.formmain_text_formgroupname%]</td>
+		<td width="6%">[%$ST.formmain_text_ismenu%]</td>
+		<td width="6%">[%$ST.formmain_text_class%]</td>
+		<td width="30%">[%$ST.formmain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%if $menutype == 'formattlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="4%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="8%"><a id="btlimit_pid" class="infolink06" href="javascript:onlimit('pid','desc','#btlimit_pid','#limit_pid','#limit_maid','selectform','selectall','check_all')"  hidefocus="true">[%$ST.formmain_att_text_pid%]</a><span id="limit_pid" class="limitdesc displaynone"></span></td>
+		<td width="8%"><a id="btlimit_maid" class="infolink06" href="javascript:onlimit('faid','asc','#btlimit_maid','#limit_maid','#limit_pid','selectform','selectall','check_all')"  hidefocus="true">[%$ST.formmain_text_mid%]</a><span id="limit_maid" class="limitdesc"></span></td>
+		<td width="20%">[%$ST.modelmanage_att_text_modelname%]</td>
+		<td width="17%">[%$ST.modelmanage_att_text_attrname%]</td>
+		<td width="12%">[%$ST.modelmanage_att_text_type%]</td>
+		<td width="7%">[%$ST.formmain_att_text_isline%]</td>
+		<td width="7%">[%$ST.modelmanage_att_text_isvalidate%]</td>
+		<td width="7%">[%$ST.modelmanage_attr_isclass_validatetext%]</td>
+		<td width="10%">[%$ST.modelmanage_text_set%]</td>
+
+	</tr>
+</table>
+[%/if%]
+[%#%]表单留言列表[%#%]
+[%if $menutype == 'messlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="10%"><a id="btlimit_fvid" class="infolink06" href="javascript:onlimit('fvid','asc','#btlimit_fvid','#limit_fvid','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.formmessmain_text_tid%]</a><span id="limit_fgid" class="limitdesc"></span></td>
+		<td width="60%">[%$ST.formmessmain_text_addtime%]</td>
+		<td width="10%">[%$ST.formmessmain_text_reclass%]</td>
+		<td width="15%">[%$ST.formmessmain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%#%]网站主题列表[%#%]
+[%if $menutype == 'skinlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="10%"><a id="btlimit_skid" class="infolink06" href="javascript:onlimit('skid','asc','#btlimit_skid','#limit_skid','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.skinmain_text_mid%]</a><span id="limit_skid" class="limitdesc"></span></td>
+		<td width="35%">[%$ST.skinmain_text_title%]</td>
+		<td width="15%">[%$ST.skinmain_text_code%]</td>
+		<td width="10%">[%$ST.skinmain_text_lockin%]</td>
+		<td width="10%">[%$ST.skinmain_text_class%]</td>
+		<td width="20%">[%$ST.skinmain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%#%]网站模板列表[%#%]
+[%if $menutype == 'templatelist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="45%">[%$ST.templatemain_text_title%]</td>
+		<td width="10%">[%$ST.templatemain_text_class%]</td>
+		<td width="20%">[%$ST.templatemain_text_time%]</td>
+		<td width="25%">[%$ST.templatemain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%#%]网站模板Tab选择列表[%#%]
+[%if $menutype == 'templatestab'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="8%">[%$ST.templatemain_text_mid%]</td>
+		<td width="8%">[%$ST.templatemain_text_lng%]</td>
+		<td width="22%">[%$ST.templatemain_text_title%]</td>
+		<td width="25%">[%$ST.templatemain_text_code%]</td>
+		<td width="12%">[%$ST.templatemain_text_class%]</td>
+		<td width="12%">[%$ST.templatemain_text_fileclass%]</td>
+		<td>[%$ST.templatemain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%#%]邮件模板列表[%#%]
+[%if $menutype == 'emailtemplatelist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="7%"><a id="btlimit_skid" class="infolink06" href="javascript:onlimit('tmid','asc','#btlimit_skid','#limit_skid','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.mailtemplatemain_text_mid%]</a><span id="limit_skid" class="limitdesc"></span></td>
+		<td width="5%">[%$ST.mailtemplatemain_text_lng%]</td>
+		<td width="28%">[%$ST.mailtemplatemain_text_title%]</td>
+		<td width="15%">[%$ST.mailtemplatemain_text_templatecode%]</td>
+		<td width="17%">[%$ST.mailtemplatemain_text_class%]</td>
+		<td width="8%">[%$ST.mailtemplatemain_text_lockin%]</td>
+		<td width="20%">[%$ST.mailtemplatemain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%#%]打印邮件单据[%#%]
+[%if $menutype == 'printlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="10%"><a id="btlimit_skid" class="infolink06" href="javascript:onlimit('tmid','asc','#btlimit_skid','#limit_skid','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.printtemplatemain_text_mid%]</a><span id="limit_skid" class="limitdesc"></span></td>
+		<td width="60%">[%$ST.printtemplatemain_text_title%]</td>
+		<td width="10%">[%$ST.printtemplatemain_text_lockin%]</td>
+		<td width="20%">[%$ST.printtemplatemain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%#%]广告列表[%#%]
+[%if $menutype == 'advertlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="8%"><a id="bbslimit_pid" class="infolink06" href="javascript:onlimit('pid','desc','#bbslimit_pid','#bbs_limit_pid','#bbs_limit_adid','selectform','selectall','check_all')"  hidefocus="true">[%$ST.language_text_pid%]</a><span id="bbs_limit_pid" class="limitdesc displaynone"></span></td>
+		<td width="8%"><a id="bbslimit_adid" class="infolink06" href="javascript:onlimit('adid','asc','#bbslimit_adid','#bbs_limit_adid','#bbs_limit_pid','selectform','selectall','check_all')"  hidefocus="true">[%$ST.forummain_text_mid%]</a><span id="bbs_limit_adid" class="limitdesc"></span></td>
+		<td width="38%">[%$ST.advertmain_text_title%]</td>
+		<td width="20%">[%$ST.advertmain_text_type%]</td>
+		<td width="8%">[%$ST.advertmain_text_class%]</td>
+		<td width="13%">[%$ST.printtemplatemain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%#%]广告位置列表[%#%]
+[%if $menutype == 'adverttypelist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="10%"><a id="bbslimit_adid" class="infolink06" href="javascript:onlimit('atid','asc','#bbslimit_adid','#bbs_limit_adid','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.forummain_text_mid%]</a><span id="bbs_limit_adid" class="limitdesc"></span></td>
+		<td width="30%">[%$ST.adverttypemain_text_title%]</td>
+		<td width="25%">[%$ST.adverttypemain_text_size%]</td>
+		<td width="10%">[%$ST.advertmain_text_class%]</td>
+		<td width="20%">[%$ST.printtemplatemain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%#%]内容跟贴留言列表[%#%]
+[%if $menutype == 'acmessagelist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="4%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="7%"><a id="bbslimit_adid" class="infolink06" href="javascript:onlimit('dmid','asc','#bbslimit_adid','#bbs_limit_adid','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.forummain_text_mid%]</a><span id="bbs_limit_adid" class="limitdesc"></span></td>
+		<td width="14%">[%$ST.acmessagelmain_text_ip%]</td>
+		<td width="14%">[%$ST.acmessagelmain_text_name%]</td>
+		<td width="6%">[%$ST.acmessagelmain_text_support%]</td>
+		<td width="6%">[%$ST.acmessagelmain_text_oppose%]</td>
+		<td width="14%">[%$ST.acmessagelmain_text_addtime%]</td>
+		<td width="14%">[%$ST.acmessagelmain_text_retime%]</td>
+		<td width="6%">[%$ST.acmessagelmain_text_isreply%]</td>
+		<td width="6%">[%$ST.acmessagelmain_text_isclass%]</td>
+		<td width="9%">[%$ST.printtemplatemain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%#%]论坛分类列表[%#%]
+[%if $menutype == 'bbstypelist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="4%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="7%"><a id="btlimit_pid" class="infolink06" href="javascript:onlimit('pid','desc','#btlimit_pid','#limit_pid','#limit_sid','selectform','selectall','check_all')"  hidefocus="true">[%$ST.forumtype_text_pid%]</a><span id="limit_pid" class="limitdesc displaynone"></span></td>
+		<td width="7%"><a id="btlimit_sid" class="infolink06" href="javascript:onlimit('btid','asc','#btlimit_sid','#limit_sid','#limit_pid','selectform','selectall','check_all')"  hidefocus="true">[%$ST.forumtype_text_tid%]</a><span id="limit_sid" class="limitdesc"></span></td>
+		<td width="6%">[%$ST.lng_title%]</td>
+		<td width="30%">[%$ST.forumtype_text_subjectname%]</td>
+		<td width="10%">[%$ST.forumtype_text_purview%]</td>
+		<td width="7%">[%$ST.formmain_text_ismenu%]</td>
+		<td width="11%">[%$ST.forumtype_text_class%]</td>
+		<td width="18%">[%$ST.forumtype_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+[%#%]话题列表[%#%]
+[%if $menutype == 'bbsmainlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="3%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="7%"><a id="bbslimit_bid" class="infolink06" href="javascript:onlimit('bid','asc','#bbslimit_bid','#bbs_limit_bid','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.forummain_text_mid%]</a><span id="bbs_limit_bid" class="limitdesc"></span></td>
+		<td width="40%">[%$ST.forummain_text_title%]</td>
+		<td width="15%">[%$ST.formmessmain_text_addtime%]</td>
+		<td width="5%">[%$ST.forummain_text_replynum%]</td>
+		<td width="5%">[%$ST.forummain_text_istop%]</td>
+		<td width="8%">[%$ST.forummain_text_class%]</td>
+		<td width="17%">[%$ST.forummain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+
+[%#%]图片列表选择窗口[%#%]
+[%if $menutype == 'filelist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('filemodelattselectform','fileselectall','check_all');"/></td>
+		<td width="35%">[%$ST.filemanage_text_name%]</td>
+		<td width="10%">[%$ST.filemanage_text_size%]</td>
+		<td width="25%">[%$ST.filemanage_text_time%]</td>
+		<td width="25%">[%$ST.filemanage_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+
+[%#%]网站文件管理[%#%]
+[%if $menutype == 'fileadminlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="40%">[%$ST.filemanage_text_name%]</td>
+		<td width="10%">[%$ST.filemanage_text_size%]</td>
+		<td width="20%">[%$ST.templatemain_text_time%]</td>
+		<td width="25%">[%$ST.templatemain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+
+
+[%#%]相册管理[%#%]
+[%if $menutype == 'albumadminlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="10%"><a id="btlimit_amid" class="infolink06" href="javascript:onlimit('amid','asc','#btlimit_amid','#limit_amid','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.forumtype_text_tid%]</a><span id="limit_amid" class="limitdesc"></span></td>
+		<td width="40%">[%$ST.albummain_text_name%]</td>
+		<td width="15%">[%$ST.templatemain_text_time%]</td>
+		<td width="10%">[%$ST.forumtype_text_class%]</td>
+		<td width="20%">[%$ST.templatemain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+
+[%#%]相册文件管理[%#%]
+[%if $menutype == 'albumfilelist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="8%"><a id="btlimit_amid" class="infolink06" href="javascript:onlimit('afid','asc','#btlimit_amid','#limit_amid','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.forumtype_text_tid%]</a><span id="limit_amid" class="limitdesc"></span></td>
+		<td width="40%">[%$ST.albummain_text_file_name%]</td>
+		<td width="20%">[%$ST.filemanage_text_name%]</td>
+		<td width="14%">[%$ST.templatemain_text_time%]</td>
+		<td width="13%">[%$ST.templatemain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+
+[%#%]邮件订阅分类[%#%]
+[%if $menutype == 'mailinvitelist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="8%"><a id="btlimit_amid" class="infolink06" href="javascript:onlimit('mlvid','asc','#btlimit_amid','#limit_amid','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.forumtype_text_tid%]</a><span id="limit_amid" class="limitdesc"></span></td>
+		<td width="34%">[%$ST.mailinvite_text_title%]</td>
+		<td width="14%">[%$ST.templatemain_text_time%]</td>
+		<td width="7%">[%$ST.forumtype_text_class%]</td>
+		<td width="32%">[%$ST.templatemain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+
+[%if $menutype == 'mailinvitesendlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="8%"><a id="btlimit_amid" class="infolink06" href="javascript:onlimit('mlvid','asc','#btlimit_amid','#limit_amid','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.forumtype_text_tid%]</a><span id="limit_amid" class="limitdesc"></span></td>
+		<td width="40%">[%$ST.mailinvite_mail_text_mail%]</td>
+		<td width="14%">[%$ST.mailinvite_mail_text_name%]</td>
+		<td width="15%">[%$ST.templatemain_text_time%]</td>
+		<td width="8%">[%$ST.forumtype_text_class%]</td>
+		<td width="15%">[%$ST.templatemain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]
+
+[%if $menutype == 'mailsendlist'%]
+<table border="0" width="100%" bordercolor="#FFFFFF">
+	<tr>
+		<td width="5%"><input type="checkbox" name="check_all" id="check_all" value="1" onClick="select_ok('selectform','selectall','check_all');"/></td>
+		<td width="8%"><a id="btlimit_amid" class="infolink06" href="javascript:onlimit('mlvid','asc','#btlimit_amid','#limit_amid','','selectform','selectall','check_all')"  hidefocus="true">[%$ST.forumtype_text_tid%]</a><span id="limit_amid" class="limitdesc"></span></td>
+		<td width="26%">[%$ST.mailinvite_send_text_title%]</td>
+		<td width="8%">[%$ST.mailinvite_send_text_sendhow%]</td>
+		<td width="15%">[%$ST.mailinvite_send_text_sendtime%]</td>
+		<td width="15%">[%$ST.templatemain_text_time%]</td>
+		<td width="8%">[%$ST.forumtype_text_class%]</td>
+		<td width="15%">[%$ST.templatemain_text_set%]</td>
+	</tr>
+</table>
+[%/if%]

@@ -1,0 +1,26 @@
+<ul class="topnav" id="clickmenubotton">
+	[%forlist from=$menulinkarray key=i%]
+	<li><span[%if $menulinkarray[i].mlid==$menuid%] class="bgmenuhove"[%/if%]>[%$menulinkarray[i].menuname%]</span>
+		<ul class="subnav">
+			[%forlist from=$menulinkarray[i].menulink key=ii%]
+			[%if $menulinkarray[i].menulink[ii].loadfun==$loadfun && $menulinkarray[i].mlid==$menuid%]
+			<li><a class="hover" title="[%$menulinkarray[i].menulink[ii].menuname%]">[%$menulinkarray[i].menulink[ii].menuname%]</a></li>
+			[%else%]
+			<li><a title="[%$menulinkarray[i].menulink[ii].menuname%]" href="[%$menulinkarray[i].menulink[ii].linkurl%]&menuid=[%$menulinkarray[i].menulink[ii].topmlid%]">[%$menulinkarray[i].menulink[ii].menuname%]</a></li>
+			[%/if%]
+			[%/forlist%]
+		</ul>
+	</li>
+	[%/forlist%]
+	<li><span class="yallow">语言</span>
+		<ul class="subnav">
+			[%forlist from=$lanarray key=i%]
+			[%if $lanarray[i].lng==$lng%]
+			<li><a class="hover" title="[%$lanarray[i].lngtitle%]">[%$lanarray[i].lngtitle%]</a></li>
+			[%else%]
+			<li><a href="[%$lanarray[i].url%]" title="[%$lanarray[i].lngtitle%]">[%$lanarray[i].lngtitle%]</a></li>
+			[%/if%]
+			[%/forlist%]
+		</ul>
+	</li>
+</ul>

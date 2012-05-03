@@ -1,0 +1,32 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" title="[%$array[list].keytypename%]-[%$array[list].keyworklist%]"[%if @this->powercheck('marketing','keylinktypeedit')==true %] ondblClick="javascript:parent.onbotton('[%$array[list].keytypename|addslashes('hc')%][%$ST.seomanage_edit_title%]','index.php?archive=seomanage&action=keylinktypeedit&id=[%$array[list].ktid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'keylinktype[%$array[list].ktid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="5%"><input type="checkbox" name="selectinfoid" value="[%$array[list].ktid%]"></td>
+			<td width="10%">[%$array[list].ktid%]</td>
+			<td width="10%">[%$array[list].lng%]</td>
+			<td width="25%">[%$array[list].keytypename%]</td>
+			<td width="40%">[%$array[list].keyworklist|cutstr(25)%]</td>
+			<td width="10%" id="infotype">
+				[%if @this->powercheck('marketing','keylinktypeedit')==true %]
+				<table>
+					<tr>
+						<td><a class="setedit" onclick="javascript:parent.onbotton('[%$array[list].keytypename|addslashes('hc')%][%$ST.seomanage_edit_title%]','index.php?archive=seomanage&action=keylinktypeedit&id=[%$array[list].ktid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'keylinktype[%$array[list].ktid%]',self.frameElement.getAttribute('name'));" id="keylinktype[%$array[list].ktid%]" href="#body" title="[%$ST.setedit_botton%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+					</tr>
+				</table>
+				[%/if%]
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+	<tr>
+	    <td align="center">[%$ST.list_nothing_title%]</td>
+	</tr>
+</table>
+</div>
+[%/if%]

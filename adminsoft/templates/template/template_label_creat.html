@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var article_search_js_sid_err  = "[%$ST.article_search_js_sid_err%]";
+	var templatemain_js_label_code_err  = "[%$ST.templatemain_js_label_code_err%]";
+	var iframename = "[%$iframename%]";
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var options = {
+			beforeSubmit: function(){},
+			success:saveResponse
+		}
+		$('#labelcreat').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	})
+	function saveResponse(options){
+		if (options!='false'){
+			$("#content").val(options);
+		}else{
+			alert(templatemain_js_label_code_err);
+		}
+	}
+	function searchoption(mid,title){
+		var lng=document.labelcreat.lng.value;
+		selectlinkagelng('tid','index.php?archive=connected&action=sctypelist&optiontitle='+title+'&mid='+mid+'&lng='+lng);
+		selectlinkagelng('sid','index.php?archive=connected&action=scsublist&optiontitle='+title+'&mid='+mid+'&lng='+lng);
+		selectlinkagelng('dlidlist','index.php?archive=connected&action=doclabellist&mid='+mid);
+	}
+</script>
+</head>
+
+<body>
+<form name="labelcreat" id="labelcreat" method="post" action="index.php?archive=templatemain&action=labeldb">
+<input type="hidden" name="inputclass" value="add">
+<input type="hidden" name="tab" id="templateaddtab" value="[%$tab%]">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.templatemain_add_label_mess%]</span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.templatemain_add_mess_label_text%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.templatemain_add_label_type%]</td>
+						<td class="trtitle02">
+							<select size="1" name="labeltype" id="labeltype"  onChange="selectlinkagelng('labelattlist','index.php?archive=templatemain&action=attrindex&code='+this.value);">
+							[%forlist from=$lable key=list%]
+								<option value="[%$lable[list].code%]">[%$lable[list].plugname%]</option>
+							[%/forlist%]
+							</select>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent" id="labelattlist">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.templatemain_add_label_str%]</td>
+						<td class="trtitle02">[%$lablelist.desc%]</td>
+					</tr>
+					[%if $lablelist.lng==1%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.createmain_add_lng%]</td>
+						<td class="trtitle02">
+							<select size="1" name="lng" id="lng" onchange="javascript:selectlinkagelng('mid','index.php?archive=connected&action=scmodellist&lng='+this.value);searchoption(1000000,'[%$ST.all_botton|escape('url')%]')">
+							[%forlist from=$lnglist key=list%]
+								<option [%$lnglist[list].selected%] value="[%$lnglist[list].lng%]">[%$lnglist[list].lngtitle%]</option>
+							[%/forlist%]
+							</select>
+						</td>
+					</tr>
+					[%/if%]
+					[%if $lablelist.mid==1%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.createmain_add_mid%]</td>
+						<td class="trtitle02">
+							<select size="1" name="mid" id="mid" onchange="javascript:searchoption(this.value,'[%$ST.all_botton|escape('url')%]')">
+								<option value="0">[%$ST.recommanage_type_add_mid_option%]</option>
+								[%forlist from=$modelarray key=list%]
+								<option value="[%$modelarray[list].mid%]">[%$modelarray[list].modelname%]</option>
+								[%/forlist%]
+							</select>
+						</td>
+					</tr>
+					[%/if%]
+					[%if $lablelist.tid==1%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.createmain_add_tid%]</td>
+						<td class="trtitle02">
+							<select size="1" name="tid" id="tid">
+								<option value="0">[%$ST.all_botton%]</option>
+							</select>
+						</td>
+					</tr>
+					[%/if%]
+					[%if $lablelist.sid==1%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.article_doc_add_sid%]</td>
+						<td class="trtitle02">
+							<select size="1" name="sid" id="sid">
+								<option value="0">[%$ST.all_botton%]</option>
+							</select>
+						</td>
+					</tr>
+					[%/if%]
+					[%if $lablelist.dlid==1%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.viewtype_botton%]</td>
+						<td class="trtitle02"><span id="dlidlist"><input type="radio" value="0" checked="checked" name="dlid"/> [%$ST.all_botton%]</span></td>
+					</tr>
+					[%/if%]
+					[%forlist from=$lable_config key=list%]
+					[%if $lable_config[list].type=='text'%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$lable_config[list].botname%]</td>
+						<td class="trtitle02">
+							<input type="text" name="inputvalue[]" maxlength="200" size="20" value="[%$lable_config[list].value%]" class="infoInput">
+							<input type="hidden" name="inputname[]" value="[%$lable_config[list].name%]">
+							[%if $lable_config[list].str!=''%]<span class="cautiontitle">[%$lable_config[list].str%]</span>[%/if%]
+						</td>
+					</tr>
+					[%/if%]
+					[%if $lable_config[list].type=='select'%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$lable_config[list].botname%]</td>
+						<td class="trtitle02">
+							<select size="1" name="inputvalue[]">
+								[%forlist from=$lable_config[list].sevalue key=i%]
+								<option value="[%list=>i%]" [%if $lable_config[list].value==list=>i%]selected[%/if%]>[%$lable_config[list].sevalue=>i%]</option>
+								[%/forlist%]
+							</select>
+							<input type="hidden" name="inputname[]" value="[%$lable_config[list].name%]">
+							[%if $lable_config[list].str!=''%]<span class="cautiontitle">[%$lable_config[list].str%]</span>[%/if%]
+						</td>
+					</tr>
+					[%/if%]
+					[%/forlist%]
+				</table>
+			</div>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.templatemain_add_mess_label_text2%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.templatemain_add_label_content%]</td>
+						<td class="trtitle02"><textarea name="content" id="content" style="width:98%;height:200px;" class="smallInput"></textarea></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td><input type="submit" id="templateaddsubmit" name="Submit" value="[%$ST.botton_cerathtml%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

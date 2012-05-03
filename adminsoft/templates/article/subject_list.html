@@ -1,0 +1,49 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" title="[%$array[list].subjectname%]" [%if @this->powercheck('article','subedit')==true %]ondblClick="javascript:parent.onbotton('[%$ST.subjectmanage_edit_title%]','index.php?archive=subjectmanage&action=subedit&sid=[%$array[list].sid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'subjectedit[%$array[list].sid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="4%"><input type="checkbox" name="selectinfoid" value="[%$array[list].sid%]"></td>
+			<td width="8%">
+				<input type="hidden" name="infoid" id="infoid" value="[%$array[list].sid%]">
+				<input type="text" name="pid" size="3" value="[%$array[list].pid%]" class="infoInput">
+			</td>
+			<td width="8%">[%$array[list].sid%]</td>
+			<td width="6%">[%$array[list].lng%]</td>
+			<td width="34%"><a target="_blank" class="infolink04" href="[%$array[list].glink%]">[%$array[list].subjectname%]</a></td>
+			<td width="10%">[%$array[list].puvname%]</td>
+			<td width="10%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].subpic!=''%]<span class="pic_ok" title="[%$ST.article_pic_ok%]"></span>[%else%]<span class="pic_no" title="[%$ST.article_pic_no%]"></span>[%/if%]</td>
+						<td>[%if $array[list].iswap==1%]<span class="iswap_ok" title="[%$ST.open_botton_title%]"></span>[%else%]<span class="iswap_no" title="[%$ST.close_botton_title%]"></span>[%/if%]</td>
+						<td>[%if $array[list].isclass==1%]<span class="audit_ok" title="[%$ST.infooktype_botton%]"></span>[%else%]<span class="audit_no" title="[%$ST.lockoktype_botton%]"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="20%" id="infotype">
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						<td><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.subjectmanage_text_infolist_title%]','index.php?archive=management&action=list&listfunction=articlelist&sid=[%$array[list].sid%]&mid=[%$array[list].mid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'subjectlist[%$array[list].sid%]',self.frameElement.getAttribute('name'));" id="subjectlist[%$array[list].sid%]" href="#body" title="[%$ST.subjectmanage_text_infolist_title%]" hidefocus="true">[%$ST.viewfield_botton%]</a></td>
+						[%if @this->powercheck('article','subedit')==true %]
+						<td class="padding-left3"><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.subjectmanage_edit_title%]','index.php?archive=subjectmanage&action=subedit&sid=[%$array[list].sid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'subjectedit[%$array[list].sid%]',self.frameElement.getAttribute('name'));" id="subjectedit[%$array[list].sid%]" href="#body" title="[%$array[list].subjectname%][%$ST.subjectmanage_edit_title%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+						[%/if%]
+						[%if @this->powercheck('article','subdel')==true %]
+						<td class="padding-left3"><a class="setedit" onclick="javascript:submiturl('index.php?archive=subjectmanage&action=subdel&sid=[%$array[list].sid%]&freshid='+Math.random(),'index.php?archive=management&action=load','[%$ST.run_ok%]','[%$ST.run_no%]',true,'[%$ST.del_messok%]','selectform','selectall','check_all');" href="#body" title="[%$ST.setdel_botton%]" hidefocus="true">[%$ST.setdel_botton%]</a></td>
+						[%/if%]
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+	<tr>
+	    <td align="center">[%$ST.list_nothing_title%]</td>
+	</tr>
+</table>
+</div>
+[%/if%]

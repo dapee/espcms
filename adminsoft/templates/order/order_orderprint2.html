@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>打印配货单</title>
+<style type="text/css" media="print">
+.noprint{display:none}
+</style>
+<style type="text/css">
+td{
+	font-size:9pt;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.table_style {
+	border-collapse: collapse;
+}
+.hr_style {
+	color: #000000;
+}
+.td01 {
+	font-size: 14pt;
+}
+.font01 {
+	font-size: medium;
+}
+.font02 {
+	font-size: 11pt;
+}
+.font03 {
+	font-size: 11pt;
+	text-align: center;
+}
+.font04 {
+	line-height: 150%;
+}
+#divTest{
+	position: absolute;
+	z-index: 1000;
+	background-color: #D5ECF1;
+	width: 100%;
+	height:30px;
+	left: 0%;
+    bottom:0px;
+    padding-top:10px;
+    text-align:center;
+}
+</style>
+</head>
+
+<body style="margin: 0">
+<table align="center" cellpadding="0" cellspacing="0" class="table_style" style="width: 90%">
+    <tr>
+        <td height="70">
+        <table cellpadding="0" cellspacing="0" class="table_style" style="width: 100%">
+            <tr>
+                <td class="td01"><strong>[%$sread.order_companyname%]配货单</strong></td>
+                <td align="right"><img title="[%$order.ordersn%]" src="../public/barcode.php?text=[%$order.ordersn%]"/></td>
+            </tr>
+        </table>
+        </td>
+    </tr>
+    <tr>
+        <td><hr class="hr_style" noshade="noshade" /></td>
+    </tr>
+    <tr>
+        <td>
+       <table style="width: 100%" cellpadding="0" cellspacing="0" class="table_style">
+        <tr>
+            <td class="font02"><strong class="font02">订单号：[%$order.ordersn%]</strong></td>
+            <td class="font02" align="right"><strong>客户下单日期：[%$order.addtime|timeformat(3)%]</strong></td>
+        </tr>
+	</table>
+        </td>
+    </tr>
+    <tr>
+        <td><hr class="hr_style" noshade="noshade" /></td>
+    </tr>
+    <tr>
+        <td align="center">
+        <table style="width: 98%" cellpadding="5" cellspacing="0" class="table_style">
+            <tr>
+                <td class="font02"><strong>NO</strong></td>
+                <td class="font02"><strong>货号</strong></td>
+                <td class="font02"><strong>订购商品名称</strong></td>
+                <td class="font02"><strong>单价</strong></td>
+                <td class="font02"><strong>数量</strong></td>
+                <td class="font02"><strong>小计</strong></td>
+                <td class="font02"><strong>配货状态</strong></td>
+            </tr>
+            [%forlist key=list from=$array%]
+            <tr>
+                <td>[%$array[list].did%]</td>
+                <td>[%$array[list].tsn%]</td>
+                <td>[%$array[list].title%]</td>
+                <td>[%$order_moneytype%][%$array[list].bprice%]</td>
+                <td>[%$array[list].amount%]</td>
+                <td>[%$order_moneytype%][%$array[list].countprice%]</td>
+                <td><img src="templates/images/select.gif"></td>
+            </tr>
+            [%/forlist%]
+        </table>
+        </td>
+    </tr>
+    <tr>
+        <td><hr class="hr_style" noshade="noshade" /></td>
+    </tr>
+<tr>
+    <td>
+    <table cellpadding="3" cellspacing="0" class="table_style" style="width: 100%">
+        <tr>
+            <td valign="top">备注：[%$order.content%]</td>
+            <td style="width: 200px" valign="top" class="font04">
+		商品总价：[%$order_moneytype%][%$order.productmoney%]<br/>
+		运费：[%$order_moneytype%][%$order.shippingmoney%]<br/>
+		支付手续费：[%$order_moneytype%][%$order.paymoney%]<br/>
+		订单折扣：[%$order_moneytype%][%$dis%]%
+	    </td>
+        </tr>
+    </table>
+    </td>
+</tr>
+    <tr>
+        <td><hr class="hr_style" noshade="noshade" /></td>
+    </tr>
+    <tr>
+        <td>
+    <table cellpadding="3" cellspacing="0" class="table_style" style="width: 100%">
+        <tr>
+            <td valign="top">&nbsp;</td>
+            <td style="width: 200px" valign="top"><span class="font02"><strong>总计费用：[%$order_moneytype%][%$order.orderamount%]</strong></span></td>
+        </tr>
+    </table>
+        </td>
+    </tr>
+    <tr>
+        <td><hr class="hr_style" noshade="noshade" /></td>
+    </tr>
+    <tr>
+        <td>
+        <table cellpadding="3" cellspacing="0" class="table_style" style="width: 100%">
+            <tr>
+                <td class="font04">物流公司：[%$order.shipname%]<br />客户姓名：[%$order.consignee%]<br />
+            客户地址：[%$order.province%]－[%$order.city%]－[%$order.district%]&nbsp; [%$order.address%]&nbsp;&nbsp;
+            邮编：[%$order.zipcode%]<br />
+            [%if $order.tel!=''%]联系电话：[%$order.tel%][%/if%][%if $order.mobile!=''%]  手机：[%$order.mobile%][%/if%]</td>
+            </tr>
+            <tr>
+                <td align="left" class="td01">签名：</td>
+            </tr>
+        </table>
+        </td>
+    </tr>
+    <tr>
+        <td><hr class="hr_style" noshade="noshade" /></td>
+    </tr>
+    <tr>
+        <td>
+    <table cellpadding="3" cellspacing="0" class="table_style" style="width: 100%">
+        <tr>
+            <td class="font04">服务商地址：[%$sread.order_add%]&nbsp;&nbsp;
+            <a href="[%$sread.domain%]">[%$sread.domain%]</a>&nbsp;&nbsp;
+            电话：[%$sread.order_tel%] &nbsp; 邮编：[%$sread.order_post%]&nbsp; E-mail:[%$sread.admine_mail%]</td>
+            <td valign="top">&nbsp;</td>
+        </tr>
+    </table>
+        </td>
+    </tr>
+</table>
+<div id="divTest" class=noprint><OBJECT classid="CLSID:8856F961-340A-11D0-A96B-00C04FD705A2" height="0" id="wb" name="wb" width="0" VIEWASTEXT></OBJECT><input type=button name=button_show value="打印预览" class="noprint" onclick="javascript:wb.execwb(7,1);"> <input type=button name=button_show value="打印设置" class="noprint" onclick="javascript:wb.execwb(8,1);"> <input type="button" id="datasubmit" value="确认打印" name="submit" onclick="javascrīpt:window.print()"></div>
+<script type="text/javascript">
+<!--
+   var rootel=document.documentElement; //XHTMl
+
+   var bto=document.getElementById('divTest');
+   function bt(){
+          bto.style.top=(rootel.clientHeight-bto.offsetHeight)+rootel.scrollTop+'px';
+   }
+   setInterval("bt()",1);
+
+</script>
+</body>
+
+</html>

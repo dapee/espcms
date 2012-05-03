@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>{%$type.typename%} - {%$lngpack.sitename%}</title>
+<meta name="keywords" content="{%$lngpack.keyword%}" />
+<meta name="description" content="{%$lngpack.description%}" />
+<link href="{%$rootpath%}style/tempates_div.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/public.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{%$rootdir%}js/jquery.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/basicrun.js"></script>
+<script type="text/javascript" src="{%$rootdir%}index.php?ac=public&at=typepuv&tid={%$type.tid%}"></script>
+<script type="text/javascript">
+$().ready(function() {
+	$("#clickmenubotton li span").hover(function() {
+		$(this).addClass("bgmenuhove2");
+		$(this).parent().find("ul.subnav").slideDown('fast').show(); 
+		$(this).parent().hover(function() {}, function(){
+			$(this).parent().find("ul.subnav").fadeOut('fast');
+			$(this).parent().find("span").removeClass("bgmenuhove2");
+		});
+	});
+});
+</script>
+</head>
+
+<body>
+<div class="head">
+	{%link file="en/public/head.html"%}
+	<!--bann-->
+	{%if $type.typepic!=''%}
+	<div class="bann">
+		<div class="bann">
+			<img title="tel" src="{%$rootdir%}{%$type.typepic%}"/>
+		</div>
+	</div>
+	{%/if%}
+	
+	<div class="bann">
+		<div class="location">{%list name=path class=type:type,id:$type.tid%}</div>
+	</div>
+	
+	<div class="framecenter margintop10">
+		<div class="frameright ">
+			<div class="fup3"><span class="spantitle">{%$type.typename%}</span></div>
+			<div class="fcontent3">
+				{%get name=typelist class=tid:$type.tid,utid:$type.topid%}
+				<ul class="three">
+					{%forlist from=$array key=i%}
+						{%if $array[i].level==1%}
+						<li class="b"><a class="typelink" title="{%$array[i].typename%}" href="{%$array[i].link%}">{%$array[i].typename%}</a></li>
+						{%else%}
+						<li class="a"><a title="{%$array[i].typename%}" href="{%$array[i].link%}">{%$array[i].typename%}</a></li>
+						{%/if%}
+					{%/forlist%}
+				</ul>
+				{%/get%}
+			</div>
+			<div class="fdown3"></div>
+			
+			{%link file="en/public/left.html"%}
+		</div>
+		
+		<div class="frameleft margintleft10">
+			<div class="fup1"><span class="spantitle">News</span></div>
+			<div class="fcontent1">
+				<div class="newsleft">
+					{%get name=list class=mid:1,dlid:4,tid:$type.tid,max:1%}
+						{%forlist from=$array key=i%}
+						<ul>
+							<li class="center"><img title="tel" src="{%$array[i].pic|zoom(180,125)%}"/></li>
+							<li class="center"><a class="infolist" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title%}</a></li>
+						</ul>
+						{%/forlist%}
+					{%/get%}
+				</div>
+				<div class="newsright">
+					<ul class="textlist" style="width:440px">
+						{%get name=list class=mid:1,tid:$type.tid,max:6%}
+							{%forlist from=$array key=i%}
+							<li><span class="names">{%$array[i].addtime|timeformat(1)%}</span> <a class="infolist" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title%}</a> </li>
+							{%/forlist%}
+						{%/get%}
+					</ul>
+				</div>
+			</div>
+			<div class="fdown1"></div>
+			
+			{%get name=typelist class=utid:$type.tid,level:2%}
+				{%forlist from=$array key=i%}
+				<div class="fup2 margintop8"><span class="spantitle">{%$array[i].typename%}</span><span class="spanmone"><a class="morn" title="{%$array[i].typename%}" href="{%$array[i].link%}">Read more</a></span></div>
+				<div class="fcontent2">
+					<div class="newsleft">
+						{%list name=list file=listpic class=mid:1,dlid:4,tid:$array[i].tid,max:1%}
+					</div>
+					<div class="newsright">
+						<ul class="textlist" style="width:440px">{%list name=list file=list class=mid:1,tid:$array[i].tid,max:6%}</ul>
+					</div>
+				</div>
+				<div class="fdown2"></div>
+				{%/forlist%}
+			{%/get%}
+		</div>
+	</div>
+	
+	{%link file="en/public/link.html"%}
+</div>
+{%link file="en/public/footer.html"%}	
+</body>
+
+</html>

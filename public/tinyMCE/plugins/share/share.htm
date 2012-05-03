@@ -1,0 +1,30 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>{#share.share_title}</title>
+<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+<script language="javascript" type="text/javascript" src="../../utils/mctabs.js"></script>
+<script language="javascript" type="text/javascript" src="../../utils/form_utils.js"></script>
+<script type="text/javascript" src="../../utils/editable_selects.js"></script>
+<script language="javascript" type="text/javascript" src="js/share.js"></script>
+<link rel="stylesheet" type="text/css" href="css/share.css" />
+<base target="_self" />
+</head>
+<body onload="" style="display: none; margin: 4px;">
+<form onsubmit="return false;" action="#">
+<div class="Container">
+	<div class="divtitle">{#share.share_langaugepicker}</div>
+	<div class="contentdiv"><textarea id="CodeArea" class="CodeArea"></textarea></div>
+	<div class="Options">
+		<a target="_blank" class="infolink02" href="http://wenku.baidu.com">{#share.share_ceatecode_baidu}</a>
+		<a target="_blank" class="infolink02" href="http://www.youku.com">{#share.share_ceatecode_youku}</a>
+		<a target="_blank" class="infolink02" href="http://www.tudou.com">{#share.share_ceatecode_tudou}</a>
+	</div>
+	<div class="Options">{#share.share_code_text}</div>
+	<div class="Actions">
+		<input id="cancel" type="button" value="{#cancel}" language="javascript" onclick="return Cancel_Button_onclick()" />
+		<input id="insert" type="button" value="{#insert}" language="javascript" onclick="return Save_Button_onclick()" />
+	</div>
+</div>
+</form>
+</body>
+</html>

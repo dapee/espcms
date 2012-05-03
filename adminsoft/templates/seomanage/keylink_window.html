@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/pagebotton.js"></script>
+<script type="text/javascript" language="JavaScript">
+	var article_search_js_sid_err  = "[%$ST.article_search_js_sid_err%]";
+	var article_search_js_searchkey_err  = "[%$ST.article_search_js_searchkey_err%]";
+	var ordermain_infolist_js_selecterr  = "[%$ST.ordermain_infolist_js_selecterr%]";
+	var select_no  = "[%$ST.select_no%]";
+	var inputtext  = "[%$inputtext%]";
+	var iframename = "[%$iframename%]";
+	var checkfrom="[%$checkfrom%]";
+	var getbyid="[%$getbyid%]";
+	var digheight="[%$digheight%]";
+	var lng="[%$lng%]";
+	var listfunction="[%$listfunction%]";
+	
+	$(document).ready(function(){
+		var h = parseInt(digheight);
+		$("#mainnextbody").hide();
+		$("#selectbotton").hide();
+		$("#selectbotton2").hide();
+		$("#listitle").hide();
+		$('.ordersearchdiv').css({height:h-35});
+		var options = {
+			beforeSubmit: formverify,
+			success:function(){
+				return false;
+			}
+		}
+		$('#docsearch').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	})
+
+	function formverify(formData, jqForm, options) {
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['searchkey']!=""){
+			if(get['searchkey'].match(/[\'\"\<\>\,\;\^\$\(\)\!\.]+/ig)!=null) {
+				document.docsearch.searchkey.focus();
+				alert(article_search_js_searchkey_err);
+				return false;
+			}
+		}
+		if (get['mid']==0){
+			document.docsearch.mid.focus();
+			alert(article_search_js_sid_err);
+			return false;
+		}
+		var action=listfunction=='key' ? 'seolinklist' : 'seolinktypelist';
+		var esarchurl="index.php?archive=seomanage&action="+action+"&lng="+lng+"&mid="+get['mid']+"&tid="+get['tid']
+			+"&isclass="+get['isclass']+"&limitkey=&limitclass=&listtype=tab&serchekey="+encodeURI(get['searchkey']);
+		articlesearch(esarchurl)
+		return false;
+	}
+
+	function articlesearch(loadurl){
+		$('#mainwindowhidden').removeClass().addClass('ordersearchdiv displaynone');
+		$("#mainnextbody").show();
+		if (listfunction=='key'){
+			$("#selectbotton").show();	
+		}
+		$("#selectbotton2").show();
+		$("#listitle").show();
+		var h = parseInt(digheight);
+		
+		var formlist=document.getElementById('selectform');
+
+		var loadurl=loadurl;
+
+		var maxperpage=formlist.elements[1].value;
+
+		var maxhit=formlist.elements[2].value;
+
+		var nowpage=formlist.elements[3].value;
+
+		var loadname=formlist.elements[6].value;
+
+		var pagetextname=formlist.elements[7].value;
+
+		var pagebottonname=formlist.elements[8].value;
+		formlist.elements[0].value = loadurl;
+		pageDimensions(h,maxperpage,maxhit,nowpage,loadurl,loadname,pagetextname,pagebottonname,'selectform');
+	}
+
+	function reselect(){
+		$('#mainwindowhidden').removeClass().addClass('ordersearchdiv displaytrue');
+		$("#mainnextbody").hide();
+		$("#selectbotton").hide();
+		$("#selectbotton2").hide();
+		$("#listitle").hide();
+	}
+
+	function selectback() {
+		var str=document.getElementsByName("selectinfoid");
+		var objarray=str.length;
+		var chestr="";
+		for (i=0;i<objarray;i++) {
+			if(str[i].checked == true) {
+				chestr+=str[i].value+",";
+			}
+		}
+		if (count_checked_items('selectform')>0){
+			fnupdate(chestr);
+		}else{
+			alert(ordermain_infolist_js_selecterr);
+			return false;
+		}
+	}
+
+	function fnupdate(chestr){
+		if (checkfrom=='input'){
+			checkinput(chestr);
+		}
+	}
+
+	function checkinput(chestr){
+		var inputval=parent.frames[iframename].document.getElementById(inputtext).value;
+		if(!inputval){
+			chestr=chestr.substring(0,chestr.length-1);
+		}
+		var value=chestr+inputval;
+		parent.frames[iframename].document.getElementById(inputtext).value = value;
+		parent.closeifram();
+	}
+	
+	function checkkeydes(keyword,descript){
+		parent.frames[iframename].document.getElementById('keywords').value = keyword;
+		parent.frames[iframename].document.getElementById('description').value = descript;
+		parent.closeifram();
+	}
+	
+	function searchoption(mid,title){
+		selectlinkagelng('tid','index.php?archive=connected&action=sctypelist&optiontitle='+title+'&mid='+mid+'&lng='+lng);
+	}
+</script>
+<!--[if IE 6]>
+<style type="text/css" media="screen"> 
+body { behavior:url("templates/css/csshover.htc");} 
+</style> 
+<![endif]-->
+</head>
+
+<body class="bodyflow">
+<div class="centerrightwindow">
+	<div id="mainwindowhidden" class="ordersearchdiv displaytrue">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="padding-left5 colorgorningage">[%$ST.article_search_title%]</span></span>
+		</div>
+		<div class="sugtitle-line"></div>
+		<div class="formdiv" id="searchmanger">
+			<form name="docsearch" id="docsearch" method="post" action="#body">
+			<input type="hidden" value="1" name="isclass"/>
+			<table class="formtable">
+				<tr class="trstyle2">
+					<td width="20%" class="trtitle01">[%$ST.article_search_keyword%]</td>
+					<td width="80%" class="trtitle02"><input type="text" name="searchkey" size="30" maxlength="30" class="infoInput"/></td>
+				</tr>
+				<tr class="trstyle2">
+					<td width="20%" class="trtitle01">[%$ST.recommanage_type_add_mid%]</td>
+					<td width="80%" class="trtitle02">
+						<select size="1" name="mid" id="mid" onchange="javascript:searchoption(this.value,'[%$ST.all_botton|escape('url')%]')">
+							<option value="0">[%$ST.recommanage_type_add_mid_option%]</option>
+							[%forlist from=$modelarray key=list%]
+							<option [%$modelarray[list].selected%] value="[%$modelarray[list].mid%]">[%$modelarray[list].modelname%]</option>
+							[%/forlist%]
+						</select>
+					</td>
+				</tr>
+				<tr class="trstyle2">
+					<td width="20%" class="trtitle01">[%$ST.article_doc_add_tid%]</td>
+					<td width="80%" class="trtitle02">
+						<select size="1" name="tid" id="tid">
+							<option selected="selected" value="0">[%$ST.all_botton%]</option>
+							[%forlist from=$typelist key=list%]
+							<option [%$typelist[list].selected%] value="[%$typelist[list].tid%]">[%if $typelist[list].level>0%]├[%/if%][%$typelist[list].level|treelist('─')%] [%$typelist[list].typename%]</option>
+							[%/forlist%]
+						</select>
+					</td>
+				</tr>
+				<tr class="trstyle2">
+					<td width="20%" class="trtitle01"></td>
+					<td width="80%" class="trtitle02"><input type="submit" name="Submit" id="submitbotton" value="[%$ST.botton_search%]" class="buttonface" title="[%$ST.botton_search%]"/></td>
+				</tr>
+			</table>
+			</form>
+		</div>
+	</div>
+	<div id="mainnextbody" class="ordersearchdiv tabnextlist">
+		<form name="selectform" id="selectform" method="post">
+		<input type="hidden" name="loadurl" id="loadurl" value="">
+		<input type="hidden" name="maxperpage" id="maxperpage" value="20">
+		<input type="hidden" name="maxhit" id="maxhit" value="4">
+		<input type="hidden" name="nowpage" id="nowpage" value="0">
+		<input type="hidden" name="limitkey" id="limitkey" value="">
+		<input type="hidden" name="limitclass" id="limitclass" value="">
+		<input type="hidden" name="loadname" id="loadname" value="#articleloading">
+		<input type="hidden" name="pagetextname" id="pagetextname" value="#pageinfo3">
+		<input type="hidden" name="pagebottonname" id="pagebottonname" value="#Pagination3">
+		<div class="loadingdiv" id="articleloading"></div>
+		</form>
+	</div>
+	
+	<div class="pagelistdiv">
+		<div class="pageinfotext displaynone" id="pageinfo3"></div>
+		<div id="selectbotton" class="pageinfotext" style="padding-top:5px;"><input type="reset" name="reset" onClick="javascript:selectback();" id="release" value="[%$ST.botton_add%]" class="buttonface"  title="[%$ST.botton_add%]" /></div>
+		<div id="selectbotton2" class="pageinfotext" style="padding-top:5px;"><input type="reset" name="reset" onClick="javascript:reselect();" value="[%$ST.botton_reselect%]" class="buttonface"  title="[%$ST.botton_reselect%]" /></div>
+		<div class="pagebottonlist" id="pagebotton"><span id="Pagination3" class="pagination"></span></div>
+	</div>
+</div>
+</body>
+</html>

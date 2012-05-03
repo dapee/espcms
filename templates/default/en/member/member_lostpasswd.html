@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Forgot your password? - {%$lngpack.sitename%}</title>
+<meta name="keywords" content="{%$lngpack.keyword%}" />
+<meta name="description" content="{%$lngpack.description%}" />
+<link href="{%$rootpath%}style/tempates_div.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/public.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{%$rootdir%}js/jquery.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/basicrun.js"></script>
+<script type="text/javascript">
+var username_empty = "{%$lngpack.username_err%}";
+var email_match = "{%$lngpack.email_err%}";
+var seccode_empty = "{%$lngpack.seescodeerr%}";
+$().ready(function() {
+	$("#clickmenubotton li span").hover(function() {
+		$(this).addClass("bgmenuhove2");
+		$(this).parent().find("ul.subnav").slideDown('fast').show(); 
+		$(this).parent().hover(function() {}, function(){
+			$(this).parent().find("ul.subnav").fadeOut('fast');
+			$(this).parent().find("span").removeClass("bgmenuhove2");
+		});
+	});
+});
+</script>
+</head>
+
+<body>
+<div class="head">
+	{%link file="en/public/head.html"%}
+	<div class="bann"><img src="{%$rootpath%}images/bann.jpg"/></div>
+	<div class="bann">
+		<div class="location"><a href="{%$homelink%}">Home</a> » <b>Change Your Password</b></div>
+	</div>
+	
+	<div class="framecenter margintop8">
+		<form name="lostpassworddb" method="post" action="{%$mlink.lostpasswdsave%}" onSubmit="return lostpassword('{%$mem_isseccode%}')">
+			<table style="width:90%;margin:0px auto;margin-top:30px;margin-bottom:30px;">
+				<tr>
+					<td>
+						<table>
+							<tr>
+								<td><span class="messicon"><img src="{%$rootpath%}images/status_online.gif" /></span></td>
+								<td><span class="messtext strong fontsize14">Change Your Password</span></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td><hr class="hrline"/></td>
+				</tr>
+				<tr>
+					<td style="padding-top:10px">
+						<table class="formlist" width="100%" style="margin:0 auto;">
+							<tr>
+								<th width="20%">ID</th>
+								<td width="80%">
+									<input type="text" name="username" id="username" class="infoInput" size="20" maxlength="15" /> <span id="usermsg"></span>
+								</td>
+							</tr>
+							<tr>
+								<th>Email Address</th>
+								<td>
+									<input type="text" name="email" id="email" class="infoInput" size="40" maxlength="100" /> <span id="usermsg"></span>
+								</td>
+							</tr>
+							{%if $mem_isseccode==1%}
+							<tr>
+								<th>Type the code shown</th>
+								<td>
+									<input type="text" id="seccode" name="seccode" class="infoInput" maxlength="4" size="5" style="text-transform: uppercase;"/> 
+									<img title="Try a new code" id="memberseccodesrc" onclick="sessionimg('memberseccodesrc','{%$rootdir%}')" src="{%$seccodelink%}" style="cursor: pointer;" align="absmiddle"/>
+								</td>
+							</tr>
+							{%/if%}
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td class="center" style="height:50px;line-height:50px;">
+						<input name="submit" type="submit" class="buttonface2" value="Continue"/>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+	{%link file="en/public/link.html"%}
+</div>
+{%link file="en/public/footer.html"%}
+</body>
+
+</html>

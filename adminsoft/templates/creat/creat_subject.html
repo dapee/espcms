@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var createmain_js_mid_empty  = "[%$ST.createmain_js_mid_empty%]";
+	var iframename = "[%$iframename%]";
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var optionstype_sub = {
+			beforeSubmit: formverify_sub,
+			success:saveResponse
+		}
+		$("#creatsubject").submit(function() {
+			$(this).ajaxSubmit(optionstype_sub);
+			return false;
+		});
+	})
+	function formverify_sub(formData, jqForm, options) {
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['mid']==0){
+			document.creatsubject.mid.focus();
+			alert(createmain_js_mid_empty);
+			return false;
+		}
+		var loadurl='index.php?archive=createmain&action=createsubwindow&lng='+get['lng']+'&mid='+get['mid']+'&sid='+get['sid'];
+		parent.windowsdig('Loading','iframe:'+loadurl,'750px','400px','iframe',false);
+		return false;
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		if (options=='true'){
+			alert(createmain_js_add_ok);
+		}else{
+			alert(createmain_js_add_no);
+		}
+		parent.onaletdoc()
+	}
+	function sub_searchoption(mid,title){
+		var lng=document.creatsubject.lng.value;
+		lng = (lng=='big5') ? 'cn' : lng;
+		selectlinkagelng('sid','index.php?archive=connected&action=scsublist&optiontitle='+title+'&mid='+mid+'&lng='+lng);
+	}
+	function lngsubject(lng){
+		lng = (lng=='big5') ? 'cn' : lng;
+		selectlinkagelng('sub_midbotton','index.php?archive=connected&action=scmodellist&creattype=type&isbase=2&issid=1&lng='+lng);
+		sub_searchoption(1000000,'[%$ST.all_botton|escape('url')%]');
+	}
+</script>
+</head>
+
+<body>
+<form method="post" name="creatsubject" id="creatsubject" action="index.php?archive=createmain&action=typesave">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.createmain_sub_creat_title%]</span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.createmain_add_lng%]</td>
+						<td class="trtitle02">
+							[%if $is_alonelng==1%]
+								[%$home_lng%]
+								<input type="hidden" name="lng" id="lng_sub" value="[%$home_lng%]">
+							[%else%]
+								<select size="1" name="lng" id="lng_sub" onchange="javascript:lngsubject(this.value);">
+								[%forlist from=$lnglist key=list%]
+									<option [%$lnglist[list].selected%] value="[%$lnglist[list].lng%]">[%$lnglist[list].lngtitle%]</option>
+								[%/forlist%]
+								</select>
+							[%/if%]
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.createmain_add_mid%]</td>
+						<td class="trtitle02">
+							<select size="1" name="mid" id="sub_midbotton" onchange="javascript:sub_searchoption(this.value,'[%$ST.all_botton|escape('url')%]')">
+								<option value="0">[%$ST.createmain_add_mid_option%]</option>
+								[%forlist from=$modelarray key=list%]
+								<option value="[%$modelarray[list].mid%]">[%$modelarray[list].modelname%]</option>
+								[%/forlist%]
+							</select>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.createmain_sub_add_sub%]</td>
+						<td class="trtitle02">
+							<select size="1" name="sid" id="sid">
+								<option value="0">[%$ST.all_botton%]</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td><input type="submit" name="Submit" value="[%$ST.botton_cerathtml%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

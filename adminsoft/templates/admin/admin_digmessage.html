@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" language="JavaScript">
+	var iframename = "[%$iframename%]";
+	var digheight="[%$digheight%]";
+	var isfunction="[%$isfunction%]";
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}	
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var seconds = 5;
+	var defaultUrl = "[%$linkURL%]";
+	onload = function() {
+		if (defaultUrl == 'javascript:history.go(-1)' && window.history.length == 0){
+		    document.getElementById('redirectionMsg').innerHTML = '';
+		    return;
+		}
+		window.setInterval(redirection, 1000);
+	}
+
+	function redirection(){
+		if (seconds <= 0){
+			window.clearInterval();
+			return;
+		}
+		seconds --;
+		document.getElementById('spanSeconds').innerHTML = seconds;
+		if (seconds == 0){
+			window.clearInterval();
+
+			execute();
+		}
+	}
+
+	function execute(){
+
+		[%if $isfunction==1%]
+			parent.[%$functionname%]();
+		[%else%]
+			closewindow();
+		[%/if%]
+
+
+
+
+	}
+
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		h=digheight>0 ? digheight : h;
+		$('.managebottonadd').css({height:h-40});
+	});
+</script>
+</head>
+
+<body>
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="padding-left5 colorgorningage">[%$ST.digmessage_title_mess%]</span></span>
+		</div>
+		<div class="manageeditdiv_fff">
+			<div class="maneditcontent">
+				<table class="formtablewin">
+					<tr>
+						<td id="center" style="padding:5px;"><img alt="" src="templates/images/Infoicon50.gif" /></td>
+					</tr>
+					<tr class="trstyle2">
+						<td id="center" class="strong colorgorningage">[%$calltitle%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td id="center" class="strong colorgorning2">[%$ST.digmessage_spanSeconds_mess_left%]<span id="spanSeconds">5</span>[%$ST.digmessage_spanSeconds_mess_right%]</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td id="center"><input type="submit" name="Submit" value="[%$bottonName%]" class="buttonface" onclick="javascript:execute();" title="[%$bottonName%]"/></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</body>
+
+</html>

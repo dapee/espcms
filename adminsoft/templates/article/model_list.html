@@ -1,0 +1,44 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" title="[%$array[list].modelname%]" [%if @this->powercheck('article','modeledit')==true %]ondblClick="javascript:parent.onbotton('[%$array[list].modelname|addslashes('hc')%][%$ST.modelmanage_edit_title%]','index.php?archive=modelmanage&action=modeledit&id=[%$array[list].mid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'midedit[%$array[list].mid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="10%"><input type="checkbox" name="selectinfoid" value="[%$array[list].mid%]"></td>
+			<td width="10%">[%$array[list].mid%]</td>
+			<td width="50%">[%$array[list].modelname%]</td>
+			<td width="10%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].lockin==1%]<span class="system_ok" title="[%$ST.modelmanage_lockin_ok%]"></span>[%else%]<span class="system_no" title="[%$ST.modelmanage_lockin_no%]"></span>[%/if%]</td>
+						<td>[%if $array[list].isclass==1%]<span class="audit_ok" title="[%$ST.open_botton_title%]"></span>[%else%]<span class="audit_no" title="[%$ST.close_botton_title%]"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="20%" id="infotype">
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						<td><a class="setedit2" onclick="javascript:parent.onbotton('[%$array[list].modelname|addslashes('hc')%][%$ST.modelmanage_text_attlist_title%]','index.php?archive=management&action=list&listfunction=modelattlist&mid=[%$array[list].mid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'attlist[%$array[list].mid%]',self.frameElement.getAttribute('name'));" id="attlist[%$array[list].mid%]" href="#body" title="[%$ST.modelmanage_text_attlist_title%]" hidefocus="true">[%$ST.viewmodeatt_botton%]</a></td>
+						[%if @this->powercheck('article','modeledit')==true %]
+						<td class="padding-left3"><a class="setedit" onclick="javascript:parent.onbotton('[%$array[list].modelname|addslashes('hc')%][%$ST.modelmanage_edit_title%]','index.php?archive=modelmanage&action=modeledit&id=[%$array[list].mid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'midedit[%$array[list].mid%]',self.frameElement.getAttribute('name'));" id="midedit[%$array[list].mid%]"href="#body" title="[%$array[list].modelname%][%$ST.modelmanage_edit_title%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+						[%/if%]
+						[%if @this->powercheck('article','delmodel')==true %]
+						[%if $array[list].lockin!=1%]
+						<td class="padding-left3"><a class="setedit" onclick="javascript:submiturl('index.php?archive=modelmanage&action=delmodel&id=[%$array[list].mid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),'index.php?archive=management&action=load','[%$ST.run_ok%]','[%$ST.run_no%]',true,'[%$ST.del_messok%]','selectform','selectall','check_all');" href="#body" title="[%$ST.setdel_botton%]" hidefocus="true">[%$ST.setdel_botton%]</a></td>
+						[%/if%]
+						[%/if%]
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+	<tr>
+	    <td align="center">[%$ST.list_nothing_title%]</td>
+	</tr>
+</table>
+</div>
+[%/if%]

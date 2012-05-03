@@ -1,0 +1,504 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="../public/tinyMCE/jquery.tinymce.js"></script>
+<script type="text/javascript" src="js/dialog.js"></script>
+<script type="text/javascript" src="js/colorpicker.js"></script>
+<script type="text/javascript" src="js/initedit.js"></script>
+<script type="text/javascript" src="../js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var article_js_noselect_empty  = "[%$ST.article_js_noselect_empty%]";
+	var article_js_input_err  = "[%$ST.article_js_input_err%]";
+	var article_doc_add_tid  = "[%$ST.article_doc_add_tid%]";
+	var article_js_link_empty  = "[%$ST.article_js_link_empty%]";
+	var article_js_template_empty  = "[%$ST.article_js_template_empty%]";
+	var article_js_filename_empty  = "[%$ST.article_js_filename_empty%]";
+	var article_js_doc_add_ok = "[%$ST.article_js_doc_add_ok%]";
+	var article_js_doc_add_ok2 = "[%$ST.article_js_doc_add_ok2%]";
+	var article_js_doc_add_no = "[%$ST.article_js_doc_add_no%]";
+	var refalse = "[%$refalse%]";
+	var imagestitle="[%$ST.filemanage_select_title%]";
+	var addbottonname="[%$ST.selectfile_botton%]";
+	var remimages="[%$ST.remimages_botton%]";
+	var adminurl = "[%$adminurl%]";
+	var mid = "[%$mid%]";
+	var iframename = "[%$iframename%]";
+	iframename = iframename=='' ? "jerichotabiframe_0" : iframename;
+	
+	$(document).ready(function(){
+		editshow("#content");
+		[%forlist from=$modelatt key=list%]
+		[%if ($modelatt[list].inputtype=='editor' && $modelatt[list].attrname!='content')%]
+		editsimpleshow("#[%$modelatt[list].attrname%]");
+		[%/if%]
+		[%/forlist%]
+		
+		$('#color').EasySiteColorSelect();
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var options = {
+			beforeSubmit: formverify,
+			success:saveResponse,
+			resetForm: false
+		};
+		$('#docadd').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+		parent.scrolclear();
+	})
+
+
+
+
+	function formverify(formData, jqForm, options) {
+		for (var i=0; i< formData.length; i++){
+			[%forlist from=$modelatt key=list%]
+			[%if ($modelatt[list].inputtype=='editor')%]
+				if (formData[i].name == "[%$modelatt[list].attrname%]"){
+					formData[i].value=tinyMCE.get('[%$modelatt[list].attrname%]').getContent();
+				}
+			[%/if%]
+			[%/forlist%]
+		}
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		
+		[%forlist from=$modelatt key=list%]
+			[%if ($modelatt[list].isvalidate==1)%]
+			[%if ($modelatt[list].validatetext!='')%]
+				if(get['[%$modelatt[list].attrname%]'].match([%$modelatt[list].validatetext%]ig)==null) {
+			[%else%]
+				if(get['[%$modelatt[list].attrname%]']==''){
+			[%/if%]
+				document.docadd.[%$modelatt[list].attrname%].focus();
+				alert('[%$modelatt[list].typename%]'+article_js_input_err);
+				return false;
+			}
+			[%/if%]
+		[%/forlist%]
+		
+		if(get['islink']==1){
+			if(get['link'].match(/^http:\/\/[a-zA-Z.0-9-%&?=/_]+$/ig)==null) {
+				document.docadd.link.focus();
+				alert(article_js_link_empty);
+				return false;
+			}
+		}
+		
+		if(get['tid']==0){
+			document.docadd.tid.focus();
+			alert(article_doc_add_tid+article_js_noselect_empty);
+			return false;
+		}
+		if(get['istemplates']==1){
+			if(get['template'].match(/^[\w-]+$/ig)==null) {
+				document.docadd.template.focus();
+				alert(article_js_template_empty);
+				return false;
+			}
+		}
+		if(get['filename']!=''){
+			if(get['filename'].match(/^[\w-//]+$/ig)==null) {
+				document.docadd.filename.focus();
+				alert(article_js_filename_empty);
+				return false;
+			}
+		}
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		if (options=='true'){
+			if(parent.frames[iframename].document.getElementById("selectform")){
+				parent.frames[iframename].refresh('selectform','selectall','check_all');
+			}
+			if (refalse!='1'){
+				alert(article_js_doc_add_ok);
+			}else{
+				alert(article_js_doc_add_ok2);
+			}
+		}else{
+			alert(article_js_doc_add_no+'Return message:'+options);
+		}
+		if (refalse!='1'){
+			parent.scrolopen();
+			parent.onaletdoc();
+		}else{
+			window.location.reload();
+		}
+	}
+</script>
+</head>
+
+<body>
+<form name="docadd" id="docadd" method="post" action="index.php?archive=article&action=docsave">
+<input type="hidden" name="inputclass" value="add">
+<input type="hidden" name="tab" id="docaddtab" value="[%$tab%]">
+<input type="hidden" name="mid" id="mid" value="[%$mid%]">
+<input type="hidden" name="lng" id="lng" value="[%$lng%]">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.article_doc_tab_title%]</span> <span class="colorgorningage">[%$modelview.modelname%]</span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					[%if $modelview.istsn%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.article_doc_add_tsn%]</td>
+						<td class="trtitle02">
+							<input type="text" name="tsn" size="25" maxlength="20" value="[%$tsn%]" id="tsn" class="infoInput"/>
+							<span class="cautiontitle" id="dirnameerr">[%$ST.article_doc_add_tsn_mess%]</span>
+						</td>
+					</tr>
+					[%/if%]
+					[%forlist from=$modelatt key=list%]
+						<tr class="trstyle2">
+							<td class="trtitle01[%if ($modelatt[list].isvalidate==1)%]1[%/if%]">[%$modelatt[list].typename%]</td>
+							<td class="trtitle02">
+								[%if $modelatt[list].inputtype=='string' || $modelatt[list].inputtype=='int' || $modelatt[list].inputtype=='float' || $modelatt[list].inputtype=='decimal'%]
+								<input type="text" name="[%$modelatt[list].attrname%]" size="[%$modelatt[list].attrsize%]" id="[%$modelatt[list].attrname%]" value="[%$modelatt[list].attrvalue%]" maxlength="[%$modelatt[list].attrlenther%]" class="infoInput"/>
+								[%elseif ($modelatt[list].inputtype=='text' || $modelatt[list].inputtype=='editor' || $modelatt[list].inputtype=='htmltext')%]
+								<textarea name="[%$modelatt[list].attrname%]" id="[%$modelatt[list].attrname%]"  style="width:99%;height:[%$modelatt[list].attrrow%]px;" class="infoInput">[%$modelatt[list].attrvalue%]</textarea>
+								[%elseif ($modelatt[list].inputtype=='img')%]
+								<ul class="addpiclist">
+									<li><a title="[%$ST.selectfile_botton%]" onclick="javascript:parent.windowsdig('[%$ST.filemanage_select_title%]','iframe:index.php?archive=filemanage&action=filewindow&listfunction=filelist&filetype=img&checkfrom=picshow&getbyid=addsr[%$modelatt[list].attrname%]&fileinputid=[%$modelatt[list].attrname%]&maxselect=1&iframename='+self.frameElement.getAttribute('name'),'900px','480px','iframe')" href="#body"><p><img id="addsr[%$modelatt[list].attrname%]" src="templates/images/pic.png"></p></a></li>
+								</ul>
+								<input type="hidden" name="[%$modelatt[list].attrname%]" id="[%$modelatt[list].attrname%]"/>
+								[%elseif ($modelatt[list].inputtype=='selectinput')%]
+								<input type="text" name="[%$modelatt[list].attrname%]" size="[%$modelatt[list].attrsize%]" id="[%$modelatt[list].attrname%]" value="" maxlength="[%$modelatt[list].attrlenther%]" class="infoInput"/>
+								<select size="1" name="[%$modelatt[list].attrname%]selectinputvalue" onchange="javascript:$('#[%$modelatt[list].attrname%]').val(this.value)">
+									<option value="">[%$ST.botton_select_name%][%$modelatt[list].typename%]</option>
+									[%forlist from=$modelatt[list].selectinputvalue key=ii%]
+									<option value="[%$modelatt[list].selectinputvalue[ii].name%]">[%$modelatt[list].selectinputvalue[ii].name%]</option>
+									[%/forlist%]
+								</select>
+								[%elseif ($modelatt[list].inputtype=='addon')%]
+								<input type="text" name="[%$modelatt[list].attrname%]" size="[%$modelatt[list].attrsize%]" id="[%$modelatt[list].attrname%]" value="" maxlength="[%$modelatt[list].attrlenther%]" class="infoInput"/>
+								<a class="filecheck" onclick="javascript:parent.windowsdig('[%$ST.filemanage_select_title%]','iframe:index.php?archive=filemanage&action=filewindow&listfunction=filelist&filetype=file&checkfrom=input&getbyid=&fileinputid=[%$modelatt[list].attrname%]&maxselect=1&iframename='+self.frameElement.getAttribute('name'),'900px','480px','iframe')" href="#body">[%$ST.selectfile_botton%]</a>
+								[%elseif ($modelatt[list].inputtype=='video')%]
+								<input type="text" name="[%$modelatt[list].attrname%]" size="[%$modelatt[list].attrsize%]" id="[%$modelatt[list].attrname%]" value="" maxlength="[%$modelatt[list].attrlenther%]" class="infoInput"/>
+								<a class="movercheck" onclick="javascript:parent.windowsdig('[%$ST.filemanage_select_title%]','iframe:index.php?archive=filemanage&action=filewindow&listfunction=filelist&filetype=mover&checkfrom=input&getbyid=&fileinputid=[%$modelatt[list].attrname%]&maxselect=1&iframename='+self.frameElement.getAttribute('name'),'900px','480px','iframe')" href="#body">[%$ST.selectfile_botton%]</a>
+								[%elseif ($modelatt[list].inputtype=='datetime')%]
+								<input type="text" name="[%$modelatt[list].attrname%]" size="[%$modelatt[list].attrsize%]" id="[%$modelatt[list].attrname%]" maxlength="[%$modelatt[list].attrlenther%]" class="infoInput"/>
+								<a class="datetime" onclick="WdatePicker({el:'[%$modelatt[list].attrname%]',readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})" href="#body">[%$ST.selectdata_botton%]</a>
+								[%elseif ($modelatt[list].inputtype=='select')%]
+								<select size="1" name="[%$modelatt[list].attrname%]" id="[%$modelatt[list].attrname%]">
+									<option value="">[%$ST.botton_select_name%][%$modelatt[list].typename%]</option>
+									[%forlist from=$modelatt[list].attrvalue key=ii%]
+									<option [%$modelatt[list].attrvalue[ii].selected%] value="[%$modelatt[list].attrvalue[ii].name%]">[%$modelatt[list].attrvalue[ii].name%]</option>
+									[%/forlist%]
+								</select>
+								[%elseif ($modelatt[list].inputtype=='radio')%]
+									[%forlist from=$modelatt[list].attrvalue key=ii%]
+									<input type="radio" value="[%$modelatt[list].attrvalue[ii].name%]" name="[%$modelatt[list].attrname%]" [%if $modelatt[list].attrvalue[ii].selected=='selected'%]checked="checked"[%/if%]/> [%$modelatt[list].attrvalue[ii].name%]&nbsp;
+									[%/forlist%]
+								[%elseif ($modelatt[list].inputtype=='checkbox')%]
+									[%forlist from=$modelatt[list].attrvalue key=ii%]
+									<input type="checkbox" value="[%$modelatt[list].attrvalue[ii].name%]" name="[%$modelatt[list].attrname%][]"/> [%$modelatt[list].attrvalue[ii].name%]&nbsp;
+									[%/forlist%]
+								[%/if%]
+								[%if $modelatt[list].attrname=='title'%]<input id="color" name="color" value="[%$defaultinput.input_color%]"/>[%/if%]
+								[%if $modelatt[list].typeremark!=''%]<span class="cautiontitle">[%$modelatt[list].typeremark%]</span>[%/if%]
+							</td>
+						</tr>
+						[%if $modelatt[list].attrname=='content'%]
+						<tr class="trstyle2">
+							<td class="trtitle01"></td>
+							<td class="trtitle02 colorgblue">
+								<input type="checkbox" value="1" name="input_isdellink" [%if $defaultinput.input_isdellink==1%]checked="checked"[%/if%]> [%$ST.article_doc_add_content_b1%]&nbsp;
+								<input type="checkbox" value="1" name="donwloadpic"/> [%$ST.article_doc_add_content_b2%]&nbsp;
+							</td>
+						</tr>
+						[%/if%]
+					[%/forlist%]
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.article_doc_tab_title01%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01"></td>
+						<td class="trtitle02">
+							<a class="keyselect" href="#body" onclick="javascript:parent.windowsdig('[%$ST.selecttag_botton%]','iframe:index.php?archive=seomanage&action=listwindow&inputtext=tags&listfunction=key&checkfrom=input&mid=[%$mid%]&tid='+document.docadd.tid.value+'&iframename='+self.frameElement.getAttribute('name'),'650px','380px','iframe');">[%$ST.selecttag_botton%]</a>
+						</td>
+					</tr>
+					<tr class="trstyle3">
+						<td class="trtitle01">[%$ST.article_doc_add_tags%]</td>
+						<td class="trtitle02">
+							<input type="text" name="tags" id="tags" maxlength="100" class="infoInput" style="width:98%;"/>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01"></td>
+						<td class="trtitle02"><span class="cautiontitle">[%$ST.article_doc_add_tags_mess%]</span></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01"></td>
+						<td class="trtitle02">
+							<a class="keyselect" href="#body" onclick="javascript:parent.windowsdig('[%$ST.selectkeytype_botton%]','iframe:index.php?archive=seomanage&action=listwindow&inputtext=keywords&listfunction=keytype&checkfrom=function&maxselect=1&mid=[%$mid%]&tid='+document.docadd.tid.value+'&iframename='+self.frameElement.getAttribute('name'),'850px','450px','iframe');">[%$ST.selectkeytype_botton%]</a>
+							<a class="keyselect" href="#body" onclick="javascript:parent.windowsdig('[%$ST.selectkeyword_botton%]','iframe:index.php?archive=seomanage&action=listwindow&inputtext=keywords&listfunction=key&checkfrom=input&mid=[%$mid%]&tid='+document.docadd.tid.value+'&iframename='+self.frameElement.getAttribute('name'),'650px','380px','iframe');">[%$ST.selectkeyword_botton%]</a>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.article_doc_add_keywords%]</td>
+						<td class="trtitle02">
+							<input type="text" name="keywords" id="keywords" maxlength="100" class="infoInput" style="width:98%;"/>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.article_doc_add_description%]</td>
+						<td class="trtitle02">
+							<textarea name="description" id="description"  style="width:98%;height:50px;" class="smallInput"></textarea>
+						</td>
+					</tr>
+					
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.article_doc_tab_title02%]</td>
+					</tr>
+					
+					[%if count($doclabel)>0 && $modelview.isbase==0%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.article_doc_add_recommend%]</td>
+						<td class="trtitle02" style="line-height: 200%">
+							[%forlist from=$doclabel key=list%]
+								<input type="checkbox" value="[%$doclabel[list].dlid%]" name="recommend[]"/> [%$doclabel[list].labelname%]&nbsp;
+								[%div=>list=5%]<br>[%/div=>list%]
+							[%/forlist%]
+						</td>
+					</tr>
+					[%/if%]
+					[%if $modelview.isbase==0%]
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.article_doc_add_tid%]</td>
+						<td class="trtitle02">
+							<select size="1" name="tid" id="tid">
+								<option selected="selected" value="0">[%$ST.article_doc_add_tid_option%]</option>
+								[%forlist from=$typelist key=list%]
+								<option [%$typelist[list].selected%] value="[%$typelist[list].tid%]">[%if $typelist[list].level>0%]├[%/if%][%$typelist[list].level|treelist('─')%] [%$typelist[list].typename%]</option>
+								[%/forlist%]
+							</select>
+						</td>
+					</tr>
+					[%/if%]
+					[%if $modelview.isextid==1%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.article_doc_add_extid%]</td>
+						<td class="trtitle02">
+							<select size="3" name="extid[]" id="extid" multiple="multiple">
+								<optgroup label="[%$ST.article_doc_add_extid_option%]">
+								[%forlist from=$typelist key=list%]
+								<option value="[%$typelist[list].tid%]">[%if $typelist[list].level>0%]├[%/if%][%$typelist[list].level|treelist('─')%] [%$typelist[list].typename%]</option>
+								[%/forlist%]
+								</optgroup>
+							</select>
+						</td>
+					</tr>
+					[%/if%]
+					[%if $modelview.issid==1%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.article_doc_add_sid%]</td>
+						<td class="trtitle02">
+							<select size="1" name="sid" id="sid">
+								<option selected="selected" value="0">[%$ST.article_doc_add_sid_option%]</option>
+								[%forlist from=$subjectlistarray key=list%]
+								<option value="[%$subjectlistarray[list].sid%]">[%$subjectlistarray[list].subjectname%]</option>
+								[%/forlist%]
+							</select>
+						</td>
+					</tr>
+					[%/if%]
+					[%if $modelview.isfgid==1%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.article_doc_add_fgid%]</td>
+						<td class="trtitle02">
+							<select size="1" name="fgid" id="fgid">
+								<option selected="selected" value="0">[%$ST.article_doc_add_fgid_option%]</option>
+								[%forlist from=$formarray key=list%]
+								<option value="[%$formarray[list].fgid%]">[%$formarray[list].formgroupname%]</option>
+								[%/forlist%]
+							</select>
+							<span class="cautiontitle" id="dirnameerr">[%$ST.article_doc_add_fgid_mess%]</span>
+						</td>
+					</tr>
+					[%/if%]
+					[%if $modelview.ispurview==1%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.article_doc_add_purview%]</td>
+						<td class="trtitle02">
+							<select size="1" name="purview" id="purview">
+								<option selected="selected" value="0">[%$ST.article_doc_add_purview_option%]</option>
+								[%forlist from=$memberpuvlist key=list%]
+								<option value="[%$memberpuvlist[list].mcid%]">[%$memberpuvlist[list].rankname%]</option>
+								[%/forlist%]
+							</select>
+						</td>
+					</tr>
+					[%/if%]
+					[%if $modelview.isbase==0%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.article_doc_add_addtime%]</td>
+						<td class="trtitle02">
+							<input type="text" name="addtime" size="20" maxlength="30" id="addtime" value="[%$nowtime|timeformat(3)%]" class="infoInput"/>
+							<a class="datetime" onclick="WdatePicker({el:'addtime',isShowClear:false,readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})" href="#body">[%$ST.selectdata_botton%]</a>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.article_doc_add_click%]</td>
+						<td class="trtitle02">
+							<input type="text" name="click" size="5" maxlength="5" id="click" value="[%$defaultinput.input_click%]" class="infoInput"/>
+							<span class="cautiontitle">[%$ST.article_doc_add_click_mess%]</span>
+						</td>
+					</tr>
+					[%/if%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.article_doc_add_islink%]</td>
+						<td class="trtitle02">
+							<input type="radio" value="1" name="islink" onclick="ondisplay('islinkdiv','trstyle2 displaytrue')" /> [%$ST.open_botton_title%]&nbsp;
+							<input type="radio" value="0" name="islink" onclick="ondisplay('islinkdiv','trstyle2 displaynone')"checked="checked"/> [%$ST.close_botton_title%]
+							<span class="cautiontitle">[%$ST.article_doc_add_islink_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2 displaynone" id="islinkdiv">
+						<td class="trtitle011">[%$ST.article_doc_add_link%]</td>
+						<td class="trtitle02">
+							<input type="text" name="link" size="50" maxlength="230" class="infoInput"/>
+							<span class="cautiontitle">[%$ST.article_doc_add_link_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.article_doc_tab_title03%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.article_doc_add_ishtml%]</td>
+						<td class="trtitle02">
+							<input type="radio" value="1" name="ishtml" checked="checked"/> [%$ST.article_doc_add_ishtml_1%]&nbsp;
+							<input type="radio" value="0" name="ishtml"/> [%$ST.article_doc_add_ishtml_0%]
+						</td>
+					</tr>
+					[%if $modelview.isorder==1%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.article_doc_add_isorder%]</td>
+						<td class="trtitle02">
+							<input type="radio" value="1" name="isorder" checked="checked"/> [%$ST.open_botton_title%]&nbsp;
+							<input type="radio" value="0" name="isorder"/> [%$ST.close_botton_title%]
+							<span class="cautiontitle">[%$ST.article_doc_add_isorder_mess%]</span>
+						</td>
+					</tr>
+					[%/if%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.article_doc_add_istemplates%]</td>
+						<td class="trtitle02">
+							<input type="radio" value="1" name="istemplates" onclick="ondisplay('istemplatesdiv','trstyle2 displaytrue')"/> [%$ST.open_botton_title%]&nbsp;
+							<input type="radio" value="0" name="istemplates" onclick="ondisplay('istemplatesdiv','trstyle2 displaynone')" checked="checked"/> [%$ST.close_botton_title%]
+							<span class="cautiontitle">[%$ST.article_doc_add_istemplates_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2 displaynone" id="istemplatesdiv">
+						<td class="trtitle011">[%$ST.article_doc_add_template%]</td>
+						<td class="trtitle02">
+							<input type="text" name="template" id="templatename" size="40" maxlength="100" class="infoInput"/>
+							<a class="filecheck" href="#body" onclick="javascript:parent.windowsdig('[%$ST.selecttempfile_botton%]','iframe:index.php?archive=templatemain&action=listwindow&inputtext=templatename&typeclass=article&skindir=&filedir=article&fileclass=&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),'750px','400px','iframe');">[%$ST.selecttempfile_botton%]</a>
+							<span class="cautiontitle">[%$ST.article_doc_add_template_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.article_doc_add_filename%]</td>
+						<td class="trtitle02">
+							<input type="text" name="filename" size="40" maxlength="50" class="infoInput"/>
+							<span class="cautiontitle">[%$ST.article_doc_add_filename_mess%]</span>
+						</td>
+					</tr>
+					[%if $modelview.ismessage==1%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.article_doc_add_ismessage%]</td>
+						<td class="trtitle02">
+							<input type="radio" value="1" name="ismessage" checked="checked"/> [%$ST.article_doc_add_ismessage_1%]&nbsp;
+							<input type="radio" value="0" name="ismessage"/> [%$ST.article_doc_add_ismessage_0%]
+						</td>
+					</tr>
+					[%/if%]
+					[%if $modelview.isalbum==1%]
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.article_doc_tab_title00%]</td>
+					</tr>
+					<tr class="trstyle3">
+						<td class="trtitle01">[%$ST.article_doc_add_piclist%]</td>
+						<td class="trtitle02">
+							<a class="picselect" href="#body" onclick="javascript:parent.windowsdig('[%$ST.selectpic_botton%]','iframe:index.php?archive=filemanage&action=filewindow&listfunction=filelist&filetype=img&checkfrom=function&getbyid=addpiclist&fileinputid=albumlist&maxselect=20&iframename='+self.frameElement.getAttribute('name'),'900px','480px','iframe')">[%$ST.selectpic_botton%]</a>
+							<span class="cautiontitle">[%$ST.selectpic_botton_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01"></td>
+						<td class="trtitle02">
+							<ul class="albumlistinput" id="addpiclist" ></ul>
+							<input type="hidden" name="albumlist" id="albumlist"/>
+						</td>
+					</tr>
+					[%/if%]
+					[%if $modelview.islinkdid==1%]
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.article_doc_tab_title04%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.article_doc_add_linkdid%]</td>
+						<td class="trtitle02">
+							<a class="filecheck" href="#body" onclick="javascript:parent.windowsdig('[%$ST.article_doc_add_linkdid%]','iframe:index.php?archive=article&action=listwindow&checkfrom=function&getbyid=infolinked&inputtext=linkdid&mid=[%$mid%]&tid=[%$tid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),'800px','400px','iframe');">选择内容</a>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01"></td>
+						<td class="trtitle02">
+							<ul class="infolinked" id="infolinked"></ul>
+							<input type="hidden" name="linkdid" id="linkdid"/>
+						</td>
+					</tr>
+					[%/if%]
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table width="100%">
+			<tr>
+				<td id="right"><input type="submit" id="docaddsubmitbotton" name="Submit" value="[%$ST.botton_add%]" class="buttonface" /></td>
+				<td id="left" class="padding-left5"><input type="button" name="cancel" onClick="javascript:closewindow();" value="[%$ST.botton_add_reset%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>
+
+

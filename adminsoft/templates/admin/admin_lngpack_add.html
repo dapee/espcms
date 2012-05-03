@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var languagepack_js_title_empty  = "[%$ST.languagepack_js_title_empty%]";
+	var languagepack_js_keycode_empty = "[%$ST.languagepack_js_keycode_empty%]";
+	var languagepack_js_langstr_err = "[%$ST.languagepack_js_langstr_err%]";
+	var languagepack_js_add_ok = "[%$ST.languagepack_js_add_ok%]";
+	var languagepack_js_add_no = "[%$ST.languagepack_js_add_no%]";
+	var lngcode_yes = "[%$ST.lngcode_yes%]";
+	var lngcode_no = "[%$ST.lngcode_no%]";
+	var iframename = "[%$iframename%]";
+	iframename = iframename=='' ? "jerichotabiframe_0" : iframename;
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var options = {
+
+			beforeSubmit: formverify,
+
+			success:saveResponse,
+			resetForm: false
+		}
+		$('#lngpackadd').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	})
+
+
+
+
+	function formverify(formData) {
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['title']==""){
+			document.lngpackadd.title.focus();
+			alert(languagepack_js_title_empty);
+			return false;
+		}
+		if(get['keycode'].match(/^[a-z]{1}[a-z0-9_]{1,29}$/g)==null) {
+			document.lngpackadd.keycode.focus();
+			alert(languagepack_js_keycode_empty);
+			return false;
+		}
+		if(get['langstr']==""){
+			document.lngpackadd.langstr.focus();
+			alert(languagepack_js_langstr_err);
+			return false;
+		}
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		var tab=document.getElementById("lngpackaddtab").value;
+		if (options=='true'){
+			if (tab=='true'){
+				if(parent.frames[iframename].document.getElementById("pageinfo")){
+					parent.frames[iframename].refresh('selectform','selectall','check_all');
+				}
+			}
+			alert(languagepack_js_add_ok);
+		}else{
+			alert(languagepack_js_add_no);
+		}
+		if (tab=='true'){
+			parent.onaletdoc()
+		}
+	}
+
+	function checkcode(){
+		var um=document.getElementById('codeerr');
+		var keycode=document.getElementById("keycode").value;
+		var lng=document.getElementById("lng").value;
+		if(keycode==""){
+			um.innerHTML="<font color=\"red\">"+lngcode_no+"</font>";
+			$('#submitbotton').attr('disabled','true');
+			return false;
+		}
+		$.ajax({
+			type: "POST",
+			url: "index.php?archive=languagepack&action=codedb",
+			data: "codename="+keycode+"&lng="+lng,
+			success: function(date){
+				if (date=="false"){
+					um.innerHTML="<font color=\"red\">"+lngcode_no+"</font>";
+					$('#submitbotton').attr('disabled','true');
+				}else{
+					um.innerHTML="<font color=\"#1CB521\">"+lngcode_yes+"</font>";
+					$('#submitbotton').attr('disabled','');
+				}
+			}
+		});
+	}
+</script>
+</head>
+
+<body>
+<form name="lngpackadd" id="lngpackadd" method="post" action="index.php?archive=languagepack&action=save">
+<input type="hidden" name="inputclass" value="add">
+<input type="hidden" name="tab" id="lngpackaddtab" value="[%$tab%]">
+<input type="hidden" name="lng" id="lng" value="[%$lng%]">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.languagepack_add_mess%]</span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.languagepack_add_typeid%]</td>
+						<td class="trtitle02">
+							<select size="1" name="typeid" id="typeid">
+							[%forlist from=$lantype key=list%]
+								<option [%$lantype[list].selected%] value="[%$lantype[list].key%]">[%$lantype[list].name%]</option>
+							[%/forlist%]
+							</select>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.languagepack_add_title%]</td>
+						<td class="trtitle02"><input type="text" name="title" size="30" maxlength="50" class="infoInput"/> <span class="cautiontitle">[%$ST.languagepack_add_title_mess%]</span></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.languagepack_add_keycode%]</td>
+						<td class="trtitle02"><input type="text" name="keycode" id="keycode" size="30" maxlength="30" class="infoInput" onblur="checkcode();"/> <span id="codeerr" class="cautiontitle">[%$ST.languagepack_add_keycode_mess%]</span></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.languagepack_add_langstr%]</td>
+						<td class="trtitle02" id="codetext"><textarea name="langstr" id="langstr" style="width:98%;height:50px;" class="smallInput"></textarea></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td id="right"><input type="submit" id="submitbotton" name="Submit" value="[%$ST.botton_add%]" class="buttonface" /></td>
+				<td id="left" class="padding-left5"><input type="button" name="cancel" onClick="javascript:parent.onaletdoc();" value="[%$ST.botton_add_reset%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

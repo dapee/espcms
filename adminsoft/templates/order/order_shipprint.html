@@ -1,0 +1,69 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>打印快递模板</title>
+<style type="text/css" media="print">
+.noprint{display:none}
+</style>
+<style type="text/css">
+body{
+	font-size:9pt;
+	background:url('../public/plug/shipplug/[%$pic%]') no-repeat 0px 0px;
+}
+.jqDrag {
+  width: 100%;
+  height:100%;
+  cursor: move;
+}
+.jqResize {
+   width: 11px;
+   height:10px;
+   bottom:0px;
+   right:0px;
+   cursor: se-resize;
+   position: absolute;
+
+}
+.jqDnR {
+	position: absolute;
+	width: 100px;
+	font-size:9pt;
+	margin: 0px;
+	padding: 0px;
+}
+.jqDnR2 {
+	position: absolute;
+	width: 100px;
+	font-size: 9pt;
+	margin: 0px;
+	padding: 0px;
+}
+#divTest{
+	position: absolute;
+	padding:8px;
+	background-color: #D5ECF1;
+	width: 100%;
+	text-align:center;
+	zindex:100;
+	bottom:0px;
+	left:0px;
+}
+</style>
+<script type="text/javascript" src="js/jquery13.js"></script>
+<script type="text/javascript" src="js/templates_fu.js" ></script>
+<script type="text/javascript" src="js/dimensions.js"></script>
+<script type="text/javascript">
+function addch(classtype,classtypename,fontfamily,fontsize,fontweight,textdecoration,letterspacing){
+	htmlver=""
+	htmlver+="<div style=\"font-family:"+fontfamily+";font-size:"+fontsize+";font-weight:"+fontweight+";text-decoration:"+textdecoration+";letter-spacing: "+letterspacing+";\" id=\""+classtype+"\" class=\"jqDnR\" onmouseover=\"javascript:cheach('"+classtype+"');\" onmouseout=\"javascript:outch('"+classtype+"');\" ondblclick=\"javascript:delch('"+classtype+"');\"><div class=\"jqHandle jqDrag\">"+classtypename+"</div><div class=\"jqHandle jqResize\"></div></div>"
+	$('#divlist').append(htmlver);
+}
+</script>
+</head>
+
+<body topmargin="0" leftmargin="0">
+[%$templist%]
+<div id="divTest" class=noprint><OBJECT classid="CLSID:8856F961-340A-11D0-A96B-00C04FD705A2" height="0" id="wb" name="wb" width="0" VIEWASTEXT></OBJECT><input type=button name=button_show value="打印预览" class="noprint" onclick="javascript:wb.execwb(7,1);"> <input type=button name=button_show value="打印设置" class="noprint" onclick="javascript:wb.execwb(8,1);"> <input type="button" id="datasubmit" value="确认打印" name="submit" onclick="javascrīpt:window.print()"></div>
+</body>
+</html>

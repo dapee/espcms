@@ -1,0 +1,25 @@
+pre {
+	border: 1px dashed #877C64;
+	padding: 2px;
+	background-color:#DEDBD3;
+	margin: 5px 0 5px 0;
+}
+div.ref {
+	border: 1px solid #ddd;
+	margin: 0 0 10px 0;
+	padding: 2px;
+	font-size: 9pt;
+	background: #FFFEC8;
+}
+div.ref h4 {
+	margin: 0;
+	padding: 2px 3px;
+	background: #CC9966;
+	color: #fff;
+	font-size: 10pt;
+}
+div.ref p {
+	margin: 0;
+	padding: 2px;
+	line-height: 22px;
+}

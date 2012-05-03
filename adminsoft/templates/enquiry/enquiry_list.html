@@ -1,0 +1,41 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" title="[%$array[list].enquirysn%] - [%$array[list].linkman%]"[%if @this->powercheck('order','enquiryedit')==true %] ondblClick="javascript:parent.onbotton('[%$ST.enquirymain_text_read_botton_title%][%$array[list].enquirysn%]','index.php?archive=enquirymain&action=enquiryedit&eid=[%$array[list].eid%]&type=read&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'enquiryread[%$array[list].eid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="5%"><input type="checkbox" name="selectinfoid" value="[%$array[list].eid%]"></td>
+			<td width="10%">[%$array[list].eid%]</td>
+			<td width="20%">[%$array[list].enquirysn%]</td>
+			<td width="15%">[%$array[list].linkman%]</td>
+			<td width="10%">[%if $array[list].userid==0%][%$ST.enquirymain_text_userid0%][%else%]<B>[%$ST.enquirymain_text_userid1%]</B>[%/if%]</td>
+			<td width="17%">[%$array[list].addtime|timeformat(3)%]</td>
+			<td width="10%">
+				[%if $array[list].isclass==0%]<B>[%$ST.enquirymain_text_isclass1%]</B>[%/if%]
+				[%if $array[list].isclass==1%]<span style="color:#4FA621"><b>[%$ST.enquirymain_text_isclass2%]</b></span>[%/if%]
+				[%if $array[list].isclass==2%]<span style="color:#E5432A">[%$ST.enquirymain_text_isclass3%]</span>[%/if%]
+			</td>
+			<td width="13%" id="infotype">
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						[%if @this->powercheck('order','enquiryedit')==true %]
+						<td><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.enquirymain_text_read_botton_title%][%$array[list].enquirysn%]','index.php?archive=enquirymain&action=enquiryedit&eid=[%$array[list].eid%]&type=read&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'enquiryread[%$array[list].eid%]',self.frameElement.getAttribute('name'));" id="enquiryread[%$array[list].eid%]" href="#body" title="[%$array[list].enquirysn%][%$ST.viewfield_botton%]" hidefocus="true">[%$ST.viewfield_botton%]</a></td>
+						[%/if%]
+						[%if @this->powercheck('order','enquiryedit')==true && $array[list].isclass==0%]
+						<td class="padding-left3"><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.enquirymain_edit_log%][%$array[list].enquirysn%]','index.php?archive=enquirymain&action=enquiryedit&eid=[%$array[list].eid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'enquiryedit[%$array[list].eid%]',self.frameElement.getAttribute('name'));" id="enquiryedit[%$array[list].eid%]" href="#body" title="[%$array[list].enquirysn%][%$ST.enquirymain_edit_log%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+						[%/if%]
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+	<tr>
+	    <td align="center">[%$ST.list_nothing_title%]</td>
+	</tr>
+</table>
+</div>
+[%/if%]

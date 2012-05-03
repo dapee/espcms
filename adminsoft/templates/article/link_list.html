@@ -1,0 +1,5 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<li id="didlinklist[%$array[list].did%]">[%$array[list].title%] <span class="del" onclick="delinfolist('didlinklist[%$array[list].did%]','[%$array[list].did%]','linkdid')">删除</span></li>
+[%/forlist%]
+[%/if%]

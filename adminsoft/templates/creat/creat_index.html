@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var createmain_js_mid_empty  = "[%$ST.createmain_js_mid_empty%]";
+	var createmain_js_pnumber_empty  = "[%$ST.createmain_js_pnumber_empty%]";
+	var createmain_js_tid_empty  = "[%$ST.createmain_js_tid_empty%]";
+	var createmain_js_add_ok  = "[%$ST.createmain_js_add_ok%]";
+	var createmain_js_add_no  = "[%$ST.createmain_js_add_no%]";
+	var iframename = "[%$iframename%]";
+	iframename = iframename=='' ? "jerichotabiframe_0" : iframename;
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var options = {
+			beforeSubmit: formverify,
+			success:saveResponse
+		}
+		$("#creatindex").submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	})
+
+
+
+
+	function formverify(formData) {
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		if (options=='true'){
+			alert(createmain_js_add_ok);
+		}else{
+			alert(createmain_js_add_no+options);
+		}
+		parent.onaletdoc()
+	}
+	function lngtype(lng){
+		$.ajax({
+			type:"POST",
+			url:'index.php?archive=language&action=getlngdir',
+			data: 'lng='+lng,
+			success:function(data){
+				if (data!='') {
+					$("#htmldir").empty();
+					$("#htmldir").append(data);
+				}
+			}
+		});
+		
+	}
+</script>
+</head>
+
+<body>
+<form method="post" name="creatindex" id="creatindex" action="index.php?archive=createmain&action=indexsave">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.createmain_home_creat_title%]</span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.createmain_add_lng%]</td>
+						<td class="trtitle02">
+							[%if $is_alonelng==1%]
+								[%$home_lng%]
+								<input type="hidden" name="lng" id="lng" value="[%$home_lng%]">
+							[%else%]
+								<select size="1" name="lng" id="lng" onchange="javascript:lngtype(this.value);">
+								[%forlist from=$lnglist key=list%]
+									<option [%$lnglist[list].selected%] value="[%$lnglist[list].lng%]">[%$lnglist[list].lngtitle%]</option>
+								[%/forlist%]
+								</select>
+							[%/if%]
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.createmain_home_add_path%]</td>
+						<td class="trtitle02">
+						[%if $is_alonelng==1%]
+							/[%$htmldir%][%$entrance%].[%$fileex%]
+						[%else%]
+							/[%$htmldir%]<span id="htmldir">[%$lngdir%]</span>/[%$entrance%].[%$fileex%]
+						[%/if%]
+						<span class="cautiontitle">[%$ST.createmain_home_add_path_mess%]</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td><input type="submit" name="Submit" value="[%$ST.botton_cerathtml%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+<!--js-->
+<script type="text/javascript">
+var loing_input_err = "{%$lngpack.loing_input_err%}";
+var seccode_empty = "{%$lngpack.seescodeerr%}";
+</script>
+<!--end_js-->
+<form name="mainform" method="post" action="{%$mlink.logindb%}" onSubmit="return memberlogin('{%$mem_isseccode%}')">
+<table class="formlist" style="width: 100%;" >
+	<tr>
+		<th width="40%">用户名</th>
+		<td><input type="text" name="username" id="username"  class="infoInput" size="20" maxlength="15" /></td>
+	</tr>
+	<tr>
+		<th>密&nbsp;&nbsp;&nbsp; 码</th>
+		<td><input type="password" name="password" id="password" class="infoInput" size="20" maxlength="15" /></td>
+	</tr>
+	{%if $mem_isseccode==1%}
+	<tr>
+		<th>* 验证码</th>
+		<td>
+			<input type="text" id="seccode" name="seccode" class="infoInput" maxlength="4" size="5" style="text-transform: uppercase;"/> <img title="点击更换验证码" id="memberseccodesrc" onclick="sessionimg('memberseccodesrc','{%$rootdir%}')" src="{%$seccodelink%}" style="cursor: pointer;" align="absmiddle"/>
+		</td>
+	</tr>
+	{%/if%}
+	<tr>
+		<td>&nbsp;</td>
+		<td><input name="submit" type="submit" class="buttonface" value="确认登陆"/></td>
+	</tr>
+	<tr>
+		<td>&nbsp;</td>
+		<td><a href="{%$mlink.reg%}">我要注册</a> <a href="{%$mlink.lostpasswd%}">您忘记密码？</a></td>
+	</tr>
+</table>
+</form>

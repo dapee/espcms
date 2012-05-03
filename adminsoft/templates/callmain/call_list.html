@@ -1,0 +1,42 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" title="[%$array[list].name%]-[%$array[list].typename%]" [%if @this->powercheck(23,52)==true %]ondblClick="javascript:parent.onbotton('[%$ST.callmain_edit_title%]','index.php?archive=callmain&action=calledit&cid=[%$array[list].cid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'calledit[%$array[list].cid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="5%"><input type="checkbox" name="selectinfoid" value="[%$array[list].cid%]"></td>
+			<td width="10%">
+				<input type="hidden" name="infoid" id="infoid" value="[%$array[list].cid%]">
+				<input type="text" name="pid" size="3" value="[%$array[list].pid%]" class="infoInput" >
+			</td>
+			<td width="10%">[%$array[list].cid%]</td>
+			<td width="30%">[%$array[list].name%]</td>
+			<td width="20%">[%$array[list].typename%]</td>
+			<td width="10%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isclass==1%]<font class="colorthree strong">[%$ST.callmain_audit_ok%][%else%]<font class="colorgreg strong">[%$ST.callmain_audit_no%][%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="10%" id="infotype">
+				[%if @this->powercheck(23,52)==true %]
+				<table>
+					<tr>
+						<td><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.callmain_edit_title%]','index.php?archive=callmain&action=calledit&cid=[%$array[list].cid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'calledit[%$array[list].cid%]',self.frameElement.getAttribute('name'));" id="calledit[%$array[list].cid%]" href="#body" title="[%$ST.callmain_edit_title%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+					</tr>
+				</table>
+				[%/if%]
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

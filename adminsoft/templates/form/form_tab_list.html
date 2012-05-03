@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/clickmenu.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/pagination.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/dialog.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/clickmenu.js"></script>
+<script type="text/javascript" src="js/pagebotton.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$.fn.clickMenu.setDefaults({arrowSrc:'templates/images/arrow_right.gif'});
+		$('#modelattlist').clickMenu();
+		if ($.browser.msie){
+			var h = '[%$iframeheightwindow%]';
+			$('.tabnextlist').css({height:h-99});
+			var formlist=document.getElementById('modelattselectform');
+			var loadurl=formlist.elements[0].value;
+			var maxperpage=formlist.elements[1].value;
+			var maxhit=formlist.elements[2].value;
+			var nowpage=formlist.elements[3].value;
+			var loadname=formlist.elements[6].value;
+			var pagetextname=formlist.elements[7].value;
+			var pagebottonname=formlist.elements[8].value;
+			pageDimensions(h,maxperpage,maxhit,nowpage,loadurl,loadname,pagetextname,pagebottonname,'modelattselectform');
+		}
+	})
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainnextbody")){
+			$('.tabnextlist').css({height:h-99});
+		}
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-120});
+		}
+		if(document.getElementById("modelattselectform")){
+			var formlist=document.getElementById('modelattselectform');
+
+			var loadurl=formlist.elements[0].value;
+
+			var maxperpage=formlist.elements[1].value;
+
+			var maxhit=formlist.elements[2].value;
+
+			var nowpage=formlist.elements[3].value;
+
+			var loadname=formlist.elements[6].value;
+
+			var pagetextname=formlist.elements[7].value;
+
+			var pagebottonname=formlist.elements[8].value;
+			pageDimensions(h,maxperpage,maxhit,nowpage,loadurl,loadname,pagetextname,pagebottonname,'modelattselectform');
+		}
+	}
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+</script>
+</head>
+
+<body>
+<div id="mainlistbotton">[%beark name=tabmenubotton class=$listfunction%]</div>
+<div class="listitle">[%beark name=tablabel class=$listfunction%]</div>
+<div id="mainnextbody" class="tabnextlist">
+	<form name="modelattselectform" id="modelattselectform" method="post">
+		<input type="hidden" name="loadurl" id="loadurl" value="[%$loadurl%]">
+		<input type="hidden" name="maxperpage" id="maxperpage" value="[%$MaxPerPage%]">
+		<input type="hidden" name="maxhit" id="maxhit" value="[%$MaxHit%]">
+		<input type="hidden" name="nowpage" id="nowpage" value="[%$nowpage%]">
+		<input type="hidden" name="limitkey" id="limitkey" value="[%$limitkey%]">
+		<input type="hidden" name="limitclass" id="limitclass" value="[%$limitclass%]">
+		<input type="hidden" name="loadname" id="loadname" value="#attrloading">
+		<input type="hidden" name="pagetextname" id="pagetextname" value="#pageinfo2">
+		<input type="hidden" name="pagebottonname" id="pagebottonname" value="#Pagination2">
+		<div class="loadingdiv" id="attrloading"></div>
+	</form>
+</div>
+<div class="pagelistdiv">
+	<div class="pageinfotext" id="pageinfo2"></div>
+	<div class="pagebottonlist" id="pagebotton"><span id="Pagination2" class="pagination"></span></div>
+</div>
+</body>
+
+</html>
+
+

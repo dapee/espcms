@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>{%$lngpack.enquirytitle%} - {%$lngpack.sitename%}</title>
+<meta name="keywords" content="{%$lngpack.keyword%}" />
+<meta name="description" content="{%$lngpack.description%}" />
+<link href="{%$rootpath%}style/tempates_div.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/public.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/pagebotton.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{%$rootdir%}js/jquery.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/basicrun.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/ajax_city.js"></script>
+<script type="text/javascript">
+$().ready(function() {
+	$("#clickmenubotton li span").hover(function() {
+		$(this).addClass("bgmenuhove2");
+		$(this).parent().find("ul.subnav").slideDown('fast').show(); 
+		$(this).parent().hover(function() {}, function(){
+			$(this).parent().find("ul.subnav").fadeOut('fast');
+			$(this).parent().find("span").removeClass("bgmenuhove2");
+		});
+	});
+});
+</script>
+</head>
+
+<body>
+<div class="head">
+	{%link file="en/public/head.html"%}
+	<div class="bann"><img src="{%$rootpath%}images/bann.jpg"/></div>
+	{%if $out=='list'%}
+	<!--购物车列表-->
+	<script type="text/javascript">
+	var order_amout_err = "{%$lngpack.order_amout_err%}";
+	var address_title = "{%$lngpack.address_title%}";
+	var zipcode_empty = "{%$lngpack.zipcode_empty%}";
+	var alias_empty = "{%$lngpack.alias_empty%}";
+	var email_err = "{%$lngpack.email_err%}";
+	var tel_empty = "{%$lngpack.tel_empty%}";
+	</script>
+	<div class="bann">
+		<div class="location"><a href="{%$homelink%}">Home</a> » {%$lngpack.enquirytitle%} » <b>Inquiry Product List</b></div>
+	</div>
+	<div class="framecenter margintop8">
+		<form name="mainform" method="post" action="{%$mlink.enquirysave%}" onsubmit="return enquirysave()">
+		<input type="hidden" name="userid" value="{%$member.userid%}"/>
+		<table style="width:95%;margin:0px auto;margin-top:30px;margin-bottom:30px;">
+			<tr>
+				<td>
+					<table>
+						<tr>
+							<td><span class="messicon"><img src="{%$rootpath%}images/status_online.gif" /></span></td>
+							<td><span class="messtext strong fontsize14">Items</span></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td><hr class="hrline"/></td>
+			</tr>
+			{% if count($array) > 0 %}
+			<tr>
+				<td style="padding-top:10px">
+					<table class="tablelist" width="100%" style="margin:0 auto;">
+						<tr>
+							<td class="td01 center">Items</td>
+							<td class="td01 center">Product Code</td>
+							<td class="td01 center">Qty</td>
+							<td class="td01 center">Remove</td>
+						</tr>
+						{%forlist from=$array key=i%}
+						<tr>
+							<td class="td02 left"><input type="hidden" name="ptitle[]" value="{%$array[i].title%}"><a target="_blank" class="infolink05" href="{%$array[i].link%}">{%$array[i].title%}</a></td>
+							<td class="td02 center"><input type="hidden" name="tsn[]" value="{%$array[i].tsn%}">{%$array[i].tsn%}</td>
+							<td class="td02 center">
+								<input type="text" name="amount[]" id="amount{%$array[i].did%}" value="{%$array[i].amount%}" onBlur="javascript:orderamount({%$array[i].did%});" size="2" maxlength="5" class="infoInput">
+								<input type="hidden" name="did[]" value="{%$array[i].did%}">
+							</td>
+							<td class="td02 center"><a class="infolink04" href="javascript:if (confirm('Are you sure you want to remove it?')) location.href='{%$array[i].dellink%}';">Remove</a></td>
+						</tr>
+						{%/forlist%}
+						<tr class="tdheight4">
+							<td colspan="6" class="td02 right">
+								<input name="addch" class="buttonface2" type="button" value="Keep shopping" onclick="javascript:location.href='{%$homelink%}';">
+								<input name="addch" class="buttonface2" type="button" value="Delete" onclick="javascript:if (confirm('Are you sure you want to empty it?')) location.href='{%$mlink.cleargoods%}';">
+							</td>
+						</tr>
+					</table>
+					
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table>
+						<tr>
+							<td><span class="messicon"><img src="{%$rootpath%}images/status_online.gif" /></span></td>
+							<td><span class="messtext strong fontsize14">Contact Information</span> </td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td><hr class="hrline"/></td>
+			</tr>
+			<tr>
+				<td style="padding-top:10px">
+					<table class="tablelist" width="100%" style="margin:0 auto;">
+						<tr>
+						    <td class="td02 right" width="20%">Name:</td>
+						    <td class="td02 left"><input type="text" name="alias" value="{%$member.alias%}" maxlength="50" size="20" class="infoInput"></td>
+						</tr>
+						<tr>
+							<td class="td02 right">Sex:</td>
+							<td class="td02 left">
+								<input type="radio" value="1" name="sex" {%if $member.sex==1%}checked{%/if%}> Male&nbsp;
+								<input type="radio" value="0" name="sex" {%if $member.sex==0%}checked{%/if%}> Female
+							</td>
+						</tr>
+						<tr>
+						    <td class="td02 right">E-mail:</td>
+						    <td class="td02 left"><input type="text" name="email" value="{%$member.email%}" maxlength="100" size="50" class="infoInput" style="width:40%;" ></td>
+						</tr>
+						<tr>
+						    <td class="td02 right">Tel:</td>
+						    <td class="td02 left"><input type="text" name="tel" value="{%$member.tel%}" maxlength="50" size="50" class="infoInput" style="width:40%;" ></td>
+						</tr>
+						<tr>
+						    <td class="td02 right">Fax:</td>
+						    <td class="td02 left"><input type="text" name="fax" value="{%$member.fax%}" maxlength="50" size="50" class="infoInput" style="width:40%;" ></td>
+						</tr>
+						<tr>
+						    <td class="td02 right">Mobile:</td>
+						    <td class="td02 left"><input type="text" name="mobile" value="{%$member.mobile%}" maxlength="50" size="50" class="infoInput" style="width:40%;" ></td>
+						</tr>
+						<tr>
+							<td class="td02 right">Address:</td>
+							<td class="td02 left"><input type="text" name="address" value="{%$member.address%}" style="width:70%;" maxlength="120" size="60" class="infoInput"></td>
+						</tr>
+						<tr>
+							<td class="td02 right">Zipcode</td>
+							<td class="td02 left"><input type="text" name="zipcode" value="{%$member.zipcode%}" maxlength="10" size="10" class="infoInput"></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<table>
+						<tr>
+							<td><span class="messicon"><img src="{%$rootpath%}images/status_online.gif" /></span></td>
+							<td><span class="messtext strong fontsize14">Other information</span> </td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td><hr class="hrline"/></td>
+			</tr>
+			<tr>
+				<td style="padding-top:10px">
+					<table class="tablelist" width="100%" style="margin:0 auto;">
+						<tr>
+						    <td class="td02 right" width="20%">Remarks:</td>
+						    <td class="td02 left"><textarea name="content" rows="3" style="width:100%;height: 100px;"></textarea></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td class="center" style="padding-top:20px"><input type="submit" name="submit" id="submit" class="buttonface2" value="Submit"></td>
+			</tr>
+			{%else%}
+			<tr>
+				<td style="padding-top:10px">
+				<table class="tablelist" width="100%" style="margin:0 auto;">
+					<tr>
+						<td colspan="6" class="td02 center">0 items added to Cart!</td>
+					</tr>
+				</table>
+				</td>
+			</tr>
+			{%/if%}
+		</table>
+		</form>
+	</div>
+	{%/if%}
+	{%link file="en/public/link.html"%}
+</div>
+{%link file="en/public/footer.html"%}
+
+</body>
+
+</html>

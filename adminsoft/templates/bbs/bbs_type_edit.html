@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var forumtype_js_typename_empty  = "[%$ST.forumtype_js_typename_empty%]";
+	var forumtype_js_putmail_empty  = "[%$ST.forumtype_js_putmail_empty%]";
+	var forumtype_js_type_edit_ok = "[%$ST.forumtype_js_type_edit_ok%]";
+	var forumtype_js_type_edit_no = "[%$ST.forumtype_js_type_edit_no%]";
+	var iframename = "[%$iframename%]";
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var options = {
+			beforeSubmit: formverify,
+			success:saveResponse,
+			resetForm: false
+		}
+		$('#forumtypeadd').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	})
+
+
+
+
+	function formverify(formData) {
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['typename']==''){
+			document.forumtypeadd.typename.focus();
+			alert(forumtype_js_typename_empty);
+			return false;
+		}
+		if(get['putmail']!=''){
+			if(get['putmail'].match(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/ig)==null) {
+				document.forumtypeadd.putmail.focus();
+				alert(forumtype_js_putmail_empty);
+				return false;
+			}
+		}
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		if (options=='true'){
+			if(parent.frames[iframename].document.getElementById("selectform")){
+				parent.frames[iframename].refresh('selectform','selectall','check_all');
+			}
+			alert(forumtype_js_type_edit_ok);
+		}else{
+			alert(forumtype_js_type_edit_no);
+		}
+		parent.onaletdoc()
+	}
+</script>
+</head>
+
+<body>
+<form name="forumtypeadd" id="forumtypeadd" method="post" action="index.php?archive=bbstypemain&action=save">
+<input type="hidden" name="inputclass" value="edit">
+<input type="hidden" name="lng" id="lng" value="[%$read.lng%]">
+<input type="hidden" name="btid" value="[%$read.btid%]">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.forumtype_type_add_mess%]</span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.forumtype_type_add_subjectname%]</td>
+						<td class="trtitle02">
+							<input type="text" name="typename" value="[%$read.typename%]" size="60" maxlength="80" class="infoInput"/>
+							<span class="cautiontitle">[%$ST.forumtype_type_add_subjectname_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.forumtype_type_add_content%]</td>
+						<td class="trtitle02"><textarea name="content" style="width:98%;height:100px" class="smallInput">[%$read.content|Html2Text('0')%]</textarea></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.typemanage_type_add_templatesurl%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.formmain_add_ismenu%]</td>
+						<td class="trtitle02">
+							<input type="radio" value="1" name="ismenu" [%if $read.ismenu==1%]checked="checked" [%/if%]> [%$ST.open_botton_title%]&nbsp;
+							<input type="radio" value="0" name="ismenu" [%if $read.ismenu==0%]checked="checked" [%/if%]/> [%$ST.close_botton_title%]
+							<span class="cautiontitle">[%$ST.forumtype_type_add_ismenu_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.forumtype_type_add_purview%]</td>
+						<td class="trtitle02">
+							<select size="1" name="purview" id="purview">
+								<option value="0">[%$ST.forumtype_type_add_purview_option%]</option>
+								[%forlist from=$memberpuvlist key=list%]
+								<option [%$memberpuvlist[list].selected%] value="[%$memberpuvlist[list].mcid%]">[%$memberpuvlist[list].rankname%]</option>
+								[%/forlist%]
+							</select>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.forumtype_type_add_ispage%]</td>
+						<td class="trtitle02">
+							<select size="1" name="ispage" id="ispage">
+								<option [%if $read.ispage==1%]selected[%/if%] value="1">[%$ST.forumtype_type_add_ispage1%]</option>
+								<option [%if $read.ispage==2%]selected[%/if%] value="2">[%$ST.forumtype_type_add_ispage2%]</option>
+							</select>
+							<span class="cautiontitle">[%$ST.forumtype_type_add_ispage_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.forumtype_type_add_pagemax%]</td>
+						<td class="trtitle02">
+							<select size="1" name="pagemax" id="pagemax">
+								<option [%if $read.pagemax==5%]selected[%/if%] value="5">5</option>
+								<option [%if $read.pagemax==10%]selected[%/if%] value="10">10</option>
+								<option [%if $read.pagemax==15%]selected[%/if%] value="15">15</option>
+								<option [%if $read.pagemax==20%]selected[%/if%] value="20">20</option>
+								<option [%if $read.pagemax==25%]selected[%/if%] value="25">25</option>
+								<option [%if $read.pagemax==30%]selected[%/if%] value="30">30</option>
+							</select>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.forumtype_type_add_listmax%]</td>
+						<td class="trtitle02">
+							<select size="1" name="listmax" id="listmax">
+								<option [%if $read.listmax==5%]selected[%/if%] value="5">5</option>
+								<option [%if $read.listmax==10%]selected[%/if%] value="10">10</option>
+								<option [%if $read.listmax==15%]selected[%/if%] value="15">15</option>
+								<option [%if $read.listmax==20%]selected[%/if%] value="20">20</option>
+								<option [%if $read.listmax==25%]selected[%/if%] value="25">25</option>
+								<option [%if $read.listmax==30%]selected[%/if%] value="30">30</option>
+							</select>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.forumtype_type_add_addclass%]</td>
+						<td class="trtitle02">
+							<input type="radio" value="1" name="isaddclass" [%if $read.isaddclass==1%]checked="checked"[%/if%]/> [%$ST.open_botton_title%]&nbsp;
+							<input type="radio" value="0" name="isaddclass" [%if $read.isaddclass==0%]checked="checked"[%/if%]/> [%$ST.close_botton_title%]
+							<span class="cautiontitle">[%$ST.forumtype_type_add_addclass_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.forumtype_type_add_ismail%]</td>
+						<td class="trtitle02">
+							<input type="radio" value="1" name="ismail" [%if $read.ismail==1%]checked="checked"[%/if%] onclick="showdiv(1,'#emailattdiv|#tmiddiv','0|1','trstyle2 displaynone|trstyle2 displaytrue',1,1)"/> [%$ST.open_botton_title%]&nbsp;
+							<input type="radio" value="0" name="ismail" [%if $read.ismail==0%]checked="checked"[%/if%] onclick="showdiv(0,'#emailattdiv|#tmiddiv','0|1','trstyle2 displaynone|trstyle2 displaytrue',1,1)"/> [%$ST.close_botton_title%]
+							<span class="cautiontitle">[%$ST.forumtype_type_add_ismail_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2 [%if $read.ismail==0%]displaynone[%/if%]" id="emailattdiv">
+						<td class="trtitle01">[%$ST.forumtype_type_add_putmail%]</td>
+						<td class="trtitle02">
+							<input type="text" name="putmail" size="50" value="[%$read.putmail%]" maxlength="80" class="infoInput"/>
+							<span class="cautiontitle">[%$ST.forumtype_type_add_putmail_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2 [%if $read.ismail==0%]displaynone[%/if%]" id="tmiddiv">
+						<td class="trtitle01">[%$ST.forumtype_type_add_mailcode%]</td>
+						<td class="trtitle02">
+							<input type="text" name="mailcode" id="mailcode" value="[%$read.mailcode%]" size="20" maxlength="50" class="infoInput"/> 
+							<a class="filecheck" href="#body" onclick="javascript:parent.windowsdig('[%$ST.selecttempfile_botton%]','iframe:index.php?archive=mailtemplatemain&action=listwindow&inputtext=mailcode&typeclass=form&&styleclass=3&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),'750px','400px','iframe');">[%$ST.selecttempfile_botton%]</a>
+							<span class="cautiontitle">[%$ST.forumtype_type_add_mailcode_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.formmain_add_isseccode%]</td>
+						<td class="trtitle02">
+							<input type="radio" value="1" name="isseccode" [%if $read.isseccode==1%]checked="checked"[%/if%]/> [%$ST.open_botton_title%]&nbsp;
+							<input type="radio" value="0" name="isseccode" [%if $read.isseccode==0%]checked="checked"[%/if%]/> [%$ST.close_botton_title%]
+							<span class="cautiontitle">[%$ST.forumtype_type_isseccode_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.formmain_add_inputtime%]</td>
+						<td class="trtitle02">
+							<select size="1" name="inputtime" id="inputtime">
+								[%forlist from=$timelist key=list%]
+								<option [%if $timelist[list].key==$read.inputtime%]selected[%/if%] value="[%$timelist[list].key%]">[%$timelist[list].name%]</option>
+								[%/forlist%]
+							</select>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.iswap_message%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.iswap_title%]</td>
+						<td class="trtitle02">
+							<input type="radio" value="1" name="iswap" [%if $read.iswap==1%]checked="checked"[%/if%]/> [%$ST.open_botton_title%]&nbsp;
+							<input type="radio" value="0" name="iswap" [%if $read.iswap==0%]checked="checked"[%/if%]/> [%$ST.close_botton_title%]
+							<span class="cautiontitle">[%$ST.iswap_title_mess%]</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td id="right"><input type="submit" id="forumtypeaddsubmitbotton" name="Submit" value="[%$ST.botton_edit%]" class="buttonface" /></td>
+				<td id="left" class="padding-left5"><input type="button" name="cancel" onClick="javascript:parent.onaletdoc();" value="[%$ST.botton_edit_reset%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" title="[%$array[list].ordersn%] - [%$array[list].ordertypename%]" [%if @this->powercheck('order','orderedit')==true %]ondblClick="javascript:parent.onbotton('[%$ST.ordermain_text_read_botton_title%][%$array[list].ordersn%]','index.php?archive=ordermain&action=orderedit&oid=[%$array[list].oid%]&type=read&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'orderread[%$array[list].oid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="4%">[%if $array[list].ordertype==6 %]<input type="checkbox" name="selectinfoid" value="[%$array[list].oid%]">[%/if%]</td>
+			<td width="7%">[%$array[list].oid%]</td>
+			<td width="16%">[%$array[list].ordersn%]</td>
+			<td width="8%">[%$array[list].ordertypename%]</td>
+			<td width="10%">[%$order_moneytype%][%$array[list].orderamount%]</td>
+			<td width="10%">[%$array[list].consignee%]</td>
+			<td width="14%">[%$array[list].addtime|timeformat(3)%]</td>
+			<td width="10%">[%if $array[list].paytime==0%]<B>[%$ST.ordermain_text_paysn1%]</B>[%else%][%$ST.ordermain_text_paysn2%][%/if%]</td>
+			<td width="10%">[%if $array[list].shippingtime==0%]<B>[%$ST.ordermain_text_shippingsn1%]</B>[%else%][%$ST.ordermain_text_shippingsn2%][%/if%]</td>
+			<td width="11%" id="infotype">
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						[%if @this->powercheck('order','orderedit')==true %]
+						<td><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.ordermain_text_read_botton_title%][%$array[list].ordersn%]','index.php?archive=ordermain&action=orderedit&oid=[%$array[list].oid%]&type=read&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'orderread[%$array[list].oid%]',self.frameElement.getAttribute('name'));" id="orderread[%$array[list].oid%]" href="#body" title="[%$array[list].ordersn%][%$ST.viewfield_botton%]" hidefocus="true">[%$ST.viewfield_botton%]</a></td>
+						[%/if%]
+						[%if @this->powercheck('order','orderedit') && $array[list].ordertype==1%]
+						<td class="padding-left3"><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.ordermain_edit_log%][%$array[list].ordersn%]','index.php?archive=ordermain&action=orderedit&oid=[%$array[list].oid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'orderedit[%$array[list].oid%]',self.frameElement.getAttribute('name'));" id="orderedit[%$array[list].oid%]" href="#body" title="[%$array[list].ordersn%][%$ST.ordermain_edit_log%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+						[%/if%]
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+	<tr>
+	    <td align="center">[%$ST.list_nothing_title%]</td>
+	</tr>
+</table>
+</div>
+[%/if%]

@@ -1,0 +1,48 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" title="[%$array[list].lngtitle%]-[%$array[list].lng%]" [%if @this->powercheck('system','lngedit')==true %] ondblClick="javascript:parent.onbotton('[%$ST.language_edit_title%]','index.php?archive=language&action=lngedit&id=[%$array[list].id%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false);"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="5%"><input type="checkbox" name="selectinfoid" value="[%$array[list].id%]"></td>
+			<td width="8%">
+				<input type="hidden" name="infoid" id="infoid" value="[%$array[list].id%]">
+				<input type="text" name="pid" size="3" value="[%$array[list].pid%]" class="infoInput" >
+			</td>
+			<td width="8%">[%$array[list].id%]</td>
+			<td width="20%">[%$array[list].lngtitle%]</td>
+			<td width="13%">[%$array[list].lng%]</td>
+			<td width="8%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isopen==1%]<font class="colorthree strong">[%$ST.language_audit_ok%][%else%]<font class="colorgreg strong">[%$ST.language_audit_no%][%/if%]</font></td>
+					</tr>
+				</table>
+			</td>
+			<td width="38%" id="infotype">
+				<table>
+					<tr>
+						[%if @this->powercheck('system','lngedit')==true %]
+						<td><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.language_edit_title%]','index.php?archive=language&action=lngedit&id=[%$array[list].id%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false);" href="#body" title="[%$ST.language_edit_title%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+						[%/if%]
+						[%if @this->powercheck('system','lngcreat')==true %]
+						<td class="padding-left3"><a class="setedit3" onclick="javascript:submiturl('index.php?archive=language&action=lngcreat&id=[%$array[list].id%]&lng=[%$array[list].lng%]','index.php?archive=management&action=load','[%$ST.run_ok%]','[%$ST.run_no%]',true,'[%$ST.language_creat_index_mess%]','selectform','selectall','check_all')" href="#body" title="[%$ST.language_creat_index%]" hidefocus="true">[%$ST.language_creat_index%]</a></td>
+						[%/if%]
+						[%if @this->powercheck('system','packcopy')==true && $array[list].isuptype==0%]
+						<td class="padding-left3"><a class="setedit3" onclick="javascript:parent.onbotton('[%$ST.language_copylanpack_title%]','index.php?archive=language&action=lngpackcopy&id=[%$array[list].id%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false);" href="#body" title="[%$ST.language_copylanpack_title%]" hidefocus="true">[%$ST.language_copylanpack_title%]</a></td>
+						[%/if%]
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

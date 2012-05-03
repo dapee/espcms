@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>{%$read.title%} - {%$lngpack.sitename%}</title>
+<meta name="keywords" content="{%$lngpack.keyword%}" />
+<meta name="description" content="{%$lngpack.description%}" />
+<link href="{%$rootpath%}style/tempates_div.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/public.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/pagebotton.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{%$rootdir%}js/jquery.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/basicrun.js"></script>
+<script type="text/javascript">
+$().ready(function() {
+	$("#clickmenubotton li span").hover(function() {
+		$(this).addClass("bgmenuhove2");
+		$(this).parent().find("ul.subnav").slideDown('fast').show(); 
+		$(this).parent().hover(function() {}, function(){
+			$(this).parent().find("ul.subnav").fadeOut('fast');
+			$(this).parent().find("span").removeClass("bgmenuhove2");
+		});
+	});
+});
+</script>
+</head>
+
+<body>
+<div class="head">
+	{%link file="en/public/head.html"%}
+	
+	<div class="bann">
+		<div class="location"><a href="{%$homelink%}">Home</a> » <b>Search</b></div>
+	</div>
+	
+	<div class="framecenter margintop10">
+		{%if count($array) > 0%}
+			<div class="widthpagelist center">
+				<ul class="newslist">
+					{%forlist from=$array key=i%}
+					<li><span class="data">{%$array[i].addtime|timeformat(2)%}</span><a class="infolist" target="_blank" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].ctitle%}</a></li>
+					{%/forlist%}
+				</ul>
+			</div>
+			<div class="widthpagelist center margintop8">
+				<div id="pagelist">
+					{%$pagetext%}
+				</div>
+			</div>
+			<div class="widthpagelist center margintop8">
+				<div id="Pagination" class="pagination">
+					{%$pagebotton%}
+				</div>
+			</div>
+			{%else%}
+			<div class="widthpagelist center margintop8">
+				<div id="pagelist">Did not match any infomation</div>
+			</div>
+		{%/if%}
+	</div>
+	{%link file="en/public/link.html"%}
+</div>
+{%link file="en/public/footer.html"%}	
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+	<div class="infolist" onselectstart="return false;" [%if $array[list].styleid!=3 %]title="[%$array[list].typename%] - [%$array[list].dir%]/[%$array[list].dirpath%]"[%/if%]>
+		<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF"[%if @this->powercheck('article','typeedit')==true %] ondblClick="javascript:parent.onbotton('[%$array[list].typename|addslashes('hc')%][%$ST.typemanage_edit_title%]','index.php?archive=typemanage&action=typeedit&tid=[%$array[list].tid%]&type=edit&styleid=[%$array[list].styleid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'typeedit[%$array[list].tid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+			<tr>
+				<td width="3%"><input type="checkbox" name="selectinfoid" value="[%$array[list].tid%]"></td>
+				<td width="6%">
+					<input type="hidden" name="infoid" id="infoid" value="[%$array[list].tid%]">
+					<input type="text" name="pid" size="1" value="[%$array[list].pid%]" class="infoInput" style="width:25px;">
+				</td>
+				<td width="5%">[%$array[list].tid%]</td>
+				<td width="22%" id="left" class="padding-left3">
+					[%$array[list].level|treelist('&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;')%][%if $array[list].level>0%]├─ [%/if%]<a target="_blank" class="[%if $array[list].level==0%]infolink04b[%else%]infolink04[%/if%]" href="[%$array[list].glink%]">[%$array[list].typename%]</a></td>
+				<td width="8%">[%$array[list].stylename%]</td>
+				<!--
+
+
+
+
+
+
+
+
+
+
+
+
+				/	</table>
+				</td>
+				-->
+				<td width="56%" id="infotype">
+					<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+						<tr>
+							[%if $array[list].styleid<3%]
+							<td><a class="setedit" onclick="javascript:parent.onbotton('[%$array[list].typename|addslashes('hc')%][%$ST.typemanage_text_infolist_title%]','index.php?archive=management&action=list&listfunction=articlelist&tid=[%$array[list].tid%]&mid=[%$array[list].mid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'typelist[%$array[list].tid%]',self.frameElement.getAttribute('name'));" id="typelist[%$array[list].tid%]" href="#body" title="[%$ST.typemanage_text_infolist_title%]" hidefocus="true">[%$ST.viewfield_botton%]</a></td>
+							[%/if%]
+							[%if @this->powercheck('article','typeadd')==true %]
+							<td class="padding-left3"><a class="setedit2" onclick="javascript:parent.onbotton('[%$array[list].typename|addslashes('hc')%][%$ST.typemanage_add_title%]','index.php?archive=typemanage&action=typeadd&upid=[%$array[list].tid%]&lng=[%$array[list].lng%]&topid=[%$array[list].topid%]&styleid=1&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'typeadd[%$array[list].tid%]',self.frameElement.getAttribute('name'));" id="typeadd[%$array[list].tid%]" href="#body" title="[%$array[list].typename%][%$ST.typemanage_add_title%]" hidefocus="true">[%$ST.typemanage_add_title%]</a></td>
+							<td class="padding-left3"><a class="setedit2" onclick="javascript:parent.onbotton('[%$array[list].typename|addslashes('hc')%][%$ST.typemanage_add_title%]','index.php?archive=typemanage&action=typeadd&upid=[%$array[list].tid%]&lng=[%$array[list].lng%]&topid=[%$array[list].topid%]&styleid=4&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'typeadd[%$array[list].tid%]',self.frameElement.getAttribute('name'));" id="typeadd[%$array[list].tid%]" href="#body" title="[%$array[list].typename%][%$ST.typemanage_add_title%]" hidefocus="true">[%$ST.typemanage_add_title2%]</a></td>
+							<td class="padding-left3"><a class="setedit2" onclick="javascript:parent.onbotton('[%$array[list].typename|addslashes('hc')%][%$ST.typemanage_add_title%]','index.php?archive=typemanage&action=typeadd&upid=[%$array[list].tid%]&lng=[%$array[list].lng%]&topid=[%$array[list].topid%]&styleid=3&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'typeadd[%$array[list].tid%]',self.frameElement.getAttribute('name'));" id="typeadd[%$array[list].tid%]" href="#body" title="[%$array[list].typename%][%$ST.typemanage_add_title%]" hidefocus="true">[%$ST.typemanage_add_title3%]</a></td>
+							[%/if%]
+							[%if @this->powercheck('article','typeedit')==true %]
+							<td class="padding-left3"><a class="setedit" onclick="javascript:parent.onbotton('[%$array[list].typename|addslashes('hc')%][%$ST.typemanage_edit_title%]','index.php?archive=typemanage&action=typeedit&tid=[%$array[list].tid%]&type=edit&styleid=[%$array[list].styleid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'typeedit[%$array[list].tid%]',self.frameElement.getAttribute('name'));" id="typeedit[%$array[list].tid%]" href="#body" title="[%$array[list].typename%][%$ST.typemanage_edit_title%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+							[%/if%]
+							[%if @this->powercheck('article','typeedit')==true && $array[list].styleid<3%]
+							<td class="padding-left3"><a class="setedit" onclick="javascript:parent.onbotton('[%$array[list].typename|addslashes('hc')%][%$ST.typeshift_botton%]','index.php?archive=typemanage&action=typeshift&tid=[%$array[list].tid%]&styleid=[%$array[list].styleid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false);" href="#body" title="[%$array[list].typename%][%$ST.typeshift_botton%]" hidefocus="true">[%$ST.typeshift_botton%]</a></td>
+							[%/if%]
+							[%if @this->powercheck('article','synchro')==true && $array[list].styleid<3%]
+							<td class="padding-left3"><a class="setedit2" onclick="javascript:parent.onbotton('[%$ST.botton_synchro%]','index.php?archive=typemanage&action=synchro&tid=[%$array[list].tid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false);" href="#body" title="[%$ST.botton_synchro%]" hidefocus="true">[%$ST.botton_synchro%]</a></td>
+							[%/if%]
+							[%if @this->powercheck('article','deltype')==true %]
+							<td class="padding-left3"><a class="setedit" onclick="javascript:submiturl('index.php?archive=typemanage&action=deltype&tid=[%$array[list].tid%]&freshid='+Math.random(),'index.php?archive=management&action=load','[%$ST.run_ok%]','[%$ST.run_no%]',true,'[%$ST.del_messok%]','selectform','selectall','check_all');" href="#body" title="[%$ST.setdel_botton%]" hidefocus="true">[%$ST.setdel_botton%]</a></td>
+							[%/if%]
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+[%/forlist%]
+[%else%]
+	<div class="infolist">
+		<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+			<tr>
+				<td align="center">[%$ST.list_nothing_title%]</td>
+			</tr>
+		</table>
+	</div>
+[%/if%]

@@ -1,0 +1,22 @@
+<div id="listitle" class="listitle2">[%beark name=tablabel class=keywordlist%]</div>
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" title="[%$array[list].keywordname%]-[%$array[list].linkurl%]">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="10%"><input type="checkbox" name="selectinfoid" value="[%$array[list].keywordname%]"></td>
+			<td width="15%">[%$array[list].kid%]</td>
+			<td>[%$array[list].keywordname%]</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

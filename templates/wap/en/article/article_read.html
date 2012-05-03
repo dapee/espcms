@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=3.0"/>
+<title>{%$read.title%} - {%$lngpack.sitename%}</title>
+<meta name="keywords" content="{%$lngpack.keyword%}" />
+<meta name="description" content="{%$lngpack.description%}" />
+<link href="{%$rootpath%}style/tempates_div.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/public.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/pagebotton.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{%$rootdir%}js/jquery.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/basicrun.js"></script>
+<script type="text/javascript" src="{%$rootdir%}index.php?ac=public&at=readpuv&did={%$read.did%}"></script>
+</head>
+
+<body>
+<div class="head">
+	{%link file="en/public/head.html"%}
+	
+	{%get name=typelist class=tid:$read.tid,utid:$type.topid,level:2%}
+	{%if count($array)>0%}
+		<div class="framecenter">
+			<div class="fup2 center">
+			{%forlist from=$array key=i%}
+			<a class="typelink" title="{%$array[i].typename%}" href="{%$array[i].link%}">{%$array[i].typename%}</a>
+			{%/forlist%}
+			</div>
+			<div class="fdown"></div>
+		</div>
+	{%/if%}
+	{%/get%}
+	<div class="framecenter">
+		<div class="fup2"><span class="spantitle">{%$read.title%}</span></div>
+		<div class="fdown"></div>
+		<div class="fcontent lineheight180">
+			<div class="pagecontentstr lineheight200 ">
+				{%$read.content%}
+			</div>
+			{% if count($page)>0 %}
+			<div class="pagecontentstr center">
+				<table style="margin: 0 auto;">
+					<tr>
+						<td>
+							<div id="Pagination" class="pagination">
+								
+								{%forlist from=$page key=i%}
+								{%if $page[i].n==1%}
+								<span class="current disabled">{%$page[i].num%}</span>
+								{%else%}
+								<span><a href="{%$page[i].link%}">{%$page[i].num%}</a></span>
+								{%/if%}
+								{%/forlist%}
+								
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			{%/if%}
+		</div>
+	</div>
+</div>
+{%link file="en/public/footer.html"%}	
+</body>
+
+</html>

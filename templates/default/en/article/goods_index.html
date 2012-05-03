@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>{%$type.typename%} - {%$lngpack.sitename%}</title>
+<meta name="keywords" content="{%$lngpack.keyword%}" />
+<meta name="description" content="{%$lngpack.description%}" />
+<link href="{%$rootpath%}style/tempates_div.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/public.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{%$rootdir%}js/jquery.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/basicrun.js"></script>
+<script type="text/javascript" src="{%$rootdir%}index.php?ac=public&at=typepuv&tid={%$type.tid%}"></script>
+<script type="text/javascript">
+$().ready(function() {
+	$("#clickmenubotton li span").hover(function() {
+		$(this).addClass("bgmenuhove2");
+		$(this).parent().find("ul.subnav").slideDown('fast').show(); 
+		$(this).parent().hover(function() {}, function(){
+			$(this).parent().find("ul.subnav").fadeOut('fast');
+			$(this).parent().find("span").removeClass("bgmenuhove2");
+		});
+	});
+});
+</script>
+</head>
+
+<body>
+<div class="head">
+	{%link file="en/public/head.html"%}
+	<!--bann-->
+	{%if $type.typepic!=''%}
+	<div class="bann">
+		<div class="bann">
+			<img title="tel" src="{%$rootdir%}{%$type.typepic%}"/>
+		</div>
+	</div>
+	{%/if%}
+	
+	<div class="bann">
+		<div class="location">{%list name=path class=type:type,id:$type.tid%}</div>
+	</div>
+	
+	<div class="framecenter margintop10">
+		<div class="frameright ">
+			<div class="fup3"><span class="spantitle">{%$type.typename%}</span></div>
+			<div class="fcontent3">
+				{%get name=typelist class=tid:$type.tid,utid:$type.topid%}
+				<ul class="three">
+					{%forlist from=$array key=i%}
+						{%if $array[i].level==1%}
+						<li class="b"><a class="typelink" title="{%$array[i].typename%}" href="{%$array[i].link%}">{%$array[i].typename%}</a></li>
+						{%else%}
+						<li class="a"><a title="{%$array[i].typename%}" href="{%$array[i].link%}">{%$array[i].typename%}</a></li>
+						{%/if%}
+					{%/forlist%}
+				</ul>
+				{%/get%}
+			</div>
+			<div class="fdown3"></div>
+			
+			{%link file="en/public/left.html"%}
+		</div>
+		
+		<div class="frameleft margintleft10">
+			<div class="fup1"><span class="spantitle">New Products</span><span class="spanmone"></span></div>
+			<div class="fcontent1">
+				<ul class="piclist">
+					{%get name=list class=mid:3,tid:$type.tid,max:5%}
+						{%forlist from=$array key=i%}
+						<li title="{%$array[i].title%}">
+							<a href="{%$array[i].link%}"><img src="{%$array[i].pic|zoom(120,120)%}" alt="{%$array[i].title%}"></a>
+							<span class="t"><a class="infolist" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title|cutstr(10,'')%}</a></span><p><em>{%$array[i].bprice%}</em></p>
+						</li>
+						{%/forlist%}
+					{%/get%}
+				</ul>
+			</div>
+			<div class="fdown1"></div>
+			
+			<div class="fup2 margintop8"><span class="spantitle">Featured Products</span><span class="spanmone"></span></div>
+			<div class="fcontent2">
+				<ul class="piclist">
+					{%get name=list class=mid:3,tid:$type.tid,max:10,dlid:6%}
+						{%forlist from=$array key=i%}
+						<li title="{%$array[i].title%}">
+							<a href="{%$array[i].link%}"><img src="{%$array[i].pic|zoom(120,120)%}" alt="{%$array[i].title%}"></a>
+							<span class="t"><a class="infolist" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title|cutstr(10,'')%}</a></span><p><em>{%$array[i].bprice%}</em></p>
+						</li>
+						{%/forlist%}
+					{%/get%}
+				</ul>
+			</div>
+			<div class="fdown2"></div>
+		</div>
+	</div>
+	
+	{%link file="en/public/link.html"%}
+</div>
+{%link file="en/public/footer.html"%}	
+</body>
+
+</html>

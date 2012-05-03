@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/cityselect.js"></script>
+<script type="text/javascript">
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var enquirymain_js_email_empty  = "[%$ST.enquirymain_js_email_empty%]";
+	var enquirymain_js_alias_empty  = "[%$ST.enquirymain_js_alias_empty%]";
+	var enquirymain_js_tel_empty  = "[%$ST.enquirymain_js_tel_empty%]";
+	var enquirymain_js_address_empty  = "[%$ST.enquirymain_js_address_empty%]";
+	var enquirymain_js_edit_ok = "[%$ST.enquirymain_js_edit_ok%]";
+	var enquirymain_js_edit_no = "[%$ST.enquirymain_js_edit_no%]";
+	
+	var iframename = "[%$iframename%]";
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var options = {
+			beforeSubmit: formverify,
+			success:saveResponse
+		}
+		$('#enquiryedit').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+
+		sec_cityone([%$read.country%],[%$read.province%]);
+		sec_citytwo([%$read.province%],[%$read.city%]);
+		sec_district([%$read.city%],[%$read.district%]);
+	})
+
+
+
+
+	function formverify(formData) {
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['email'].match(/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/ig)==null) {
+			document.enquiryedit.email.focus();
+			alert(enquirymain_js_email_empty);
+			return false;
+		}
+		if(get['linkman']=='') {
+			document.orderedit.linkman.focus();
+			alert(enquirymain_js_alias_empty);
+			return false;
+		}
+		if(get['tel']=='' && get['mobile']=='') {
+			document.orderedit.tel.focus();
+			alert(enquirymain_js_tel_empty);
+			return false;
+		}
+		if(get['address']=='') {
+			document.orderedit.address.focus();
+			alert(enquirymain_js_address_empty);
+			return false;
+		}
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		if (options=='true'){
+			parent.frames[iframename].refresh('selectform','selectall','check_all');
+			alert(enquirymain_js_edit_ok);
+		}else{
+			alert(enquirymain_js_edit_no);
+		}
+		parent.onaletdoc()
+	}
+</script>
+</head>
+
+<body>
+<form name="enquiryedit" id="enquiryedit" method="post" action="index.php?archive=enquirymain&action=save">
+<input type="hidden" name="inputclass" value="edit">
+<input type="hidden" name="userid" value="[%$read.userid%]">
+<input type="hidden" name="enquirysn" value="[%$read.enquirysn%]">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.enquirymain_edit_mess%] <u>[%$read.enquirysn%]</u> [%$ST.enquirymain_edit_mess2%] <u>[%$read.addtime|timeformat(3)%]</u> [%if $read.edittime>0%][%$ST.enquirymain_edit_mess3%] <u>[%$read.edittime|timeformat(3)%]</u>[%/if%]</span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.enquirymain_add_info%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td colspan="2">
+							<table style="width:100%">
+								<tr>
+									<td class="listitle2">[%beark name=tablabel class=enquiryaddendlist%]</td>
+								</tr>
+								<tr>
+									<td id="articleloading">
+									[%if count($array) > 0%]
+									[%forlist from=$array key=list%]
+										<div class="infolist" id="orderlist[%$array[list].did%]">
+											<table border="0" style="width:100%">
+												<tr>
+													<td width="10%">[%$array[list].did%]</td>
+													<td width="50%" class="padding-left3">[%$array[list].title|cutstr(30)%]</td>
+													<td width="25%" class="padding-right3">[%$array[list].tsn%]</td>
+													<td width="15%">[%$array[list].amount%]</td>
+												</tr>
+											</table>
+										</div>
+									[%/forlist%]
+									[%else%]
+										<div class="infolist">
+											<table border="0" style="width:100%">
+												<tr>
+													<td align="center">[%$ST.list_nothing_title%]</td>
+												</tr>
+											</table>
+										</div>
+									[%/if%]
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.enquirymain_add_textinfo_1%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.enquirymain_add_alias%]</td>
+						<td class="trtitle02"><input type="text" name="linkman" value="[%$read.linkman%]" maxlength="20" size="20" class="infoInput"></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.membermain_add_sex%]</td>
+						<td class="trtitle02">
+							<input type="radio" value="1" name="sex"[%if $read.sex==1%] checked="checked"[%/if%]> [%$ST.select_sex_1%]&nbsp;
+							<input type="radio" value="0" name="sex"[%if $read.sex==0%] checked="checked"[%/if%]> [%$ST.select_sex_0%]
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.enquirymain_add_fax%]</td>
+						<td class="trtitle02"><input type="text" name="fax" value="[%$read.fax%]" maxlength="20" size="30" class="infoInput"><span class="cautiontitle">[%$ST.enquirymain_add_tel_mess%]</span></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.enquirymain_add_tel%]</td>
+						<td class="trtitle02"><input type="text" name="tel" value="[%$read.tel%]" maxlength="20" size="30" class="infoInput"><span class="cautiontitle">[%$ST.enquirymain_add_tel_mess%]</span></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.enquirymain_add_motel%]</td>
+						<td class="trtitle02"><input type="text" name="mobile" value="[%$read.mobile%]" maxlength="20" size="30" class="infoInput"></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.enquirymain_add_email%]</td>
+						<td class="trtitle02"><input type="text" name="email" value="[%$read.email%]" maxlength="100" size="40" class="infoInput"></td>
+					</tr>
+					<tr class="trstyle2" id="select4">
+						<td class="trtitle01">[%$ST.enquirymain_add_country%]</td>
+						<td class="trtitle02">
+							<select size="1" name="cityone" class="select" id="cityone">
+								<option [%if $read.country==0%]selected [%/if%]value="0">[%$ST.enquirymain_add_country_option%]</option>
+								<option [%if $read.country==1%]selected [%/if%]value="1">[%$ST.enquirymain_add_country_value%]</option>
+							</select>
+							<select size="1" name="citytwo" class="select" id="citytwo">
+								<option value="0">[%$ST.enquirymain_add_province_option%]</option>
+							</select>
+							<select size="1" name="citythree" class="select" id="citythree">
+								<option value="0">[%$ST.enquirymain_add_city_option%]</option>
+							</select>
+							<select size="1" name="district" class="select" id="district">
+								<option value="0">[%$ST.enquirymain_add_district_option%]</option>
+							</select>
+							<span id="cityloading">Loading…</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011">[%$ST.enquirymain_add_address%]</td>
+						<td class="trtitle02"><input type="text" name="address" value="[%$read.address%]" maxlength="120" size="60" class="infoInput"></td>
+					</tr>
+					<tr class="trstyle2" id="select6">
+						<td class="trtitle01">[%$ST.enquirymain_add_zipcode%]</td>
+						<td class="trtitle02"><input type="text" name="zipcode" value="[%$read.zipcode%]" maxlength="10" size="10" class="infoInput"></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.enquirymain_add_content%]</td>
+						<td class="trtitle02"><textarea name="content" rows="10" style="width:98%">[%$read.content%]</textarea></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.enquirymain_add_editresult%]</td>
+						<td class="trtitle02" style="padding-top:5px;"><textarea name="editresult" rows="10" style="width:98%">[%$read.editresult%]</textarea></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr id="bottonsubmit">
+				<td align="center">
+					<table border="0">
+						<tr>
+							<td><input type="submit" id="ordereditsubmit" name="Submit" value="[%$ST.botton_edit%]" class="buttonface" /></td>
+							<td class="padding-left5"><input type="button" name="cancel" onClick="javascript:parent.onaletdoc();" value="[%$ST.botton_edit_reset%]" class="buttonface" /></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<input type="hidden" name="eid" value="[%$read.eid%]">
+</form>
+</body>
+
+</html>

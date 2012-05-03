@@ -1,0 +1,56 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" title="[%$array[list].title%]" [%if @this->powercheck('order','shipplugedit')==true %]ondblClick="javascript:parent.onbotton('[%$ST.ordershipping_edit_title%]','index.php?archive=shipplug&action=shipplugedit&osid=[%$array[list].osid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'osidedit[%$array[list].osid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="5%"><input type="checkbox" name="selectinfoid" value="[%$array[list].osid%]"></td>
+			<td width="8%">
+				<input type="hidden" name="infoid" id="infoid" value="[%$array[list].osid%]">
+				<input type="text" name="pid" size="3" value="[%$array[list].pid%]" class="infoInput">
+			</td>
+			<td width="10%">[%$array[list].osid%]</td>
+			<td width="25%">[%$array[list].title%]</td>
+			<td width="12%">[%$array[list].price%]</td>
+			<td width="10%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].iscash==1%]<span class="select_ok"></span>[%else%]<span class="select_no"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="10%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isinsure==1%]<span class="select_ok"></span>[%else%]<span class="select_no"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="10%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isclass==1%]<span class="audit_ok" title="[%$ST.open_botton_title%]"></span>[%else%]<span class="audit_no" title="[%$ST.close_botton_title%]"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="10%" id="infotype">
+				[%if @this->powercheck('order','shipplugedit')==true %]
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						<td><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.ordershipping_edit_title%]','index.php?archive=shipplug&action=shipplugedit&osid=[%$array[list].osid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'osidedit[%$array[list].osid%]',self.frameElement.getAttribute('name'));" id="osidedit[%$array[list].osid%]" href="#body" title="[%$array[list].title%][%$ST.ordershipping_edit_title%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+					</tr>
+				</table>
+				[%/if%]
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+	<tr>
+	    <td align="center">[%$ST.list_nothing_title%]</td>
+	</tr>
+</table>
+</div>
+[%/if%]

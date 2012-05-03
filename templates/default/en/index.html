@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>{%$lngpack.sitename%}</title>
+<meta name="keywords" content="{%$lngpack.keyword%}" />
+<meta name="description" content="{%$lngpack.description%}" />
+<link href="{%$rootpath%}style/tempates_div.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/public.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{%$rootdir%}js/jquery.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/basicrun.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/easySlider1.5.js"></script>
+<script type="text/javascript">
+$().ready(function() {
+	$("#clickmenubotton li span").hover(function() {
+		$(this).addClass("bgmenuhove2");
+		$(this).parent().find("ul.subnav").slideDown('fast').show(); 
+		$(this).parent().hover(function() {}, function(){
+			$(this).parent().find("ul.subnav").fadeOut('fast');
+			$(this).parent().find("span").removeClass("bgmenuhove2");
+		});
+	});
+	$("#slider").easySlider({
+		auto: true,
+		continuous: true,
+		controlsShow:false,
+		pause:3000,
+		firstShow:false,
+		width:942
+	});
+});
+</script>
+</head>
+
+<body>
+<div class="head">
+	{%link file="en/public/head.html"%}
+	<!--bann-->
+	<div class="bann">
+		<div id="slider">
+			{%get name=bann class=atid:3,adtype:1,max:3%}
+				<ul>
+				{%forlist from=$array key=i%}
+					<li><a alt="{%$array[i].title%}" target="_blank" href="{%$array[i].url%}"><img title="{%$array[i].title%}" border="0" src="{%$rootdir%}{%$array[i].filename%}"></a></li>
+				{%/forlist%}
+				</ul>
+			{%/get%}
+		</div>
+	</div>
+	<!--left-->
+	<div class="framecenter margintop10">
+		<div class="frameleft">
+			<div class="aboutcontent">
+				{%get name=bread class=tid:27%}
+					<div class="fcontentstr lineheight200">
+						<img title="tel" src="{%$rootpath%}images/bann/a01.jpg" style="float: left;margin:5px 10px 5px 5px"/>
+						{%$read.summary%}
+					</div>
+				{%/get%}
+			</div>
+			<div class="fup margintop10"><span class="spantitle">Featured Products</span><span class="spanmone"><a class="morn" href="{%find:type class=29 out=link%}">Read more</a></span></div>
+			<div class="fcontent">
+				{%get name=list class=mid:3,max:5,sort:1%}
+				<ul class="piclist">
+					{%forlist from=$array key=i%}
+					<li title="{%$array[i].title%}">
+						<a href="{%$array[i].link%}"><img src="{%$array[i].pic|zoom(120,120)%}" alt="{%$array[i].title%}"></a>
+						<span class="t"><a class="infolist" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title|cutstr(10,'')%}</a></span><p>Price：<em>{%$array[i].bprice%}</em>元</p>
+					</li>
+					{%/forlist%}
+				</ul>
+				{%/get%}
+			</div>
+			<div class="fdown"></div>
+		</div>
+		<div class="frameright margintleft10">
+			<div class="fup"><span class="spantitle">News</span><span class="spanmone"><a class="morn" href="{%find:type class=28 out=link%}">Read more</a></span></div>
+			<div class="fcontent">
+				<ul class="textlist">
+				{%get name=list class=mid:1,max:7%}
+					{%forlist from=$array key=i%}
+					<li><a class="infolist" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title%}</a></li>
+					{%/forlist%}
+				{%/get%}
+				</ul>
+			</div>
+			<div class="fdown"></div>
+			
+			<div class="fup1 margintop5"><span class="spantitle">Search</span></div>
+			<div class="fcontent1">
+				{%get name=search class=mid:3,tid:29,att:0%}
+				<form name="infosearch" method="post" action="{%$link%}">
+				<input type="hidden" name="lng" value="{%$lng%}">
+				<input type="hidden" name="mid" value="{%$mid%}">
+				<table  class="formlist2">
+					<tr>
+						<td class="right">Keyword</td>
+						<td><input id="keyword" name="keyword" type="text" class="infoInput" size="20"/></td>
+					</tr>
+					{%forlist from=$searchatt key=list%}
+						<tr>
+							<td class="right">{%$searchatt[list].typename%}</td>
+							<td>
+								{%if ($searchatt[list].inputtype=='select')%}
+								<select size="1" name="att[{%$searchatt[list].attrname%}]" id="{%$searchatt[list].attrname%}">
+									<option value="">{%$ST.botton_select_name%}{%$searchatt[list].typename%}</option>
+									{%forlist from=$searchatt[list].attrvalue key=ii%}
+									<option {%$searchatt[list].attrvalue[ii].selected%} value="{%$searchatt[list].attrvalue[ii].name%}">{%$searchatt[list].attrvalue[ii].name%}</option>
+									{%/forlist%}
+								</select>
+								{%elseif ($searchatt[list].inputtype=='radio')%}
+									{%forlist from=$searchatt[list].attrvalue key=ii%}
+									<input type="radio" value="att[{%$searchatt[list].attrvalue[ii].name%}]" name="{%$searchatt[list].attrname%}" {%if $searchatt[list].attrvalue[ii].selected=='selected'%}checked="checked"{%/if%}/> {%$searchatt[list].attrvalue[ii].name%}&nbsp;
+									{%/forlist%}
+								{%elseif ($searchatt[list].inputtype=='checkbox')%}
+									{%forlist from=$searchatt[list].attrvalue key=ii%}
+									<input type="checkbox" value="att[{%$searchatt[list].attrvalue[ii].name%}]" name="{%$searchatt[list].attrname%}[]"/> {%$searchatt[list].attrvalue[ii].name%}&nbsp;
+									{%/forlist%}
+								{%else%}
+									<input type="text" name="att[{%$searchatt[list].attrname%}]" size="20" id="{%$searchatt[list].attrname%}" value="{%$searchatt[list].attrvalue%}" maxlength="{%$searchatt[list].attrlenther%}" class="infoInput"/>
+								{%/if%}
+							</td>
+						</tr>
+					{%/forlist%}
+					{%if count($array)%}
+					<tr>
+						<td class="right">Categories</td>
+						<td>
+							<select size="1" name="tid" class="select" id="tid">
+								{%forlist from=$array key=i%}
+								<option value="{%$array[i].tid%}">{%if $array[i].level>1%}├{%/if%}{%$array[i].level|treelist('─')%} {%$array[i].typename%}</option>
+								{%/forlist%}
+							</select>
+						</td>
+					</tr>
+					{%/if%}
+					<tr>
+						<td></td>
+						<td><input name="submitsearch" type="submit" class="buttonface" value="Search" /></td>
+					</tr>
+				</table>
+				</form>
+				{%/get%}
+			</div>
+			<div class="fdown1"></div>
+			
+			<div class="fup2 margintop5"><span class="spantitle">E-mail subscription</span></div>
+			<div class="fcontent1">
+				{%get name=invite class=mlvid:2%}
+				<form name="inviteform" method="post" action="{%$link%}">
+				<input type="hidden" name="mlvid" value="{%$read.mlvid%}">
+				<input type="hidden" name="lng" value="{%$read.lng%}">
+				<table  class="formlist2">
+					<tr>
+						<td><input id="email" name="email" type="text" class="infoInput" size="20"/></td>
+						<td><input name="submitsearch" type="submit" class="buttonface1" value="Subscribe" /></td>
+					</tr>
+				</table>
+				</form>
+				{%/get%}
+			</div>
+			<div class="fdown1"></div>
+		</div>
+	</div>
+	{%link file="en/public/link.html"%}
+</div>
+{%link file="en/public/footer.html"%}	
+</body>
+
+</html>

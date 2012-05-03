@@ -1,0 +1,22 @@
+<div id="listitle" class="listitle2">[%beark name=tablabel class=orderaddlist%]</div>
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" title="[%$array[list].title%] - [%$array[list].addtime|timeformat(3)%]">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="4%"><input type="checkbox" name="articleselectinfoid" value="[%$array[list].did%]"></td>
+			<td width="12%">[%$array[list].did%]</td>
+			<td width="84%" id="left" class="padding-left3"><a target="_blank" href="[%$array[list].readlink%]">[%$array[list].title%]</a></td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

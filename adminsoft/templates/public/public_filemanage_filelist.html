@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<link href="templates/css/prettyPhoto.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" language="JavaScript">
+	var filemanage_filecheck_select_allno = "[%$ST.filemanage_filecheck_select_allno%]";
+	var filemanage_filecheck_select_max = "[%$ST.filemanage_filecheck_select_max%]";
+	var filemanage_js_album_select_err = "[%$ST.filemanage_js_album_select_err%]";
+	
+	var fheight="[%$fheight%]";
+	var loadurl="[%$loadurl%]";
+	var ShowImage = function() {
+            xOffset = 10;
+            yOffset = 30;
+            $("#imglist").find(".showpic").hover(function(e) {
+                $("<img id='imgshow' src='" + this.id + "' height=\"100\"/>").appendTo("body");
+                $("#imgshow").css("top", (e.pageY - xOffset) + "px").css("left", (e.pageX + yOffset) + "px").fadeIn("fast");
+            }, function() {
+                $("#imgshow").remove();
+            });
+
+            $("#imglist").find("span").mousemove(function(e) {
+		$("#imgshow").css("top", (e.pageY - xOffset) + "px").css("left", (e.pageX + yOffset) + "px")
+            });
+        };
+
+	$(document).ready(function(){
+		var h = parseInt(fheight);
+		$('#mainbodybottonauto').css({height:h-44});
+		ShowImage();
+	})
+
+	function refile(){
+
+		var albumlist=$('input:[name="albumlist"]').val();
+		var albumiswidthlist=$('input:[name="albumiswidthlist"]').val();
+		if(albumlist){
+
+			filename=albumlist.substring(0,albumlist.length-1);
+			iswidtharray=albumiswidthlist.substring(0,albumiswidthlist.length-1);
+			parent.refile(filename,iswidtharray);
+		}else{
+			alert(filemanage_js_album_select_err);
+			return false;
+		}
+	}
+
+	function alselected(gid,imgpath,setype,iswidth){
+		var gidstr="#"+gid;
+
+		var maxselect=$('input:[name="maxselect"]').val();
+
+		var albumlist=$('input:[name="albumlist"]').val();
+
+		var albumiswidthlist=$('input:[name="albumiswidthlist"]').val();
+		if (setype=='selected'){
+
+			if (maxselect<1){
+				alert(filemanage_filecheck_select_max);
+
+				var htmlse='<input type="checkbox" id="'+gid+'" name="selectinfoid" value="'+imgpath+'" onclick="alselected(\''+gid+'\',this.value,\'selected\','+iswidth+');">';
+				$(htmlse).replaceAll("#"+gid);
+				return false;
+			}
+
+			var htmlse='<input type="checkbox" id="'+gid+'" name="selectinfoid" value="'+imgpath+'" onclick="alselected(\''+gid+'\',this.value,\'unde\','+iswidth+');" checked>';
+			$(htmlse).replaceAll("#"+gid);
+
+			var nowid=Number(maxselect)-1;
+			$('input:[name="maxselect"]').val(nowid);
+
+			var albumlist=albumlist+imgpath+'|';
+			$('input:[name="albumlist"]').val(albumlist);
+
+			var albumiswidthlist=albumiswidthlist+iswidth+'|';
+			$('input:[name="albumiswidthlist"]').val(albumiswidthlist);
+
+		}else{
+
+			var htmlse='<input type="checkbox" id="'+gid+'" name="selectinfoid" value="'+imgpath+'" onclick="alselected(\''+gid+'\',this.value,\'selected\','+iswidth+');">';
+			$(htmlse).replaceAll("#"+gid);
+
+			var maxnowid=Number(maxselect)+1;
+			$('input:[name="maxselect"]').val(maxnowid);
+
+			var albumlist=albumlist.replace(imgpath+"|","");
+			$('input:[name="albumlist"]').val(albumlist);
+
+			var albumiswidthlist=albumiswidthlist.replace(iswidth+"|","");
+			$('input:[name="albumiswidthlist"]').val(albumiswidthlist);
+		}
+	}
+	document.oncontextmenu=new Function('event.returnValue=false;');
+	document.onselectstart=new Function('event.returnValue=false;');
+</script>
+</head>
+	
+<body>
+<input type="hidden" name="maxselect" value="[%$maxselect%]"/>
+<input type="hidden" name="filepath" id="filepath" value="[%$filepath%]">
+<input type="hidden" name="albumlist" value=""/>
+<input type="hidden" name="albumiswidthlist" value=""/>
+<div id="mainbodybottonauto">
+	<div class="filelist" id="imglist">
+	[%if $updirtype==1%]
+	<div class="infolist" title="[%$ST.filemanage_view_updir%]">
+		<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF" onclick="javascript:document.location='[%$uploadurl%]';">
+			<tr>
+				<td width="5%"></td>
+				<td width="75%" id="left" class="padding-left3"><img src="templates/images/fileicon/dir.png"> /[%$dirlist%]</td>
+				<td width="20%" id="infotype">
+					<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+						<tr>
+							<td><a class="setedit3" id="center" href="[%$uploadurl%]" title="[%$ST.filemanage_view_updir%]" hidefocus="true">[%$ST.filemanage_view_updir%]</a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+	[%/if%]
+	[%if count($array) > 0%]
+	[%forlist from=$array key=list%]
+	<div class="infolist gallery clearfix"  title="[%$array[list].loadurl2%]">
+		[%if $array[list].bottype=='dir'%]
+		<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF" title="[%$ST.filemanage_view_opendir%]" onclick="javascript:document.location='[%$array[list].loadurl%]';">
+		[%/if%]
+		[%if $array[list].bottype=='img'%]
+		<table border="0" class="showpic" id="[%$url%][%$array[list].filename%]" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		[%/if%]
+		[%if $array[list].bottype=='text'%]
+		<table border="0"  style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		[%/if%]
+			<tr>
+				<td width="5%">
+					[%if $array[list].bottype!='dir'%]
+					<input type="checkbox" id="[%$array[list].fid%]" name="selectinfoid" value="[%$filepath%][%$array[list].filename%]" onclick="alselected('[%$array[list].fid%]',this.value,'selected',[%$array[list].iswidth%]);">
+					[%/if%]
+				</td>
+				<td width="65%" id="left" class="padding-left3"><img src="templates/images/fileicon/[%$array[list].type%].png"> [%$array[list].filename%]</td>
+				<td width="10%" id="right" class="padding-right3">[%if $array[list].bottype!='dir'%][%$array[list].size|format_size(1)%][%/if%]</td>
+				<td width="20%">[%$array[list].time|timeformat(3)%]</td>
+			</tr>
+		</table>
+	</div>
+	[%/forlist%]
+	[%else%]
+	<div class="infolist">
+		<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+			<tr>
+				<td align="center">[%$ST.list_nothing_title%]</td>
+			</tr>
+		</table>
+	</div>
+	[%/if%]
+	</div>
+</div>
+
+<div id="downbotton" style="margin-top: 5px;">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr id="bottonsubmit">
+				<td id="right"><input type="submit" name="Submit" id="submitbotton" onclick="javascript:refile();" value="[%$ST.botton_add%]" class="buttonface" title="[%$ST.botton_add%]"/></td>
+				<td id="left" class="padding-left5"><input type="reset" name="reset" onclick="javascript:parent.resetwindow();" id="release" value="[%$ST.botton_upfile_reset%]" class="buttonface"  title="[%$ST.botton_upfile_reset%]" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</body>
+
+</html>

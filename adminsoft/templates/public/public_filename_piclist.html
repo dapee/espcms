@@ -1,0 +1,9 @@
+[%if count($array)>0%]
+<ul>
+	[%forlist from=$array key=list%]
+		<li id="albumpic[%$array[list].afid%]" onclick="alselected('albumpic[%$array[list].afid%]','[%$array[list].fileallpath%]','selected',[%$array[list].iswidth%]);"><p><img src="[%$adminurl%][%$array[list].fileallpath%]" [%if $array[list].iswidth==1%]width="100"[%else%]height="100"[%/if%]><span class="panel_checkbox">已选中</span></p></li>
+	[%/forlist%]
+</ul>
+[%else%]
+[%$ST.filemanage_filecheck_select_fileno%]
+[%/if%]

@@ -1,0 +1,47 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" title="[%$array[list].templatename%] - [%$array[list].title%]" [%if @this->powercheck('templates','mailtemplateedit')==true %]ondblClick="javascript:parent.onbotton('[%$ST.mailtemplatemain_edit_title%]','index.php?archive=mailtemplatemain&action=mailtemplateedit&tmid=[%$array[list].tmid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'mailtempedit[%$array[list].tmid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="7%">[%$array[list].tmid%]</td>
+			<td width="5%">[%$array[list].lng%]</td>
+			<td width="28%">[%$array[list].templatename|cutstr(10)%]</td>
+			<td width="15%">[%$array[list].templatecode%]</td>
+			<td width="17%">[%$array[list].typeclass%]</td>
+			<td width="8%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].lockin==1%]<span class="select_ok"></span>[%else%]<span class="select_no"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="20%" id="infotype">
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						[%if @this->powercheck('templates','mailtemplateedit')==true %]
+						<td>
+							<a class="setedit" onclick="javascript:parent.onbotton('[%$ST.mailtemplatemain_edit_title%]','index.php?archive=mailtemplatemain&action=mailtemplateedit&tmid=[%$array[list].tmid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'mailtempedit[%$array[list].tmid%]',self.frameElement.getAttribute('name'));" id="mailtempedit[%$array[list].tmid%]" href="#body" title="[%$array[list].templatename%][%$ST.mailtemplatemain_edit_title%]" hidefocus="true">[%$ST.setedit_botton%]</a>
+						</td>
+						<td class="padding-left3">
+							<a class="setedit" onclick="javascript:parent.onbotton('[%$ST.mailtemplatemain_copy_title%]','index.php?archive=mailtemplatemain&action=mailtemplateedit&tmid=[%$array[list].tmid%]&type=copy&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'mailcopy[%$array[list].tmid%]',self.frameElement.getAttribute('name'));" id="mailcopy[%$array[list].tmid%]" href="#body" title="[%$array[list].templatename%][%$ST.mailtemplatemain_copy_title%]" hidefocus="true">[%$ST.setcopy_botton%]</a>
+						</td>
+						[%/if%]
+						[%if @this->powercheck('templates','mailtemplatedel')==true && $array[list].lockin==0%]
+						<td class="padding-left3"><a class="setedit" onclick="javascript:submiturl('index.php?archive=mailtemplatemain&action=mailtemplatedel&tmid=[%$array[list].tmid%]&lng=[%$array[list].lng%]&styleclass=[%$array[list].styleclass%]&typeclass=[%$array[list].typeclass%]&freshid='+Math.random(),'index.php?archive=management&action=load','[%$ST.run_ok%]','[%$ST.run_no%]',true,'[%$ST.mailtemplatemain_del_log_mess%]','selectform','selectall','check_all');" href="#body" title="[%$ST.setdel_botton%]" hidefocus="true">[%$ST.setdel_botton%]</a></td>
+						[%/if%]
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

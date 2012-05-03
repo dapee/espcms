@@ -1,0 +1,18 @@
+<div class="framecenter">
+	<div class="link margintop8">
+		<div class="fotterup"></div>
+		<div class="fottercontent">
+			<div class="linkfont">
+				<ul>
+				{%get name=bann class=atid:2,adtype:3 max:10%}
+					{%forlist from=$array key=i%}
+					<li>
+						<a title="{%$array[i].title%}" target="_blank" href="{%$array[i].url%}">{%$array[i].title%}</a>
+					</li>
+					{%/forlist%}
+				{%/get%}
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

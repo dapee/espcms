@@ -1,0 +1,149 @@
+body {
+	height: 100%;
+	background: url(../images/login_bg_line.jpg) repeat-x;
+	background-color: #ecf5fb;
+	overflow: hidden;
+}
+/*会员登陆提示框*/
+.login-div{
+	width:100%;
+	margin:0 auto;
+	padding:0px;
+	text-align:center;
+	background: url(../images/login_bg_top.jpg) no-repeat;
+}
+.login-top{
+	float: left;
+	width:564px;
+	height:21px;
+	background: url(../images/login_topbg.png) no-repeat;
+	background-position: 0px -0px;
+	display: block;
+}
+.login-down{
+	width:564px;
+	height:50px;
+	background: url(../images/login_topbg.png) no-repeat;
+	background-position: 0px -21px;
+	display: block;
+}
+.login-bg{
+	width:564px;
+	background: url('../images/login_bg.png') repeat-y top;
+}
+.login{
+	text-align:left;
+	padding:0px 0px 0px 20px;
+}
+.login-title{
+	width:200px;
+	padding-top:10px;
+	padding-left:25px;
+	text-align:left;
+}
+.loigntitle{
+	padding-top:10px;
+	line-height:180%;
+	font-size:12px;
+	color:gray;
+}
+.loign-line{
+	padding-left:15px;
+	margin:0 auto;
+}
+
+.login-form-center{
+	padding-left:10px;
+	width:300px;
+	text-align:left;
+	overflow: hidden;
+}
+.logintd {
+	height:33px;
+	line-height:33px;
+	font-size: 14px;
+	color: #3e3e3e;
+	text-align: right;
+}
+.logintd2 {
+	padding-left: 8px;
+	text-align: left;
+}
+
+.loginwanntile {
+	width: 175px;
+	text-align:left;
+	background: url('../images/login_login_BG.jpg') repeat-x top;
+	border: 1px #e9a43b solid;
+	background-color: #fae8b9;
+	overflow: hidden;
+	clear:both;
+}
+.loginwanntile ul {
+	list-style: none;
+	height:24px;
+	line-height:24px;
+	padding:2px;
+}
+.loginwanntile ul li {
+	padding-left:25px;
+	background: url(../images/icon_24.gif) no-repeat 0px 0px;
+	background-position: 0px -192px;
+	color: #cf6b47;
+}
+#centerlogin{
+	margin: 0 auto;
+	width:564px;
+	overflow: hidden;
+}
+.login-form{
+	float:left;
+	width:564px;
+	overflow: hidden;
+}
+.fotter{
+	float: left;
+	width:564px;
+	height:20px;
+	line-height:20px;
+	color:gray;
+	overflow: hidden;
+}
+/*windowsform*/
+.formtablewin {
+	width:100%;
+	padding-top: 5px;
+	border-collapse: collapse;
+}
+.formtablewin .trstyle2 td{
+	height:25px;
+	line-height: 25px;
+}
+
+.formtablewin .trstyle3 td{
+	border-bottom: 0px;
+}
+
+.formtablewin .trtitle01 {
+	width:20%;
+	font-weight: bold;
+	text-align: right;
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-right: 2px;
+}
+.formtablewin .trtitle02 {
+	width:80%;
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-left: 5px;
+}
+.formtablewin .trtitle03 {
+	width:100%;
+	font-weight: bold;
+	text-align: left;
+	background-color: #d0dbe8;
+	padding-top:5px;
+	padding-bottom:5px;
+	padding-left: 5px;
+}

@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/pngfix.js"></script>
+<script type="text/javascript">
+	[%$jsstrlist%]
+	function locationout(){
+		window.location.replace('index.php?archive=adminuser&action=loingout');
+	}
+	function sizewindow(){
+		if ($.browser.version==6.0){
+			var h=document.body.clientHeight;
+		}else{
+			var h = $(window).height();
+		}
+		$('.managebottonadd').css({height:h});
+	}
+	var resizewindow= null;
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+</script>
+</head>
+
+<body>
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div id="softmessage"></div>
+		<div class="menssageadmin">
+			<span class="fontsize14">[%$hellostr%]<span class="padding-left5 strong">[%$memberinfo.username%]（[%$memberinfo.name%]）</span><span class="padding-left5">[%$ST.management_login_welcomtitle%]</span> <span class="padding-left5">[%$ST.management_login_versiontitle%]：[%$softversion%]</span></span>
+		</div>
+		<div class="loginmessage">
+			<div class="logincenterdiv">
+				<div class="volmessage">
+					<span class="padding-left5 colorgorningage" id="softkyemessage">[%$ST.management_login_vol%][%$ST.management_login_vol_messvol%] [%$ST.management_login_vol_messvol_mess%]</span>
+				</div>
+				<table class="logincenterdivtable">
+					<tr class="trstyle1">
+						<td class="trtitle01">[%$ST.management_login_nowlogininfotitle02%]：</td>
+						<td class="trtitle02 colorgorning3 fontdec">[%$memberinfo.ipadd|ip(0)%]</td>
+						<td class="trtitle01">[%$ST.management_login_nowlogininfotitle01%]：</td>
+						<td class="trtitle02 colorgorning3 fontdec">[%$memberinfo.hit%]</td>
+						<td class="trtitle01">[%$ST.management_login_xtjetitle01%]：</td>
+						<td class="trtitle02 colorgorning3">[%$powerinfo.powername%]</td>
+					</tr>
+					<tr class="trstyle1">
+						<td class="trtitle01">[%$ST.management_login_logininfotitle02%]：</td>
+						<td class="trtitle02 colorgorning3 fontdec">[%$memberinfo.intotime|timeformat(3)%]</td>
+						<td class="trtitle01">[%$ST.management_login_logininfotitle03%]：</td>
+						<td class="trtitle02 colorgorning3 fontdec">[%$memberinfo.intime|timeformat(3)%]</td>
+						<td class="trtitle01">[%$ST.management_login_logininfotitle04%]：</td>
+						<td class="trtitle02 colorgorning3 fontdec">[%$memberinfo.outtime|timeformat(3)%]</td>
+					</tr>
+					<tr class="trstyle1">
+						<td class="trtitle01">[%$ST.management_login_phpinfo01%]</td>
+						<td class="trtitle02 colorgorning3 fontdec">[%$serverinfo.phpinfo%]</td>
+						<td class="trtitle01">[%$ST.management_login_phpinfo08%]</td>
+						<td class="trtitle02 colorgorning3 fontdec">[%$serverinfo.sqlver%]</td>
+						<td class="trtitle01">[%$ST.management_login_phpinfo02%]</td>
+						<td class="trtitle02 colorgorning3">[%$serverinfo.gdver%]</td>
+					</tr>
+					<tr class="trstyle1">
+						<td class="trtitle01">[%$ST.management_login_phpinfo03%]</td>
+						<td class="trtitle02 colorgorning3 fontdec">[%$serverinfo.safemode%]</td>
+						<td class="trtitle01">[%$ST.management_login_phpinfo04%]</td>
+						<td class="trtitle02 colorgorning3 fontdec">[%$serverinfo.register%]</td>
+						<td class="trtitle01">[%$ST.management_login_phpinfo05%]</td>
+						<td class="trtitle02 colorgorning3 fontdec">[%$serverinfo.getprc%]</td>
+					</tr>
+					<tr class="trstyle1">
+						<td class="trtitle01">[%$ST.management_login_phpinfo09%]</td>
+						<td class="trtitle02 colorgorning3 fontdec">[%$serverinfo.gzip%]</td>
+						<td class="trtitle01">[%$ST.management_login_phpinfo06%]</td>
+						<td class="trtitle02 colorgorning3 fontdec">[%$serverinfo.upinfo%]</td>
+						<td class="trtitle01">[%$ST.management_login_xtjetitle03%]：</td>
+						<td class="trtitle02 colorgorning3 fontdec">
+						[%forlist from=$lngarray key=i%]
+							[%$lngarray[i].lngtitle%]
+						[%/forlist%]
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<table style="width: 100%">
+			<tr>
+				<td valign="top" style="padding-top: 30px;">
+					<table style="width: 100%">
+						<tr>
+							<td>
+								<div class="formdiv">
+									<ul class="orderbottonlist" class="style:100%;">
+										[%forlist from=$menubotton key=i%]
+											<li><a class="[%$menubotton[i].classname%]" target="_top" title="[%$menubotton[i].menuname%]" href="[%$menubotton[i].linkurl%]&menuid=[%$menubotton[i].topmlid%]"></a></li>
+										[%/forlist%]
+									</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div id="loadingmessage"></div>
+</body>
+
+</html>

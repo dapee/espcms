@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var printtemplatemain_js_name_empty  = "[%$ST.printtemplatemain_js_name_empty%]";
+	var printtemplatemain_js_pic_empty  = "[%$ST.printtemplatemain_js_pic_empty%]";
+	var printtemplatemain_js_add_ok = "[%$ST.printtemplatemain_js_add_ok%]";
+	var printtemplatemain_js_add_no = "[%$ST.printtemplatemain_js_add_no%]";
+	var iframename = "[%$iframename%]";
+	iframename = iframename=='' ? "jerichotabiframe_0" : iframename;
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var options = {
+			beforeSubmit: formverify,
+			success:saveResponse,
+			resetForm: true
+		}
+		$('#printtemplateadd').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	})
+
+
+
+
+	function formverify(formData) {
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['templatename']==''){
+			document.printtemplateadd.templatename.focus();
+			alert(printtemplatemain_js_name_empty);
+			return false;
+		}
+		if(get['pic']=='') {
+			document.printtemplateadd.pic.focus();
+			alert(printtemplatemain_js_pic_empty);
+			return false;
+		}
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		var tab=document.getElementById("printtemplateaddtab").value;
+		if (options=='true'){
+			if (tab=='true'){
+				if(parent.frames[iframename].document.getElementById("selectform")){
+					parent.frames[iframename].refresh('selectform','selectall','check_all');
+				}
+			}
+			alert(printtemplatemain_js_add_ok);
+		}else{
+			alert(printtemplatemain_js_add_no);
+		}
+		if (tab=='true'){
+			parent.onaletdoc()
+		}
+	}
+</script>
+</head>
+
+<body>
+<form name="printtemplateadd" id="printtemplateadd" method="post" action="index.php?archive=printtemplatemain&action=save">
+<input type="hidden" name="inputclass" value="add">
+<input type="hidden" name="tab" id="printtemplateaddtab" value="[%$tab%]">
+<input type="hidden" name="styleclass" value="2">
+<input type="hidden" name="typeclass" value="print">
+<input type="hidden" name="lng" value="[%$lng%]">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.printtemplatemain_add_mess%]</span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr>
+						<td  class="trtitle03" colspan="2">[%$ST.printtemplatemain_add_mess_text%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.printtemplatemain_add_name%]</td>
+						<td class="trtitle02">
+							<input type="text" name="templatename" size="30" maxlength="30" class="infoInput"/>
+							<span class="cautiontitle">[%$ST.printtemplatemain_add_name_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.printtemplatemain_add_pic%]</td>
+						<td class="trtitle02">
+							<input type="text" name="pic" size="10" maxlength="50" class="infoInput"/>
+							<span class="cautiontitle">[%$ST.printtemplatemain_add_pic_mess%]</span>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td id="right"><input type="submit" id="printtemplateaddsubmit" name="Submit" value="[%$ST.botton_add%]" class="buttonface" /></td>
+				<td id="left" class="padding-left5"><input type="button" name="cancel" onClick="javascript:parent.onaletdoc();" value="[%$ST.botton_add_reset%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

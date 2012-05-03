@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="../public/tinyMCE/jquery.tinymce.js"></script>
+<script type="text/javascript" src="js/initedit.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var mailtemplatemain_js_name_empty  = "[%$ST.mailtemplatemain_js_name_empty%]";
+	var mailtemplatemain_js_title_empty  = "[%$ST.mailtemplatemain_js_title_empty%]";
+	var mailtemplatemain_js_code_empty  = "[%$ST.mailtemplatemain_js_code_empty%]";
+	var mailtemplatemain_js_type_empty  = "[%$ST.mailtemplatemain_js_type_empty%]";
+	var mailtemplatemain_js_content_empty  = "[%$ST.mailtemplatemain_js_content_empty%]";
+	var mailtemplatemain_js_copy_ok = "[%$ST.mailtemplatemain_js_copy_ok%]";
+	var mailtemplatemain_js_copy_no = "[%$ST.mailtemplatemain_js_copy_no%]";
+	var iframename = "[%$iframename%]";
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		editsimpleshow_height("#content");
+		var options = {
+			beforeSubmit: formverify,
+			success:saveResponse,
+			resetForm: true
+		}
+		$('#mailtemplatecopy').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	})
+
+	function formverify(formData) {
+		for (var i=0; i< formData.length; i++){
+			if (formData[i].name == "content"){
+				formData[i].value=tinyMCE.get('content').getContent()
+			}
+		}
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['templatename']==''){
+			document.mailtemplatecopy.templatename.focus();
+			alert(mailtemplatemain_js_name_empty);
+			return false;
+		}
+		if(get['title']=='') {
+			document.mailtemplatecopy.title.focus();
+			alert(mailtemplatemain_js_title_empty);
+			return false;
+		}
+		if(get['templatecode']==''){
+			document.mailtemplatecopy.templatecode.focus();
+			alert(mailtemplatemain_js_code_empty);
+			return false;
+		}
+		if(get['content']=='') {
+			alert(mailtemplatemain_js_content_empty);
+			return false;
+		}
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		if (options=='true'){
+			parent.frames[iframename].refresh('selectform','selectall','check_all');
+			alert(mailtemplatemain_js_copy_ok);
+		}else{
+			alert(mailtemplatemain_js_copy_no);
+		}
+		parent.onaletdoc()
+	}
+	function appendvariable(str){
+		tinyMCE.execCommand('mceInsertContent',false,str);
+	}
+
+	function mailtypeclass(typeclass){
+		if (typeclass!=0){
+			if(document.getElementById('ulbottonlist')){
+				$("#ulbottonlist").load('index.php?archive=mailtemplatemain&action=typeclasslist&typeclass='+typeclass+'&freshid='+Math.random());
+			}
+		}
+	}
+</script>
+</head>
+
+<body>
+<form name="mailtemplatecopy" id="mailtemplatecopy" method="post" action="index.php?archive=mailtemplatemain&action=save">
+<input type="hidden" name="inputclass" value="copy">
+<input type="hidden" name="tab" id="mailtemplateaddtab" value="[%$tab%]">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.mailtemplatemain_copy_mess%] <u>[%$read.templatename%]</u></span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr>
+						<td  class="trtitle03" colspan="2">[%$ST.mailtemplatemain_add_mess_text%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.mailtemplatemain_add_name%]</td>
+						<td class="trtitle02">
+							<input type="text" name="templatename" value="[%$read.templatename%]" size="50" maxlength="50" class="infoInput"/>
+							<span class="cautiontitle">[%$ST.mailtemplatemain_add_name_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.mailtemplatemain_add_tempcode%]</td>
+						<td class="trtitle02">
+							<input type="text" name="templatecode" size="30" maxlength="50" class="infoInput" onblur="checktemplatecode('templatecode',this.value,'typeclass',null,/^[\w]+$/ig,'index.php?archive=mailtemplatemain&action=checkcode&lng=[%$read.lng%]','codeerrid','[%$ST.mailtemplatemain_js_code_err2%]','[%$ST.mailtemplatemain_js_code_err1%]','templatecopysubmit');"/>
+							<span class="cautiontitle" id="codeerrid">[%$ST.mailtemplatemain_add_tempcode_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle3">
+						<td class="trtitle01">[%$ST.mailtemplatemain_add_title%]</td>
+						<td class="trtitle02">
+							<input type="text" name="title" value="[%$read.title%]" size="80" maxlength="80" class="infoInput"/>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle011"></td>
+						<td class="trtitle02">
+							<span class="cautiontitle">[%$ST.mailtemplatemain_add_title_option%]</span>
+						</td>
+					</tr>
+					<tr>
+						<td  class="trtitle03" colspan="2">[%$ST.mailtemplatemain_add_mess_text2%]</td>
+					</tr>
+					<tr class="trstyle3">
+						<td class="trtitle01">[%$ST.mailtemplatemain_add_re%]</td>
+						<td class="trtitle02">
+							<select size="1" name="setypeclass" id="setypeclass" onchange="javascript:mailtypeclass(this.value)">
+								<option value="0">[%$ST.mailtemplatemain_add_re_select%]</option>
+								[%forlist from=$typeclass key=list%]
+								<option [%$typeclass[list].selected%] value="[%$typeclass[list].key%]">[%$typeclass[list].name%]</option>
+								[%/forlist%]
+							</select>
+						</td>
+					</tr>
+					<tr class="trstyle3">
+						<td class="trtitle011"></td>
+						<td class="trtitle02"><span class="cautiontitle">[%$ST.mailtemplatemain_add_re_select_mess%]</span></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01"></td>
+						<td class="trtitle02" id="ulbottonlist">
+							<ul class="ulbottonlist">
+							[%forlist from=$array key=list%]
+								<li><input type="button" name="ordertitle" onClick="javascript:appendvariable('[%$array[list].title%]');" value="[%$array[list].name%]" class="bottons03" /></li>
+							[%/forlist%]
+							</ul>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.mailtemplatemain_add_content%]</td>
+						<td class="trtitle02">
+							<textarea name="content" id="content" style="width:98%;height:200px;" class="smallInput">[%$read.templatecontent%]</textarea>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td id="right"><input type="submit" id="templatecopysubmit" name="Submit" value="[%$ST.botton_copy%]" class="buttonface" /></td>
+				<td id="left" class="padding-left5"><input type="button" name="cancel" onClick="javascript:parent.onaletdoc();" value="[%$ST.botton_copy_reset%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<input type="hidden" name="styleclass" value="3">
+<input type="hidden" name="lng" value="[%$read.lng%]">
+<input type="hidden" name="tmid" value="[%$read.tmid%]">
+<input type="hidden" name="typeclass" value="[%$read.typeclass%]">
+</form>
+</body>
+
+</html>

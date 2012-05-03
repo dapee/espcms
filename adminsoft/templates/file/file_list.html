@@ -1,0 +1,73 @@
+[%if $updirtype==1%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF" onclick="javascript:search('[%$uploadurl%]');">
+			<tr>
+				<td width="5%"></td>
+				<td width="40%" id="left" class="padding-left3"><img src="templates/images/fileicon/dir.png"> /[%$dirlist%]</td>
+				<td width="10%"></td>
+				<td width="20%"></td>
+				<td width="25%" id="infotype">
+					<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+						<tr>
+							<td><a class="setedit3" href="#body" onclick="javascript:search('[%$uploadurl%]');" title="[%$ST.filemanage_view_updir%]" hidefocus="true">[%$ST.filemanage_view_updir%]</a></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+</div>
+[%/if%]
+<input type="hidden" name="filepath" id="filepath" value="[%$dirlist%]">
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist">
+	[%if $array[list].bottype=='dir'%]
+	<table border="0" style="border-collapse:collapse" width="100%" title="[%$ST.filemanage_view_opendir%]" bordercolor="#FFFFFF" ondblClick="javascript:search('[%$array[list].loadurl%]');">
+	[%else%]
+	<table border="0"  style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+	[%/if%]
+		<tr>
+			<td width="5%"><input type="checkbox" name="selectinfoid" value="[%$array[list].basename%]"></td>
+			<td width="40%" id="left" class="padding-left3"><img src="templates/images/fileicon/[%$array[list].type%].png"> [%$array[list].filename%]</td>
+			<td width="10%">[%if $array[list].bottype!='dir'%][%$array[list].size|format_size(1)%][%/if%]</td>
+			<td width="20%">[%$array[list].time|timeformat(3)%]</td>
+			<td width="25%" id="infotype">
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						[%if $array[list].bottype!='dir' && $array[list].bottype=='img'%]
+						<td>
+							<a class="setedit" target="_blank" href="[%$array[list].url%]" hidefocus="true">[%$ST.filemanage_view_botton%]</a>
+						</td>
+						[%if @this->powercheck('communicate','fileedit')==true %]
+						<td class="padding-left3">
+							<a class="setedit2" onclick="javascript:parent.onbotton('[%$ST.filemanage_view_edit%]','index.php?archive=filemain&action=imagecrop&dir=[%$dirlist%]&filename=[%$array[list].basename%]&type=[%$array[list].type%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'imagecrop[%$array[list].fid%]',self.frameElement.getAttribute('name'));" id="imagecrop[%$array[list].fid%]" href="#body" title="[%$ST.filemanage_view_edit%]" hidefocus="true">[%$ST.filemanage_view_edit%]</a>
+						</td>
+						[%/if%]
+						[%/if%]
+						[%if @this->powercheck('communicate','fileedit')==true && $array[list].bottype=='dir' %]
+						<td class="padding-left3">
+							<a class="setedit3" onclick="javascript:parent.onbotton('[%$ST.filemanage_view_rename1%]','index.php?archive=filemain&action=renamedir&dir=[%$dirlist%]&filename=[%$array[list].basename%]&type=dir&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'filerename[%$array[list].fid%]',self.frameElement.getAttribute('name'));" id="filerename[%$array[list].fid%]" href="#body" title="[%$ST.filemanage_view_rename1%]" hidefocus="true">[%$ST.filemanage_view_rename1%]</a>
+						</td>
+						[%/if%]
+						[%if @this->powercheck('communicate','fileedit')==true && $array[list].bottype!='dir' %]
+						<td class="padding-left3">
+							<a class="setedit3" onclick="javascript:parent.onbotton('[%$ST.filemanage_view_rename%]','index.php?archive=filemain&action=renamedir&dir=[%$dirlist%]&filename=[%$array[list].basename%]&type=[%$array[list].type%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'filerename[%$array[list].fid%]',self.frameElement.getAttribute('name'));" id="filerename[%$array[list].fid%]" href="#body" title="[%$ST.filemanage_view_rename%]" hidefocus="true">[%$ST.filemanage_view_rename%]</a>
+						</td>
+						[%/if%]
+					</tr>
+				</table>
+				
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

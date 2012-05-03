@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" src="js/dialog.js"></script>
+<script type="text/javascript" language="JavaScript">
+	var mangerlist_filecheck_js_filedirok = "[%$ST.mangerlist_filecheck_js_filedirok%]";
+	var mangerlist_filecheck_js_filedirno = "[%$ST.mangerlist_filecheck_js_filedirno%]";
+	var digheight="[%$digheight%]";
+	$(document).ready(function(){
+		var h = parseInt(digheight);
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+		var options = {
+			dataType: 'json',
+			beforeSubmit: formverify,
+			success:saveResponse
+		}
+		$('#filecheck').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	});
+
+
+
+
+	function formverify(formData, jqForm, options) {
+		$('#filecheckmanger').removeClass().addClass('formdiv displaynone');
+		$('#filecheckloading').removeClass().addClass('formdiv displaytrue');
+		$('#submitbotton').attr('disabled','true');
+	}
+
+	function saveResponse(options,post){
+		$('#filecheckloading').removeClass().addClass('formdiv displaynone');
+		$('#filechecklist').removeClass().addClass('formdiv displaytrue');
+		$('#bottonsubmit').removeClass().addClass('displaynone');
+		$('#bottonsubmit2').removeClass().addClass('displaytrue');
+
+		var htmldirtext=document.getElementById("html_dir");
+		var sitemapdirtext=document.getElementById("sitemap_dir");
+		var sqlbakdirtext=document.getElementById("sqlbak_dir");
+		var upfiledirtext=document.getElementById("upfile_dir");
+		var cachedirtext=document.getElementById("cache_dir");
+		if (options.htmldir=='true'){
+			htmldirtext.innerHTML=mangerlist_filecheck_js_filedirok;
+		}else{
+			htmldirtext.innerHTML=mangerlist_filecheck_js_filedirno;
+		}
+		if (options.sitemapdir=='true'){
+			sitemapdirtext.innerHTML=mangerlist_filecheck_js_filedirok;
+		}else{
+			sitemapdirtext.innerHTML=mangerlist_filecheck_js_filedirno;
+		}
+		if (options.sqlbakdir=='true'){
+			sqlbakdirtext.innerHTML=mangerlist_filecheck_js_filedirok;
+		}else{
+			sqlbakdirtext.innerHTML=mangerlist_filecheck_js_filedirno;
+		}
+		if (options.upfiledir=='true'){
+			upfiledirtext.innerHTML=mangerlist_filecheck_js_filedirok;
+		}else{
+			upfiledirtext.innerHTML=mangerlist_filecheck_js_filedirno;
+		}
+		if (options.cachedir=='true'){
+			cachedirtext.innerHTML=mangerlist_filecheck_js_filedirok;
+		}else{
+			cachedirtext.innerHTML=mangerlist_filecheck_js_filedirno+'('+options.cachedirkey+')';
+		}
+	}
+
+	function resetwindow(){
+		parent.closeifram();
+	}
+</script>
+</head>
+
+<body>
+<form name="filecheck" id="filecheck" method="post" action="index.php?archive=management&action=filecheck">
+<input type="hidden" name="execute" value="1"/>
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="padding-left5 colorgorningage">[%$ST.mangerlist_filecheck_mess%]</span></span>
+		</div>
+		<div class="sugtitle-line"></div>
+		<div class="formdiv" id="filecheckmanger">
+			<table border="0" width="100%">
+				<tr class="trstyle2" style="height:60px;line-height: 60px;">
+					<td id="center">[%$ST.mangerlist_filecheck_submit_mess%]</td>
+				</tr>
+			</table>
+		</div>
+		<div class="manageeditdiv_hover displaynone" id="filecheckloading">
+			<div class="maneditcontent">
+				<table class="formtablewin">
+					<tr class="trstyle2">
+						<td id="center"><img alt="" src="templates/images/loading_02.gif" /></td>
+					</tr>
+					<tr class="trstyle2">
+						<td id="center">[%$ST.mangerlist_filecheck_loading%]</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div class="manageeditdiv_hover displaynone" id="filechecklist">
+			<div class="maneditcontent">
+				<table class="formtablewin">
+					<tr class="trstyle2">
+						<td class="trtitle01" style="width:40%">[%$ST.mangerlist_filecheck_htmldir%]([%$filedirlist.htmldir%])</td>
+						<td class="trtitle02 colorgreg" style="width:60%" id="html_dir"></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.mangerlist_filecheck_sitemapdir%]([%$filedirlist.sitemapdir%])</td>
+						<td class="trtitle02 colorgreg" id="sitemap_dir"></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.mangerlist_filecheck_sqldir%]([%$filedirlist.sqlbakdir%])</td>
+						<td class="trtitle02 colorgreg" id="sqlbak_dir"></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.mangerlist_filecheck_upfiledir%]([%$filedirlist.upfiledir%])</td>
+						<td class="trtitle02 colorgreg" id="upfile_dir"></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.mangerlist_filecheck_cachedir%]([%$filedirlist.cachedir%])</td>
+						<td class="trtitle02 colorgreg" id="cache_dir"></td>
+					</tr>
+					<tr>
+						<td class="trstyle2"></td>
+						<td class="trtitle02 colorgorning3" id="cache_dir">
+							[%forlist from=$cachelist key=ii%]
+								[%$cachelist[ii].dir%]<br>
+							[%/forlist%]
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr id="bottonsubmit">
+				<td id="right"><input type="submit" name="Submit" id="submitbotton" value="[%$ST.botton_check%]" class="buttonface" title="[%$ST.botton_check%]"/></td>
+				<td id="left" class="padding-left5"><input type="reset" name="reset" value="[%$ST.botton_check_reset%]" onclick="javascript:resetwindow();" class="buttonface"  title="[%$ST.botton_check_reset%]"/></td>
+			</tr>
+			<tr class="displaynone" id="bottonsubmit2">
+				<td id="center" colspan="2"><input type="reset" name="reset" value="[%$ST.botton_close%]" onclick="javascript:resetwindow();" class="buttonface"  title="[%$ST.botton_close%]"/></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

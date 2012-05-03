@@ -1,0 +1,44 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" title="[%$array[list].templatename%]" [%if @this->powercheck('templates','printedit')==true %]ondblClick="javascript:parent.onbotton('[%$array[list].templatename%][%$ST.printtemplatemain_edit_title%]','index.php?archive=printtemplatemain&action=printedit&tmid=[%$array[list].tmid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'printcopy[%$array[list].tmid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="10%">[%$array[list].tmid%]</td>
+			<td width="60%">[%$array[list].templatename%]</td>
+			<td width="10%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].lockin==1%]<span class="select_ok"></span>[%else%]<span class="select_no"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="20%" id="infotype">
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						[%if @this->powercheck('templates','printedit')==true %]
+						<td>
+							<a class="setedit" onclick="javascript:parent.onbotton('[%$array[list].templatename%][%$ST.printtemplatemain_edit_title%]','index.php?archive=printtemplatemain&action=printedit&tmid=[%$array[list].tmid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'printcopy[%$array[list].tmid%]',self.frameElement.getAttribute('name'));" id="printcopy[%$array[list].tmid%]" href="#body" title="[%$array[list].templatename%][%$ST.printtemplatemain_edit_title%]" hidefocus="true">[%$ST.setedit_botton%]</a>
+						</td>
+						<td class="padding-left3">
+							<a class="setedit" onclick="javascript:parent.onbotton('[%$array[list].templatename%][%$ST.printtemplatemain_copy_title%]','index.php?archive=printtemplatemain&action=printedit&tmid=[%$array[list].tmid%]&type=copy&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'printtecopy[%$array[list].tmid%]',self.frameElement.getAttribute('name'));" id="printtecopy[%$array[list].tmid%]" href="#body" title="[%$array[list].templatename%][%$ST.printtemplatemain_copy_title%]" hidefocus="true">[%$ST.setcopy_botton%]</a>
+						</td>
+						[%/if%]
+						[%if @this->powercheck('templates','printdel')==true && $array[list].lockin==0%]
+						<td class="padding-left3"><a class="setedit" onclick="javascript:submiturl('index.php?archive=printtemplatemain&action=printdel&tmid=[%$array[list].tmid%]&lng=[%$array[list].lng%]&styleclass=[%$array[list].styleclass%]&typeclass=[%$array[list].typeclass%]&freshid='+Math.random(),'index.php?archive=management&action=load','[%$ST.run_ok%]','[%$ST.run_no%]',true,'[%$ST.printtemplatemain_del_log_mess%]','selectform','selectall','check_all');" href="#body" title="[%$ST.setdel_botton%]" hidefocus="true">[%$ST.setdel_botton%]</a></td>
+						[%/if%]
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

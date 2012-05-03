@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>Sign In - {%$lngpack.sitename%}</title>
+<meta name="keywords" content="{%$lngpack.keyword%}" />
+<meta name="description" content="{%$lngpack.description%}" />
+<link href="{%$rootpath%}style/tempates_div.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/public.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{%$rootdir%}js/jquery.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/basicrun.js"></script>
+<script type="text/javascript">
+var loing_input_err = "{%$lngpack.loing_input_err%}";
+var seccode_empty = "{%$lngpack.seescodeerr%}";
+
+$().ready(function() {
+	$("#clickmenubotton li span").hover(function() {
+		$(this).addClass("bgmenuhove2");
+		$(this).parent().find("ul.subnav").slideDown('fast').show(); 
+		$(this).parent().hover(function() {}, function(){
+			$(this).parent().find("ul.subnav").fadeOut('fast');
+			$(this).parent().find("span").removeClass("bgmenuhove2");
+		});
+	});
+});
+</script>
+</head>
+
+<body>
+<div class="head">
+	{%link file="en/public/head.html"%}
+	<div class="bann"><img src="{%$rootpath%}images/bann.jpg"/></div>
+	<div class="bann">
+		<div class="location"><a href="{%$homelink%}">Home</a> » <b>Sign In</b></div>
+	</div>
+	
+	<div class="framecenter margintop8">
+		<table style="width:90%;margin:0px auto;margin-top:50px;margin-bottom:50px;">
+			<tr>
+				<td style="width:50%">
+					<div class="sianin">
+						<div class="signintitle"><span class="fontsize14 strong">Sign In</span></div>
+						<div class="sianinbg">
+							<form name="mainform" method="post" action="{%$mlink.logindb%}" onSubmit="return memberlogin('{%$mem_isseccode%}')">
+							<table style="width: 100%;height:167px;" class="formlist">
+								<tr>
+									<th class="th3">ID</th>
+									<td><input type="text" name="username" id="username" class="infoInput" size="30" maxlength="15" /></td>
+								</tr>
+								<tr>
+									<th class="th3">Password</th>
+									<td><input type="password" name="password" id="password" class="infoInput" size="30" maxlength="15" /></td>
+								</tr>
+								{%if $mem_isseccode==1%}
+								<tr>
+									<th>Type the code shown</th>
+									<td>
+										<input type="text" id="seccode" name="seccode" class="infoInput" maxlength="4" size="5" style="text-transform: uppercase;"/> <img title="Try a new code" id="memberseccodesrc" onclick="sessionimg('memberseccodesrc','{%$rootdir%}')" src="{%$seccodelink%}" style="cursor: pointer;" align="absmiddle"/>
+									</td>
+								</tr>
+								{%/if%}
+								<tr>
+									<td class="th3">&nbsp;</td>
+									<td><input name="submit" type="submit" class="buttonface2" value="Sign in"/></td>
+								</tr>
+								<tr>
+									<td>&nbsp;</td>
+									<td><a href="{%$mlink.reg%}">Create a New Account</a> <a href="{%$mlink.lostpasswd%}">Forgot your password?</a></td>
+								</tr>
+							</table>
+							</form>
+						</div>
+					</div>
+					<div class="tipsnr"></div>
+				</td>
+				<td style="width:50%"><img src="{%$rootpath%}images/login.png" /></td>
+			</tr>
+		</table>
+	</div>
+	{%link file="en/public/link.html"%}
+</div>
+{%link file="en/public/footer.html"%}
+</body>
+
+</html>

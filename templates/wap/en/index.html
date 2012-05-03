@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=3.0"/>
+<title>{%$lngpack.sitename%}</title>
+<meta name="keywords" content="{%$lngpack.keyword%}" />
+<meta name="description" content="{%$lngpack.description%}" />
+<link href="{%$rootpath%}style/tempates_div.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/public.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{%$rootdir%}js/jquery.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/basicrun.js"></script>
+</head>
+
+<body>
+<div class="head">
+	{%link file="en/public/head.html"%}
+	<div class="framecenter">
+		<div class="fup"><span class="spantitle">Company Profile</span><span class="spanmone"><a class="morn" href="{%find:type class=27 out=link%}">Read more</a></span></div>
+		<div class="fdown"></div>
+		<div class="fcontent lineheight180">
+			{%get name=bread class=tid:27%}
+				{%$read.summary|cutstr(120,'…')%}
+			{%/get%}
+		</div>
+	</div>
+	<div class="framecenter">
+		<div class="fup"><span class="spantitle">News</span><span class="spanmone"><a class="morn" href="{%find:type class=28 out=link%}">Read more</a></span></span></div>
+		<div class="fdown"></div>
+		<div class="fcontent">
+			<ul class="newslist">
+				{%get name=list class=mid:1,max:5%}
+					{%forlist from=$array key=i%}
+					<li><a class="infolist" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title%}</a></li>
+					{%/forlist%}
+				{%/get%}
+			</ul>
+		</div>
+	</div>
+	<div class="framecenter">
+		<div class="fup"><span class="spantitle">Featured Products</span><span class="spanmone"><a class="morn" href="{%find:type class=29 out=link%}">Read more</a></span></div>
+		<div class="fdown"></div>
+		<div class="fcontent">
+			{%get name=list class=mid:3,max:4,sort:1%}
+			<ul class="piclist">
+				{%forlist from=$array key=i%}
+				<li title="{%$array[i].title%}">
+					<a href="{%$array[i].link%}"><img src="{%$array[i].pic|zoom(120,120)%}" alt="{%$array[i].title%}"></a>
+					<span class="t"><a class="infolist" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title|cutstr(10,'')%}</a></span><p><em>${%$array[i].bprice%}</em></p>
+				</li>
+				{%/forlist%}
+			</ul>
+			{%/get%}
+		</div>
+	</div>
+	<div class="framecenter">
+		<div class="fup"><span class="spantitle">E-mail subscription</span></div>
+		<div class="fdown"></div>
+		<div class="fcontent">
+			{%get name=invite class=mlvid:2%}
+			<form name="inviteform" method="post" action="{%$link%}">
+			<input type="hidden" name="mlvid" value="{%$read.mlvid%}">
+			<input type="hidden" name="lng" value="{%$read.lng%}">
+			<table  class="formlist2">
+				<tr>
+					<td>E-mail</td>
+					<td><input id="email" name="email" type="text" class="infoInput" size="20"/></td>
+					<td><input name="submitsearch" type="submit" class="buttonface1" value="Subscribe" /></td>
+				</tr>
+			</table>
+			</form>
+			{%/get%}
+		</div>
+	</div>
+</div>
+{%link file="en/public/footer.html"%}	
+</body>
+
+</html>

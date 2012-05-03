@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript" language="JavaScript">
+	var article_search_js_sid_err  = "[%$ST.article_search_js_sid_err%]";
+	var article_search_js_searchkey_err  = "[%$ST.article_search_js_searchkey_err%]";
+	var iframename = "[%$iframename%]";
+	var digheight="[%$digheight%]";
+	$(document).ready(function(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+		var options = {
+			beforeSubmit: formverify,
+			success:function(){
+				return false;
+			}
+		}
+		$('#docsearch').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	})
+
+	function formverify(formData, jqForm, options) {
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['searchkey']!=""){
+			if(get['searchkey'].match(/[\'\"\<\>\,\;\^\$\(\)\!\.]+/ig)!=null) {
+				document.docsearch.searchkey.focus();
+				alert(article_search_js_searchkey_err);
+				return false;
+			}
+		}
+		if (get['mid']==0){
+			document.docsearch.mid.focus();
+			alert(article_search_js_sid_err);
+			return false;
+		}
+		var esarchurl="index.php?archive=article&action=articlelist&isbase=2&mid="+get['mid']+"&aid=&tid="+get['tid']
+			+"&sid="+get['sid']+"&isclass="+get['isclass']+"&islink="+get['islink']+"&ishtml="+get['ishtml']+"&ismess=&isorder="+get['isorder']
+			+"&purview=&limitkey=&limitclass=&dlid="+get['dlid']+"&eqid=1&serchekey="+encodeURI(get['searchkey']);
+		parent.frames[iframename].search(esarchurl)
+		parent.closeifram();
+		return false;
+	}
+	
+	function searchoption(mid,title){
+		var lng=document.docsearch.lng.value;
+		selectlinkagelng('tid','index.php?archive=connected&action=sctypelist&isbase=1&islinkd=1&optiontitle='+title+'&mid='+mid+'&lng='+lng);
+		selectlinkagelng('sid','index.php?archive=connected&action=scsublist&optiontitle='+title+'&mid='+mid+'&lng='+lng);
+		selectlinkagelng('dlidlist','index.php?archive=connected&action=doclabellist&mid='+mid);
+	}
+</script>
+</head>
+
+<body style="background-color: #FFFFFF">
+<form name="docsearch" id="docsearch" method="post" action="#body">
+<input type="hidden" name="lng" id="lngtype" value="[%$lng%]">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="padding-left5 colorgorningage">[%$ST.article_search_title%]</span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtablewin">
+					<tr class="trstyle2">
+						<td width="20%" class="trtitle01">[%$ST.article_search_keyword%]</td>
+						<td width="80%" class="trtitle02"><input type="text" name="searchkey" size="30" maxlength="30" class="infoInput"/></td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="20%" class="trtitle01">[%$ST.subjectmanage_type_add_mid%]</td>
+						<td width="80%" class="trtitle02">
+							<select size="1" name="mid" id="mid" onchange="javascript:searchoption(this.value,'[%$ST.all_botton|escape('url')%]')">
+								<option value="0">[%$ST.subjectmanage_type_add_mid_option%]</option>
+								[%forlist from=$modelarray key=list%]
+								<option [%$modelarray[list].selected%] value="[%$modelarray[list].mid%]">[%$modelarray[list].modelname%]</option>
+								[%/forlist%]
+							</select>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="20%" class="trtitle01">[%$ST.article_doc_add_tid%]</td>
+						<td width="80%" class="trtitle02">
+							<select size="1" name="tid" id="tid">
+								<option value="0">[%$ST.all_botton%]</option>
+								[%forlist from=$typelist key=list%]
+								<option [%$typelist[list].selected%] value="[%$typelist[list].tid%]">[%if $typelist[list].level>0%]├[%/if%][%$typelist[list].level|treelist('─')%] [%$typelist[list].typename%]</option>
+								[%/forlist%]
+							</select>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="20%" class="trtitle01">[%$ST.article_doc_add_sid%]</td>
+						<td width="80%" class="trtitle02">
+							<select size="1" name="sid" id="sid">
+								<option value="0">[%$ST.all_botton%]</option>
+								[%forlist from=$subjectlistarray key=list%]
+								<option [%$subjectlistarray[list].selected%]  value="[%$subjectlistarray[list].sid%]">[%$subjectlistarray[list].subjectname%]</option>
+								[%/forlist%]
+							</select>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="20%" class="trtitle01">[%$ST.viewtype_botton%]</td>
+						<td width="80%" class="trtitle02">
+							<span id="dlidlist">
+								<input type="radio" value="0" checked="checked" name="dlid"/> [%$ST.all_botton%]
+								[%forlist from=$doclabel key=list%]
+								<input type="radio" name="dlid" value="[%$doclabel[list].dlid%]"/> [%$doclabel[list].labelname%]&nbsp;
+									[%div=>list=5%]<br>[%/div=>list%]
+								[%/forlist%]
+								
+							</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="20%" class="trtitle01">[%$ST.article_islink_botton%]</td>
+						<td width="80%" class="trtitle02">
+							<input type="radio" value="0" name="islink" checked="checked"/> [%$ST.all_botton%]&nbsp;
+							<input type="radio" value="1" name="islink"/> [%$ST.open_botton_title%]&nbsp;
+							<input type="radio" value="2" name="islink"/> [%$ST.close_botton_title%]
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="20%" class="trtitle01">[%$ST.article_ishtml_botton%]</td>
+						<td width="80%" class="trtitle02">
+							<input type="radio" value="0" name="ishtml" checked="checked"/> [%$ST.all_botton%]&nbsp;
+							<input type="radio" value="1" name="ishtml"/> [%$ST.article_ishtml_botton_2%]&nbsp;
+							<input type="radio" value="2" name="ishtml"/> [%$ST.article_ishtml_botton_1%]
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="20%" class="trtitle01">[%$ST.article_isorder_botton%]</td>
+						<td width="80%" class="trtitle02">
+							<input type="radio" value="0" name="isorder" checked="checked"/> [%$ST.all_botton%]&nbsp;
+							<input type="radio" value="1" name="isorder"/> [%$ST.open_botton_title%]&nbsp;
+							<input type="radio" value="2" name="isorder"/> [%$ST.close_botton_title%]
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="20%" class="trtitle01">[%$ST.lock_botton%]</td>
+						<td width="80%" class="trtitle02">
+							<input type="radio" value="0" name="isclass" checked="checked"/> [%$ST.all_botton%]&nbsp;
+							<input type="radio" value="1" name="isclass"/> [%$ST.infook_botton%]&nbsp;
+							<input type="radio" value="2" name="isclass"/> [%$ST.lockok_botton%]
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+			<table border="0" width="100%">
+				<tr id="bottonsubmit">
+					<td id="right"><input type="submit" name="Submit" id="submitbotton" value="[%$ST.botton_search%]" class="buttonface" title="[%$ST.botton_search%]"/></td>
+					<td id="left" class="padding-left5"><input type="reset" name="reset" onClick="javascript:parent.closeifram();" id="release" value="[%$ST.botton_search_reset%]" class="buttonface"  title="[%$ST.botton_search_reset%]" /></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+</form>
+</body>
+</html>

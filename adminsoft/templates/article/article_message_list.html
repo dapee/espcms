@@ -1,0 +1,49 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" [%if @this->powercheck('article','acmessagere')==true %]ondblClick="javascript:parent.onbotton('[%$ST.viewfield_botton%]','index.php?archive=acmessagemain&action=acmessagere&dmid=[%$array[list].dmid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'articleeditbotton[%$array[list].dmid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="4%"><input type="checkbox" name="selectinfoid" value="[%$array[list].dmid%]"></td>
+			<td width="7%">[%$array[list].dmid%]</td>
+			<td width="14%">[%$array[list].ipadd|ip(0)%]</td>
+			<td width="14%">[%$array[list].name%]</td>
+			<td width="6%">[%$array[list].support%]</td>
+			<td width="6%">[%$array[list].oppose%]</td>
+			<td width="14%">[%$array[list].addtime|timeformat(3)%]</td>
+			<td width="14%">[%if $array[list].retime>0%][%$array[list].retime|timeformat(3)%][%else%]<span class="strong colorgreg">[%$ST.formmessmain_isreply_botton2%]</span>[%/if%]</td>
+			<td width="6%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isreply==1%]<span class="select_ok"></span>[%else%]<span class="select_no"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="6%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isclass==1%]<span class="select_ok"></span>[%else%]<span class="select_no"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="9%" id="infotype">
+				[%if @this->powercheck('article','acmessagere')==true %]
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						<td><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.viewfield_botton%]','index.php?archive=acmessagemain&action=acmessagere&dmid=[%$array[list].dmid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'articleeditbotton[%$array[list].dmid%]',self.frameElement.getAttribute('name'));" id="articleeditbotton[%$array[list].dmid%]" href="#body" title="[%$ST.viewfield_botton%]" hidefocus="true">[%$ST.viewfield_botton%]</a></td>
+					</tr>
+				</table>
+				[%/if%]
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

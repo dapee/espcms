@@ -1,0 +1,3 @@
+{%forlist from=$array key=i%}
+<li><span class="names">{%$array[i].addtime|timeformat(1)%}</span> <a class="infolist" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title%}</a> </li>
+{%/forlist%}

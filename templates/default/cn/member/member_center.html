@@ -1,0 +1,1077 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>{%$lngpack.member_title%} - {%$lngpack.sitename%}</title>
+<meta name="keywords" content="{%$lngpack.keyword%}" />
+<meta name="description" content="{%$lngpack.description%}" />
+<link href="{%$rootpath%}style/tempates_div.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/public.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/pagebotton.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{%$rootdir%}js/jquery.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/basicrun.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/ajax_city.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/My97DatePicker/WdatePicker.js"></script>
+<script type="text/javascript">
+$().ready(function() {
+	$("#clickmenubotton li span").hover(function() {
+		$(this).addClass("bgmenuhove2");
+		$(this).parent().find("ul.subnav").slideDown('fast').show(); 
+		$(this).parent().hover(function() {}, function(){
+			$(this).parent().find("ul.subnav").fadeOut('fast');
+			$(this).parent().find("span").removeClass("bgmenuhove2");
+		});
+	});
+});
+</script>
+</head>
+
+<body>
+<div class="head">
+	{%link file="cn/public/head.html"%}
+	<div class="bann"><img src="{%$rootpath%}images/bann.jpg"/></div>
+	<div class="bann">
+		<div class="location">您现在的位置：<a href="{%$homelink%}">首页</a> » <b>{%$lngpack.member_title%}</b></div>
+	</div>
+	
+	<div class="framecenter margintop8">
+		<div class="frameright ">
+			<div class="fup3"><span class="spantitle">操作功能</span></div>
+			<div class="fcontent3">
+				{%list name=memmenu%}
+			</div>
+			<div class="fdown3"></div>
+		</div>
+		<div class="pagecontent margintleft10">
+			<div class="pagecontentstr">
+				{%if $out=='center'%}
+					<div class="righttext">
+						<div class="readlist">
+							<div class="tg1"><span class="font03 strong"><u>{%$member.username%}</u></span>欢迎您登陆会员中心</div>
+						</div>
+					</div>
+					<div class="righttext margintop8 center">
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td02 right" width="30%">您上次登陆的时间为：</td>
+								<td class="td02 left"><span class="font05 colorgorning">{%$member.lasttime|timeformat(3)%}</span></td>
+							</tr>
+							<tr>
+								<td class="td02 right">您上次登陆的IP为：</td>
+								<td class="td02 left"><span class="font05 colorgorning">{%$member.lastip|ip(0)%}</span></td>
+							</tr>
+							<tr>
+								<td class="td02 right">您的会员等级为：</td>
+								<td class="td02 left"><span class="font05 colorgorning">{%$member.rankname%}</span></td>
+							</tr>
+							<tr>
+								<td class="td02 right">您的会员积分为：</td>
+								<td class="td02 left"><span class="font05 colorgorning">{%$member.integral%}</span></td>
+							</tr>
+							<tr>
+								<td class="td02 right">您的登陆次数为：</td>
+								<td class="td02 left"><span class="font05 colorgorning">{%$member.visitcount%}次</span></td>
+							</tr>
+							<tr>
+								<td class="td02 right">您的可以操作：</td>
+								<td class="td02 left">
+									<a class="infolink02" href="{%$mlink.memedit_info%}">资料修改</a>
+									<a class="infolink02" href="{%$mlink.memedit_password%}">密码修改</a>
+									<a class="infolink02" href="{%$mlink.quit%}">退出</a>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="righttext">
+						<div class="readlist">
+							<div class="tg1">订单中心提示</div>
+						</div>
+					</div>
+					<div class="righttext margintop8 center">
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td02 center">您在本站共提交了 <u>{%$ordernum%}</u> 个订单 <span class="colorgreg centertext">您有 <u>{%$ordernum3%}</u> 个订单已发货</span> <span class="paddingleft"><a class="infolink02" href="{%$mlink.orderlist%}">点击查看订单列表</a></span></td>
+							</tr>
+						</table>
+					</div>
+					<div class="righttext">
+						<div class="readlist">
+							<div class="tg1">最新留言信息</div>
+						</div>
+					</div>
+					<div class="righttext margintop8 center">
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td02 center">您在本站共提交了 <u>{%$messagenum%}</u> 次留言 <span class="paddingleft"><a class="infolink02" href="{%$mlink.forumlist%}">点击查看留言列表</a></span></td>
+							</tr>
+						</table>
+					</div>
+				{%elseif $out=='editinfo'%}
+				<!--个人资料修改-->
+				<script type="text/javascript">
+				{%if $mem_isaddress==1%}
+				$(function() {
+				    sec_cityone('{%$member.country%}','{%$member.province%}');
+				    sec_citytwo('{%$member.province%}','{%$member.city%}');
+				    sec_district('{%$member.city%}','{%$member.district%}');
+				});
+				{%/if%}
+				var citytwo_title = "省";
+				var citythree_title = "市";
+				var district_title = "区";
+				var birthday_empty = "{%$lngpack.birthday_empty%}";
+				var qq_empty = "{%$lngpack.qq_empty%}";
+				
+				//会员资料修改
+				function editinfo(){
+					if(document.editmember.birthday.value!=""){
+						if(document.editmember.birthday.value.match(/^[1-9][0-9]{3}\-[0-9]{2}\-[0-9]{2}$/ig)==null) {
+							document.editmember.birthday.focus();
+							alert(birthday_empty);
+							return false;
+						}
+					}
+					if(document.editmember.qq.value!=""){
+						if(document.editmember.qq.value.match(/^[0-9]+$/ig)==null) {
+							document.editmember.qq.focus();
+							alert(qq_empty);
+							return false;
+						}
+					}
+					{%forlist from=$modelatt key=i%}
+						{%if $modelatt[i].isvalidate==1%}
+							{%if $modelatt[i].validatetext!=''%}
+								if(document.editmember.{%$modelatt[i].attrname%}.value.match({%$modelatt[i].validatetext%}ig)==null) {
+							{%else%}
+								if(document.editmember.{%$modelatt[i].attrname%}.value==''){
+							{%/if%}
+							document.editmember.{%$modelatt[i].attrname%}.focus();
+							alert('{%$modelatt[i].typename%}输入错误，请返回重新输入');
+							return false;
+						}
+						{%/if%}
+					{%/forlist%}
+				}
+				</script>
+				<div style="float:right;">
+					<div class="righttext"><div class="ttitle"><h3>个人资料修改</h3></div></div>
+					<div class="righttext margintop8 center">
+						<form name="editmember" id="editmember" method="post" action="{%$mlink.membersave%}" onsubmit="return editinfo()">
+						<input type="hidden" name="upurl" value="{%$upurl%}">
+						<input type="hidden" name="inputclass" value="editinfo">
+						<input type="hidden" name="userid" value="{%$member.userid%}">
+						<input type="hidden" name="username" value="{%$member.username%}">
+						<input type="hidden" name="email" value="{%$member.email%}">
+						<input type="hidden" name="mvid" value="{%$member.mvid%}">
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td02 right" width="20%">用户名：</td>
+								<td class="td02 left"><u>{%$member.username%}</u></td>
+							</tr>
+							<tr>
+								<td class="td02 right">电子邮箱：</td>
+								<td class="td02 left"><u>{%$member.email%}</u></td>
+							</tr>
+							<tr>
+								<td class="td02 right">姓名（昵称）：</td>
+								<td class="td02 left"><input type="text" name="alias" value="{%$member.alias%}" maxlength="50" size="30" class="infoInput"></td>
+							</tr>
+							<tr>
+								<td class="td02 right">性别：</td>
+								<td class="td02 left">
+								<input type="radio" value="1" name="sex" {%if $member.sex==1%}checked{%/if%}> 男&nbsp;
+								<input type="radio" value="0" name="sex" {%if $member.sex==0%}checked{%/if%}> 女
+								</td>
+							</tr>
+							<tr>
+								<td class="td02 right">生日：</td>
+								<td class="td02 left"><input type="text" name="birthday" value="{%$member.birthday|timeformat(2)%}" id="birthday" onclick="WdatePicker({el:'birthday',readOnly:true,dateFmt:'yyyy-MM-dd'})" maxlength="100" class="infoInput" size="20"> <span>请按“2000-00-00”格式进行填写</span></td>
+							</tr>
+							{%if $mem_isaddress==1%}
+							<tr>
+								<td class="td02 right">地区：</td>
+								<td class="td02 left">
+									<select size="1" name="cityone" class="select" id="cityone">
+									    <option value="0" {%if $member.country==0%}selected{%/if%}>国家</option>
+									    <option value="1" {%if $member.country==1%}selected{%/if%}>中国</option>
+									</select>
+									<select size="1" name="citytwo" class="select" id="citytwo">
+									    <option selected value="0">省</option>
+									</select>
+									<select size="1" name="citythree" class="select" id="citythree">
+									    <option selected value="0">市</option>
+									</select>
+									<select size="1" name="district" class="select" id="district">
+									    <option selected value="0">区</option>
+									</select>
+									<span id="loading">正在读取</span>
+								</td>
+							</tr>
+							{%/if%}
+							<tr>
+								<td class="td02 right">详细地址：</td>
+								<td class="td02 left"><input type="text" name="address" value="{%$member.address%}" maxlength="120" size="60" class="infoInput" ></td>
+							</tr>
+							<tr>
+								<td class="td02 right">邮编：</td>
+								<td class="td02 left"><input type="text" name="zipcode" value="{%$member.zipcode%}" maxlength="10" size="10" class="infoInput"></td>
+							</tr>
+							<tr>
+								<td class="td02 right">联系电话：</td>
+								<td class="td02 left"><input type="text" name="tel" value="{%$member.tel%}" maxlength="20" size="18" class="infoInput"></td>
+							</tr>
+							<tr>
+							    <td class="td02 right">手机</td>
+							    <td class="td02 left"><input type="text" name="mobile" value="{%$member.mobile%}" maxlength="20" size="18" class="infoInput"></td>
+							</tr>
+							<tr>
+							    <td class="td02 right">MSM</td>
+							    <td class="td02 left"><input type="text" name="msn" value="{%$member.msn%}" maxlength="50" size="30" class="infoInput"></td>
+							</tr>
+							<tr>
+							    <td class="td02 right">QQ</td>
+							    <td class="td02 left"><input type="text" name="qq" value="{%$member.qq%}" maxlength="10" size="15" class="infoInput"></td>
+							</tr>
+							{%if count($modelatt) > 0%}
+								{%forlist from=$modelatt key=list%}
+									<tr>
+										<td class="td02 right">{%if $modelatt[i].isvalidate==1%}* {%/if%}{%$modelatt[list].typename%}</td>
+										<td class="td02 left">
+											{%if $modelatt[list].inputtype=='string' || $modelatt[list].inputtype=='int' || $modelatt[list].inputtype=='float' || $modelatt[list].inputtype=='decimal'%}
+											<input type="text" name="{%$modelatt[list].attrname%}" size="{%$modelatt[list].attrsize%}" id="{%$modelatt[list].attrname%}" value="{%$modelatt[list].attrvalue%}" maxlength="{%$modelatt[list].attrlenther%}" class="infoInput"/>
+											{%elseif ($modelatt[list].inputtype=='text' || $modelatt[list].inputtype=='editor')%}
+											<textarea name="{%$modelatt[list].attrname%}" id="{%$modelatt[list].attrname%}"  style="width:99%;height:{%$modelatt[list].attrrow%}px;" class="infoInput">{%$modelatt[list].attrvalue%}</textarea>
+											{%elseif ($modelatt[list].inputtype=='htmltext')%}
+											<textarea name="{%$modelatt[list].attrname%}" id="{%$modelatt[list].attrname%}"  style="width:99%;height:{%$modelatt[list].attrrow%}px;" class="infoInput">{%$modelatt[list].attrvalue|Html2Text('0')%}</textarea>
+											{%elseif ($modelatt[list].inputtype=='selectinput')%}
+											<input type="text" name="{%$modelatt[list].attrname%}" size="{%$modelatt[list].attrsize%}" id="{%$modelatt[list].attrname%}" value="{%$modelatt[list].attrvalue%}" maxlength="{%$modelatt[list].attrlenther%}" class="infoInput"/>
+											<select size="1" name="{%$modelatt[list].attrname%}selectinputvalue" onchange="javascript:$('#{%$modelatt[list].attrname%}').val(this.value)">
+												<option value="">{%$ST.botton_select_name%}{%$modelatt[list].typename%}</option>
+												{%forlist from=$modelatt[list].selectinputvalue key=ii%}
+												<option value="{%$modelatt[list].selectinputvalue[ii].name%}">{%$modelatt[list].selectinputvalue[ii].name%}</option>
+												{%/forlist%}
+											</select>
+											{%elseif ($modelatt[list].inputtype=='datetime')%}
+											<input type="text" name="{%$modelatt[list].attrname%}" size="{%$modelatt[list].attrsize%}" id="{%$modelatt[list].attrname%}"  onclick="WdatePicker({el:'{%$modelatt[list].attrname%}',readOnly:true,dateFmt:'yyyy-MM-dd HH:mm:ss'})"  value="{%$modelatt[list].attrvalue|timeformat(3)%}" maxlength="{%$modelatt[list].attrlenther%}" class="infoInput"/>
+											{%elseif ($modelatt[list].inputtype=='select')%}
+											<select size="1" name="{%$modelatt[list].attrname%}" id="{%$modelatt[list].attrname%}">
+												<option value="">{%$ST.botton_select_name%}{%$modelatt[list].typename%}</option>
+												{%forlist from=$modelatt[list].attrvalue key=ii%}
+												<option {%$modelatt[list].attrvalue[ii].selected%} value="{%$modelatt[list].attrvalue[ii].name%}">{%$modelatt[list].attrvalue[ii].name%}</option>
+												{%/forlist%}
+											</select>
+											{%elseif ($modelatt[list].inputtype=='radio')%}
+												{%forlist from=$modelatt[list].attrvalue key=ii%}
+												<input type="radio" value="{%$modelatt[list].attrvalue[ii].name%}" name="{%$modelatt[list].attrname%}" {%if $modelatt[list].attrvalue[ii].selected=='selected'%}checked="checked"{%/if%}/> {%$modelatt[list].attrvalue[ii].name%}&nbsp;
+												{%/forlist%}
+											{%elseif ($modelatt[list].inputtype=='checkbox')%}
+												{%forlist from=$modelatt[list].attrvalue key=ii%}
+												<input type="checkbox" value="{%$modelatt[list].attrvalue[ii].name%}" name="{%$modelatt[list].attrname%}[]" {%if $modelatt[list].attrvalue[ii].selected=='selected'%}checked="checked"{%/if%}/> {%$modelatt[list].attrvalue[ii].name%}&nbsp;
+												{%/forlist%}
+											{%/if%}
+											{%if $modelatt[list].typeremark!=''%}<span class="cautiontitle">{%$modelatt[list].typeremark%}</span>{%/if%}
+										</td>
+									</tr>
+								{%/forlist%}
+							{%/if%}
+							<tr>
+								<td class="td02 center" colspan="2" style="height:50px;line-height:50px;">
+									<input name="submit" type="submit" class="buttonface2" value="确认修改资料"/>
+								</td>
+							</tr>
+						</table>
+						</form>
+					</div>
+				</div>
+				{%elseif $out=='editpassword'%}
+				<!--密码修改-->
+				<script type="text/javascript">
+					var oldpassword_err = "{%$lngpack.oldpassword_err%}";
+					var password_len = "{%$lngpack.password_err%}";
+					var password_len2 = "{%$lngpack.password_len2%}";
+					var password2_empty = "{%$lngpack.password2_err%}";
+					var password_disaffinity = "{%$lngpack.password_equal%}";
+				</script>
+				<div style="float:right;">
+					<div class="righttext"><div class="ttitle"><h3>密码修改</h3></div></div>
+					<div class="righttext margintop8 center">
+						<form name="editmember" id="editmember" method="post" action="{%$mlink.membersave%}" onsubmit="return editpassword()">
+						<input type="hidden" name="upurl" value="{%$upurl%}">
+						<input type="hidden" name="inputclass" value="editpassword">
+						<input type="hidden" name="userid" value="{%$member.userid%}">
+						<input type="hidden" name="username" value="{%$member.username%}">
+						<input type="hidden" name="email" value="{%$member.email%}">
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td02 right" width="20%">用户名：</td>
+								<td class="td02 left"><u>{%$member.username%}</u></td>
+							</tr>
+							<tr>
+								<td class="td02 right">电子邮箱：</td>
+								<td class="td02 left"><u>{%$member.email%}</u></td>
+							</tr>
+							<tr>
+								<td class="td02 right">旧密码：</td>
+								<td class="td02 left">
+									<input type="password" name="oldpassword" id="oldpassword" size="18" maxlength="15" class="infoInput"/>
+								</td>
+							</tr>
+							<tr>
+								<td class="td02 right">新密码：</td>
+								<td class="td02 left">
+									<input type="password" name="password" id="password" size="18" maxlength="15" class="infoInput"/>  <span>5－15 个字符，包括英文字母、中文、数字、下划线</span>
+								</td>
+							</tr>
+							<tr>
+								<td class="td02 right">重复新密码：</td>
+								<td class="td02 left"><input type="password" name="password2" id="password2" size="18" maxlength="15"  class="infoInput"/></td>
+							</tr>
+							<tr>
+								<td class="td02 center" colspan="2" style="height:50px;line-height:50px;">
+									<input name="submit" type="submit" class="buttonface2" value="确认修改密码"/>
+								</td>
+							</tr>
+						</table>
+						</form>
+					</div>
+				</div>
+				{%elseif $out=='editemail'%}
+				<!--邮箱修改-->
+				<script type="text/javascript">
+					var password_len = "{%$lngpack.password_err%}";
+					var email_err = "{%$lngpack.email_err%}";
+				</script>
+				<div style="float:right;">
+					<div class="righttext"><div class="ttitle"><h3>E-mail修改</h3></div></div>
+					<div class="righttext margintop8 center">
+						<form name="editmember" id="editmember" method="post" action="{%$mlink.membersave%}" onsubmit="return editmail()">
+						<input type="hidden" name="upurl" value="{%$upurl%}">
+						<input type="hidden" name="inputclass" value="editmail">
+						<input type="hidden" name="userid" value="{%$member.userid%}">
+						<input type="hidden" name="username" value="{%$member.username%}">
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td02 right" width="20%">用户名：</td>
+								<td class="td02 left"><u>{%$member.username%}</u></td>
+							</tr>
+							<tr>
+								<td class="td02 right">原电子邮箱：</td>
+								<td class="td02 left"><u>{%$member.email%}</u></td>
+							</tr>
+							<tr>
+								<td class="td02 right">密码：</td>
+								<td class="td02 left"><input type="password" name="password" id="password" size="18" maxlength="15" class="infoInput"/></td>
+							</tr>
+							<tr>
+								<td class="td02 right">新电子邮箱：</td>
+								<td class="td02 left"><input type="text" name="email" id="email" size="40" maxlength="100" class="infoInput" onblur="checktypename('email',this.value,'{%$mlink.checkusername%}','mailmsg','{%$lngpack.mem_regemail_ok%}','{%$lngpack.mem_regemail_no%}','editmailsubmit');" /> <span id="mailmsg"></span></td>
+							</tr>
+							<tr>
+								<td class="td02 center" colspan="2" style="height:50px;line-height:50px;">
+									<input name="submit" type="submit" class="buttonface2" value="确认修改E-mail"/>
+								</td>
+							</tr>
+						</table>
+						</form>
+					</div>
+				</div>
+				{%elseif $out=='orderlist'%}
+				<!--订单列表-->
+				<div style="float:right;">
+					<div class="righttext"><div class="ttitle"><h3>订单列表</h3></div></div>
+					{% if count($array) > 0 %}
+					<div class="righttext margintop8 center">
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td01">订单编号</td>
+								<td class="td01">订单金额</td>
+								<td class="td01">订单状态</td>
+								<td class="td01">订单时间</td>
+								<td class="td01">操作</td>
+							</tr>
+							{%forlist from=$array key=i%}
+							<tr>
+								<td class="td02"><a href="{%$array[i].link%}">{%$array[i].ordersn%}</a></td>
+								<td class="td02">{%$moneytype%}{%$array[i].orderamount%}</td>
+								<td class="td02 colorgreg">{%$array[i].ordertypename%}</td>
+								<td class="td02">{%$array[i].addtime|timeformat(4)%}</td>
+								<td class="td02">
+									<a href="{%$array[i].link%}" class="infolist_orning">查看订单</a>
+									{%if $array[i].ordertype==1%}<a href="javascript:if (confirm('您确定要取消该订单吗？')) location.href='{%$array[i].dlink%}';" class="infolist_orning">取消订单</a>{%/if%}
+								</td>
+							</tr>
+							{%/forlist%}
+						</table>
+					</div>
+					<div class="righttext center margintop8">
+						<div id="pagelist">{%$pagetext%}</div>
+					</div>
+					<div class="righttext center margintop8">
+						<div id="Pagination" class="pagination">{%$pagebotton%}</div>
+					</div>
+					{%else%}
+					<div class="righttext center margintop8">
+						<div id="pagelist">暂无订单</div>
+					</div>
+					{%/if%}
+				</div>
+				{%elseif $out=='orderread'%}
+				<!--订单基本信息-->
+				<script type="text/javascript">
+				{%if $mem_isaddress==1%}
+				$(function() {
+				    sec_cityone('{%$read.country%}','{%$read.province%}');
+				    sec_citytwo('{%$read.province%}','{%$read.city%}');
+				    sec_district('{%$read.city%}','{%$read.district%}');
+				});
+				{%/if%}
+				var citytwo_title = "省";
+				var citythree_title = "市";
+				var district_title = "区";
+				var address_title = "{%$lngpack.address_title%}";
+				var alias_empty = "{%$lngpack.alias_empty%}";
+				var email_err = "{%$lngpack.email_err%}";
+				var tel_empty = "{%$lngpack.tel_empty%}";
+				</script>
+				<div style="float:right;">
+					<div class="righttext"><div class="ttitle"><h3>订单基本信息</h3></div></div>
+					<div class="righttext margintop8 center">
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td02 right" width="20%">订单号：</td>
+								<td class="td02 left"><u>{%$read.ordersn%}</u></td>
+							</tr>
+							<tr>
+								<td class="td02 right">订单时间：</td>
+								<td class="td02 left">{%$read.addtime|timeformat(4)%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">订单状态：</td>
+								<td class="td02 left">{%$read.ordertypename%}</td>
+							</tr>
+						</table>
+					</div>
+					<div class="righttext margintop8 "><div class="ttitle"><h3>产品列表</h3></div></div>
+					<div class="righttext margintop8 center">
+						{% if count($array) > 0 %}
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td01" valign="middle">产品名称</td>
+								<td class="td01" valign="middle" align="right">单价</td>
+								<td class="td01" valign="middle">数量</td>
+								<td class="td01" valign="middle" align="right">小计</td>
+							</tr>
+							{%forlist from=$array key=i%}
+							<tr>
+								<td class="td02"><a target="_blank" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title|cutstr(35)%}</a></td>
+								<td class="td02" valign="middle" align="right">{%$moneytype%}{%$array[i].bprice%}</td>
+								<td class="td02 colorgreg" valign="middle">{%$array[i].amount%}</td>
+								<td class="td02" align="right">{%$moneytype%}{%$array[i].countprice%}</td>
+							</tr>
+							{%/forlist%}
+						</table>
+						{%else%}
+						<table width="100%" class="tablelist">
+							<tr align="center" class="td02"><td valign="middle">订单中暂无产品或产品数据不存在！</td></tr>
+						</table>
+						{%/if%}
+					</div>
+					<div class="righttext margintop8 "><div class="ttitle"><h3>金额及支付</h3></div></div>
+					<div class="righttext margintop8 center">
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td02 right" width="20%">商品总额：</td>
+								<td class="td02 left">{%$moneytype%}{%$read.productmoney%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">运送费用：</td>
+								<td class="td02 left">{%$moneytype%}{%$read.shippingmoney%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">折扣：</td>
+								<td class="td02 left">{%$moneytype%}{%$read.discount%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">订单总额：</td>
+								<td class="td02 left">商品总额{%$moneytype%}{%$read.productmoney%} - 折扣{%$moneytype%}{%$read.discount%} + 运费{%$moneytype%}{%$read.shippingmoney%} + 支付手续费{%$moneytype%}{%$read.paymoney%} = 订单总额{%$moneytype%}{%$read.orderamount%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">折扣：</td>
+								<td class="td02 left">{%$read.discount%}</td>
+							</tr>
+							{%if $read.paytime>0%}
+							<tr>
+								<td class="td02 right">支付方式：</td>
+								<td class="td02 left">{%$pay.payname%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">支付凭证号：</td>
+								<td class="td02 left">{%$read.paysn%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">支付时间：</td>
+								<td class="td02 left">{%$read.paytime|timeformat(4)%}</td>
+							</tr>
+							{%else%}
+							<tr>
+								<td class="td02 right">我要支付：</td>
+								<td class="td02 left">{%$orderonline%}</td>
+							</tr>
+							{%/if%}
+						</table>
+					</div>
+					{%if $read.ordertype==1 || $read.ordertype==2%}
+					<div class="righttext margintop8 "><div class="ttitle"><h3>收货信息修改</h3></div></div>
+					<div class="righttext margintop8 center">
+						<form name="ordersaveform" method="post" action="{%$mlink.ordereditsave%}" onsubmit="return ordersave()">
+						<input type="hidden" name="oid" value="{%$read.oid%}"/>
+						<input type="hidden" name="email" value="{%$read.email%}"/>
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td02 right" width="20%">收件人：</td>
+								<td class="td02 left"><input type="text" name="alias" value="{%$read.consignee%}" maxlength="50" size="30" class="infoInput" style="width:40%;"></td>
+							</tr>
+							<tr>
+								<td class="td02 right">电子邮箱：</td>
+								<td class="td02 left">{%$read.email%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">联系电话：</td>
+								<td class="td02 left"><input type="text" name="tel" value="{%$read.tel%}" maxlength="20" size="10" class="smallInput" style="width:40%;"></td>
+							</tr>
+							<tr>
+								<td class="td02 right">手机：</td>
+								<td class="td02 left"><input type="text" name="mobile" value="{%$read.mobile%}" maxlength="25" size="15" class="smallInput" style="width:40%;"></td>
+							</tr>
+							{%if $mem_isaddress==1%}
+							<tr>
+								<td class="td02 right">地区：</td>
+								<td class="td02 left">
+									<select size="1" name="cityone" class="select" id="cityone">
+									    <option value="0" {%if $read.country==0%}selected{%/if%}>国家</option>
+									    <option value="1" {%if $read.country==1%}selected{%/if%}>中国</option>
+									</select>
+									<select size="1" name="citytwo" class="select" id="citytwo">
+									    <option selected value="0">省</option>
+									</select>
+									<select size="1" name="citythree" class="select" id="citythree">
+									    <option selected value="0">市</option>
+									</select>
+									<select size="1" name="district" class="select" id="district">
+									    <option selected value="0">区</option>
+									</select>
+									<span id="loading">正在读取</span>
+								</td>
+							</tr>
+							{%/if%}
+							<tr>
+								<td class="td02 right">详细地址：</td>
+								<td class="td02 left"><input type="text" name="address" value="{%$read.address%}" maxlength="120" size="60" class="infoInput" style="width:70%;"></td>
+							</tr>
+							<tr>
+								<td class="td02 right">邮编：</td>
+								<td class="td02 left"><input type="text" name="zipcode" value="{%$read.zipcode%}" maxlength="10" size="10" class="smallInput"></td>
+							</tr>
+							<tr>
+								<td class="td02 right">送货时间：</td>
+								<td class="td02 left">
+									<select size="1" name="sendtime" class="select">
+									    <option value="1" {%if $read.sendtime==1%}selected{%/if%}>工作日、双休日与假日均可送货</option>
+									    <option value="2" {%if $read.sendtime==2%}selected{%/if%}>只双休日、假日送货(工作日不用送)</option>
+									    <option value="3" {%if $read.sendtime==3%}selected{%/if%}>只工作日送货(双休日、假日不用送)</option>
+									    <option value="4" {%if $read.sendtime==4%}selected{%/if%}>尽量安排其他时间送货,请备注说明</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td class="td02 right">配送方式：</td>
+								<td class="td02 left">
+								    {%$shiping.title%}
+								    {%if $read.shippingtime==0%}
+								    <font color="red"><b>未送货</b></font>
+								    {%else%}
+								    <font color="#008A00">已送货</font>&nbsp;&nbsp;
+								    <b>物流单号：</b><u>{%$read.shippingsn%}</u>&nbsp;&nbsp;
+								    <b>发货时间：</b><u>{%$read.shippingtime|timeformat(4)%}</u>
+								    {%/if%}
+								</td>
+							</tr>
+							<tr>
+								<td class="td02 right">备注：</td>
+								<td class="td02 left"><textarea name="content" rows="3" cols="50" style="width:100%;height:100px;">{%$read.content%}</textarea></td>
+							</tr>
+							<tr>
+								<td class="td02 right"></td>
+								<td class="td02 left"><input name="submit" type="submit" id="submit" class="buttonface2" value="修改配送信息" /></td>
+							</tr>
+						</table>
+						</form>
+					</div>
+					{%else%}
+					<div class="righttext margintop8 "><div class="ttitle"><h3>收货信息</h3></div></div>
+					<div class="righttext margintop8 center">
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td02 right" width="20%">收件人：</td>
+								<td class="td02 left">{%$read.consignee%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">电子邮箱：</td>
+								<td class="td02 left">{%$read.email%}</td>
+							</tr>
+							{%if $mem_isaddress==1%}
+							<tr>
+								<td class="td02 right">地区：</td>
+								<td class="td02 left">
+									<select size="1" name="cityone" class="select" id="cityone" disabled>
+									    <option value="0" {%if $read.country==0%}selected{%/if%}>请选择国家</option>
+									    <option value="1" {%if $read.country==1%}selected{%/if%}>中国</option>
+									</select>
+									<select size="1" name="citytwo" class="select" id="citytwo" disabled>
+									    <option selected value="0">请选择省份</option>
+									</select>
+									<select size="1" name="citythree" class="select" id="citythree" disabled>
+									    <option selected value="0">请选择城市</option>
+									</select>
+									<select size="1" name="district" class="select" id="district" disabled>
+									    <option selected value="0">请选择区域</option>
+									</select>
+									<span id="loading">正在读取</span>
+								</td>
+							</tr>
+							{%/if%}
+							<tr>
+								<td class="td02 right">详细地址：</td>
+								<td class="td02 left">{%$read.address%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">邮编：</td>
+								<td class="td02 left">{%$read.zipcode%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">联系电话：</td>
+								<td class="td02 left">{%$read.tel%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">手机：</td>
+								<td class="td02 left">{%$read.mobile%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">送货时间：</td>
+								<td class="td02 left">
+									{%if $read.sendtime==1%}工作日、双休日与假日均可送货{%/if%}{%if $read.sendtime==2%}工只双休日、假日送货(工作日不用送){%/if%}{%if $read.sendtime==3%}只工作日送货(双休日、假日不用送){%/if%}{%if $read.sendtime==4%}尽量安排其他时间送货,请备注说明{%/if%}
+								</td>
+							</tr>
+							<tr>
+								<td class="td02 right">配送方式：</td>
+								<td class="td02 left">
+								     {%$shiping.title%}
+								    {%if $read.shippingtime==0%}
+								    <font color="red"><b>未送货</b></font>
+								    {%else%}
+								    <font color="#008A00">已送货</font>&nbsp;&nbsp;
+								    <b>物流单号：</b><u>{%$read.shippingsn%}</u>&nbsp;&nbsp;
+								    <b>发货时间：</b><u>{%$read.shippingtime|timeformat(4)%}</u>
+								    {%/if%}
+								</td>
+							</tr>
+						</table>
+					</div>
+					{%/if%}
+					<div class="righttext margintop8 "><div class="ttitle"><h3>其它信息</h3></div></div>
+					<div class="righttext margintop8 center">
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td02 right" width="20%">发票抬头：</td>
+								<td class="td02 left">{%$read.invpayee%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">发票内容：</td>
+								<td class="td02 left">{%$read.invcontent%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">备注：</td>
+								<td class="td02 left">{%$read.content%}</td>
+							</tr>
+							{%if $read.integral>0%}
+							<tr>
+								<td class="td02 right">该订单所得积分：</td>
+								<td class="td02 left">{%$read.integral%}</td>
+							</tr>
+							{%/if%}
+						</table>
+					</div>
+				</div>
+				{%elseif $out=='enquirylist'%}
+				<!--询价列表-->
+				<div style="float:right;">
+					<div class="righttext"><div class="ttitle"><h3>询价列表</h3></div></div>
+					{% if count($array) > 0 %}
+					<div class="righttext margintop8 center">
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td01">询价编号</td>
+								<td class="td01">询价状态</td>
+								<td class="td01">询价时间</td>
+								<td class="td01">操作</td>
+							</tr>
+							{%forlist from=$array key=i%}
+							<tr>
+								<td class="td02"><a href="{%$array[i].link%}">{%$array[i].enquirysn%}</a></td>
+								<td class="td02 colorgreg">
+									{%if $array[i].isclass==0%}
+									新询价
+									{%elseif $array[i].isclass==1%}
+									已回复询价
+									{%elseif $array[i].isclass==2%}
+									已作废
+									{%/if%}
+								</td>
+								<td class="td02">{%$array[i].addtime|timeformat(4)%}</td>
+								<td class="td02">
+									<a href="{%$array[i].link%}" class="infolist_orning">查看询价</a>
+									{%if $array[i].isclass==0%}<a  class="infolist_orning" href="javascript:if (confirm('您确定要取消该询价吗？')) location.href='{%$array[i].dlink%}';">取消询价</a>{%/if%}
+								</td>
+							</tr>
+							{%/forlist%}
+						</table>
+					</div>
+					<div class="righttext center margintop8">
+						<div id="pagelist">{%$pagetext%}</div>
+					</div>
+					<div class="righttext center margintop8">
+						<div id="Pagination" class="pagination">{%$pagebotton%}</div>
+					</div>
+					{%else%}
+					<div class="righttext center margintop8">
+						<div id="pagelist">暂无询价</div>
+					</div>
+					{%/if%}
+				</div>
+				{%elseif $out=='enquiryread'%}
+				<!--询价信息-->
+				<script type="text/javascript">
+				{%if $mem_isaddress==1%}
+				$(function() {
+				    sec_cityone('{%$read.country%}','{%$read.province%}');
+				    sec_citytwo('{%$read.province%}','{%$read.city%}');
+				    sec_district('{%$read.city%}','{%$read.district%}');
+				});
+				{%/if%}
+				var citytwo_title = "省";
+				var citythree_title = "市";
+				var district_title = "区";
+				var address_title = "{%$lngpack.address_title%}";
+				var alias_empty = "{%$lngpack.alias_empty%}";
+				var email_err = "{%$lngpack.email_err%}";
+				var tel_empty = "{%$lngpack.tel_empty%}";
+				</script>
+				<div style="float:right;">
+					<div class="righttext"><div class="ttitle"><h3>询价基本信息</h3></div></div>
+					<div class="righttext margintop8 center">
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td02 right" width="20%">询价号：</td>
+								<td class="td02 left"><u>{%$read.enquirysn%}</u></td>
+							</tr>
+							<tr>
+								<td class="td02 right">询价时间：</td>
+								<td class="td02 left">{%$read.addtime|timeformat(4)%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">询价状态：</td>
+								<td class="td02 left">
+									{%if $read.isclass==0%}
+									新询价
+									{%elseif $read.isclass==1%}
+									已回复询价
+									{%elseif $read.isclass==2%}
+									已作废
+									{%/if%}
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="righttext margintop8 "><div class="ttitle"><h3>询价产品列表</h3></div></div>
+					<div class="righttext margintop8 center">
+						{% if count($array) > 0 %}
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td01" valign="middle">产品名称</td>
+								<td class="td01" valign="middle">产品编号</td>
+								<td class="td01" valign="middle">数量</td>
+							</tr>
+							{%forlist from=$array key=i%}
+							<tr>
+								<td class="td02"><a target="_blank" title="{%$array[i].title%}" href="{%$array[i].link%}">{%$array[i].title|cutstr(30)%}</a></td>
+								<td class="td02" valign="middle">{%$array[i].tsn%}</td>
+								<td class="td02 colorgreg" valign="middle">{%$array[i].amount%}</td>
+							</tr>
+							{%/forlist%}
+						</table>
+						{%else%}
+						<table width="100%" class="tablelist">
+							<tr align="center" class="td02"><td valign="middle">询价中暂无产品或产品数据不存在！</td></tr>
+						</table>
+						{%/if%}
+					</div>
+					{%if $read.isclass==0%}
+					<div class="righttext margintop8 "><div class="ttitle"><h3>询价人联系信息修改</h3></div></div>
+					<div class="righttext margintop8 center">
+						<form name="mainform" method="post" action="{%$mlink.enquiryeditsave%}" onsubmit="return enquirysave()">
+						<input type="hidden" name="eid" value="{%$read.eid%}"/>
+						<input type="hidden" name="email" value="{%$read.email%}"/>
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td02 right" width="20%">收件人：</td>
+								<td class="td02 left"><input type="text" name="linkman" value="{%$read.linkman%}" maxlength="50" size="30" class="infoInput"></td>
+							</tr>
+							<tr>
+								<td class="td02 right">性别：</td>
+								<td class="td02 left">
+									<input type="radio" value="1" name="sex" {%if $read.sex==1%}checked{%/if%}> 男&nbsp;
+									<input type="radio" value="0" name="sex" {%if $read.sex==0%}checked{%/if%}> 女
+								</td>
+							</tr>
+							<tr>
+								<td class="td02 right">电子邮箱：</td>
+								<td class="td02 left">{%$read.email%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">联系电话：</td>
+								<td class="td02 left"><input type="text" name="tel" value="{%$read.tel%}" maxlength="20" size="30" class="smallInput" style="width:40%;"></td>
+							</tr>
+							<tr>
+								<td class="td02 right">传真：</td>
+								<td class="td02 left"><input type="text" name="fax" value="{%$read.fax%}" maxlength="20" size="30" class="smallInput" style="width:40%;"></td>
+							</tr>
+							<tr>
+								<td class="td02 right">手机：</td>
+								<td class="td02 left"><input type="text" name="mobile" value="{%$read.mobile%}" maxlength="25" size="30" class="smallInput" style="width:40%;"></td>
+							</tr>
+							{%if $mem_isaddress==1%}
+							<tr>
+								<td class="td02 right">地区：</td>
+								<td class="td02 left">
+									<select size="1" name="cityone" class="select" id="cityone">
+									    <option value="0" {%if $read.country==0%}selected{%/if%}>国家</option>
+									    <option value="1" {%if $read.country==1%}selected{%/if%}>中国</option>
+									</select>
+									<select size="1" name="citytwo" class="select" id="citytwo">
+									    <option selected value="0">省</option>
+									</select>
+									<select size="1" name="citythree" class="select" id="citythree">
+									    <option selected value="0">市</option>
+									</select>
+									<select size="1" name="district" class="select" id="district">
+									    <option selected value="0">区</option>
+									</select>
+									<span id="loading">正在读取</span>
+								</td>
+							</tr>
+							{%/if%}
+							<tr>
+								<td class="td02 right">详细地址：</td>
+								<td class="td02 left"><input type="text" name="address" value="{%$read.address%}" maxlength="120" size="60" class="infoInput" style="width:70%;"></td>
+							</tr>
+							<tr>
+								<td class="td02 right">邮编：</td>
+								<td class="td02 left"><input type="text" name="zipcode" value="{%$read.zipcode%}" maxlength="10" size="10" class="smallInput"></td>
+							</tr>
+							<tr>
+								<td class="td02 right">备注：</td>
+								<td class="td02 left"><textarea name="content" rows="3" cols="50" style="width:100%;height: 100px;">{%$read.content%}</textarea></td>
+							</tr>
+							<tr>
+								<td class="td02 right"></td>
+								<td class="td02 left"><input name="submit" type="submit" id="submit" class="buttonface2" value="修改联系信息" /></td>
+							</tr>
+						</table>
+						</form>
+					</div>
+					{%else%}
+					<div class="righttext margintop8 "><div class="ttitle"><h3>询价人联系信息</h3></div></div>
+					<div class="righttext margintop8 center">
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td02 right" width="20%">联系人：</td>
+								<td class="td02 left">{%$read.linkman%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">电子邮箱：</td>
+								<td class="td02 left">{%$read.email%}</td>
+							</tr>
+							{%if $mem_isaddress==1%}
+							<tr>
+								<td class="td02 right">地区：</td>
+								<td class="td02 left">
+									<select size="1" name="cityone" class="select" id="cityone" disabled>
+									    <option value="0" {%if $read.country==0%}selected{%/if%}>请选择国家</option>
+									    <option value="1" {%if $read.country==1%}selected{%/if%}>中国</option>
+									</select>
+									<select size="1" name="citytwo" class="select" id="citytwo" disabled>
+									    <option selected value="0">请选择省份</option>
+									</select>
+									<select size="1" name="citythree" class="select" id="citythree" disabled>
+									    <option selected value="0">请选择城市</option>
+									</select>
+									<select size="1" name="district" class="select" id="district" disabled>
+									    <option selected value="0">请选择区域</option>
+									</select>
+									<span id="loading">正在读取</span>
+								</td>
+							</tr>
+							{%/if%}
+							<tr>
+								<td class="td02 right">详细地址：</td>
+								<td class="td02 left">{%$read.address%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">邮编：</td>
+								<td class="td02 left">{%$read.zipcode%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">联系电话：</td>
+								<td class="td02 left">{%$read.tel%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">传真：</td>
+								<td class="td02 left">{%$read.fax%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">手机：</td>
+								<td class="td02 left">{%$read.mobile%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right">备注：</td>
+								<td class="td02 left">{%$read.content%}</td>
+							</tr>
+						</table>
+					</div>
+					{%if $read.isclass==1%}
+					<div class="righttext margintop8 "><div class="ttitle"><h3>回复结果</h3></div></div>
+					<div class="righttext margintop8 center">
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td02 right" width="20%">回复结果：</td>
+								<td class="td02 left">{%$read.editresult%}</td>
+							</tr>
+							<tr>
+								<td class="td02 right" width="20%">回复时间：</td>
+								<td class="td02 left">{%$read.edittime|timeformat(4)%}</td>
+							</tr>
+						</table>
+					</div>
+					{%/if%}
+					{%/if%}
+				</div>
+				{%elseif $out=='forumlist'%}
+				<!--留言列表-->
+				<div style="float:right;">
+					<div class="righttext"><div class="ttitle"><h3>留言管理</h3></div></div>
+					{% if count($array) > 0 %}
+					<div class="righttext margintop8 center">
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td01">话题</td>
+								<td class="td01">时间</td>
+								<td class="td01">操作</td>
+							</tr>
+							{%forlist from=$array key=i%}
+							<tr>
+								<td class="td03 left"><a target="_blank" href="{%$array[i].link%}">{%$array[i].title|cutstr(35,'')%}</a></td>
+								<td class="td02">{%$array[i].addtime|timeformat(4)%}</td>
+								<td class="td02">
+									<a href="{%$array[i].edit%}">修改话题</a>
+								</td>
+							</tr>
+							{%/forlist%}
+						</table>
+					</div>
+					<div class="righttext center margintop8">
+						<div id="pagelist">{%$pagetext%}</div>
+					</div>
+					<div class="righttext center margintop8">
+						<div id="Pagination" class="pagination">{%$pagebotton%}</div>
+					</div>
+					{%else%}
+					<div class="righttext center margintop8">
+						<div id="pagelist">暂无留言</div>
+					</div>
+					{%/if%}
+				</div>
+				{%elseif $out=='forumedit'%}
+				<script type="text/javascript">
+				var forum_title_err = "{%$lngpack.forum_title_err%}";
+				var forum_input_err = "{%$lngpack.forum_input_err%}";
+				var email_err = "{%$lngpack.email_err%}";
+				var seccode_empty = "{%$lngpack.seescodeerr%}";
+				</script>
+				<!--留言查看-->
+				<div style="float:right;">
+					<div class="righttext"><div class="ttitle"><h3>修改留言</h3></div></div>
+					<div class="righttext margintop8 center">
+						<form name="bbsmainform" method="post" action="{%$mlink.forumeditsave%}" onSubmit="return forumcreat('0')">
+						<input type="hidden" name="userid" value="{%$read.userid%}">
+						<input type="hidden" name="bid" value="{%$read.bid%}">
+						<input type="hidden" name="btid" value="{%$read.btid%}">
+						<input type="hidden" name="lng" value="{%$read.lng%}">
+						<table style="width: 100%" class="tablelist">
+							<tr>
+								<td class="td02 right" width="11%">* 主题</td>
+								<td class="td02 left"><input type="text" name="title" value="{%$read.title%}" class="infoInput" style="width:95%;"/></td>
+							</tr>
+							<tr>
+								<td class="td02 right">* 姓名</td>
+								<td class="td02 left"><input type="text" name="username" class="infoInput" value="{%$read.username%}" style="width:50%;"/></td>
+							</tr>
+							<tr>
+								<td class="td02 right">* E-mail</td>
+								<td class="td02 left"><input type="text" name="email" class="infoInput" value="{%$read.email%}" style="width:50%;"/></td>
+							</tr>
+							<tr>
+								<td class="td02 right">* 内容</td>
+								<td class="td02 left"><textarea name="content" rows="30" id="content" style="width: 95%;height:250px;" class="smallInput">{%$read.content|Html2Text('0')%}</textarea></td>
+							</tr>
+							<tr>
+								<td colspan="2" class="td01 fontsize14 left">以下是可选项，建议填写以便我们与您联系！</td>
+							</tr>
+							<tr>
+								<td class="td02 right">QQ</td>
+								<td class="td02 left"><input type="text" name="qq" class="infoInput" value="{%$read.qq%}" style="width:50%;"/></td>
+							</tr>
+							<tr>
+								<td class="td02 right">MSN</td>
+								<td class="td02 left"><input type="text" name="msn" class="infoInput" value="{%$read.msn%}" style="width:50%;"/></td>
+							</tr>
+							<tr>
+								<td class="td02 right">联系地址</td>
+								<td class="td02 left"><input type="text" name="address" class="infoInput" value="{%$read.address%}" style="width:70%;"/></td>
+							</tr>
+							<tr>
+								<td class="td02 right">电话</td>
+								<td class="td02 left"><input type="text" name="tel" class="infoInput" value="{%$read.tel%}" style="width:20%;"/></td>
+							</tr>
+							<tr>
+								<td class="td02 right">手机</td>
+								<td class="td02 left"><input type="text" name="mobile" class="infoInput" value="{%$read.mobile%}" style="width:20%;"/></td>
+							</tr>
+							<tr>
+								<td class="td02"></td>
+								<td class="td02 left"><input name="submit" type="submit" class="buttonface2" value="修改话题"/></td>
+							</tr>
+						</table>
+						</form>
+					</div>
+				</div>
+				{%/if%}
+			</div>
+		</div>
+	</div>
+	{%link file="cn/public/link.html"%}
+</div>
+{%link file="cn/public/footer.html"%}
+</body>
+
+</html>

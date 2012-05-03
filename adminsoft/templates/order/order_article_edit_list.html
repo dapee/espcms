@@ -1,0 +1,30 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" id="orderlist[%$array[list].did%]">
+	<table border="0" style="width:100%">
+		<tr>
+			<td width="10%">[%$array[list].did%]</td>
+			<td width="50%" id="left" class="padding-left3">[%$array[list].title|cutstr(30)%]</td>
+			<td width="11%" id="right" class="padding-right3">
+				[%$order_moneytype%][%$array[list].bprice%]
+				<input type="hidden" name="bprice[%$array[list].did%]" value="[%$array[list].bprice%]">
+			</td>
+			<td width="8%">
+				<input type="text" name="orderhow[%$array[list].did%]" onBlur="javascript:againcountprice([%$array[list].did%]);" id="orderhow" value="1" size="2" maxlength="5" class="infoInput">
+				<input type="hidden" name="orderdid[]" id="orderdid" value="[%$array[list].did%]">
+			</td>
+			<td width="11%">
+				<input type="text" id="countprice[%$array[list].did%]" name="countprice[%$array[list].did%]" value="[%$array[list].bprice%]" size="8" class="infoInput" readonly="readonly">
+			</td>
+			<td width="10%" id="infotype">
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						<td ><a class="setedit" onclick="javascript:delorderlist('orderlist[%$array[list].did%]',[%$array[list].did%]);" href="#body" title="[%$ST.setdel_botton%]" hidefocus="true">[%$ST.setdel_botton%]</a></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%/if%]

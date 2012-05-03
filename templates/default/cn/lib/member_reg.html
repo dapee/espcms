@@ -1,0 +1,65 @@
+<!--js-->
+<script type="text/javascript">
+	var username_len = "{%$lngpack.username_err%}";
+	var email_err = "{%$lngpack.email_err%}";
+	var password_len = "{%$lngpack.password_err%}";
+	var password_len2 = "{%$lngpack.password_len2%}";
+	var password2_empty = "{%$lngpack.password2_err%}";
+	var password_disaffinity = "{%$lngpack.password_equal%}";
+	var agree_empty = "{%$lngpack.agree_empty%}";
+</script>
+<!--end_js-->
+<form name="memberreg" id="memberreg" method="post" action="{%$mlink.regsave%}" onsubmit="return memberdbreg()">
+<table style="width:90%;margin:0px auto;margin-top:30px;margin-bottom:30px;">
+	<tr>
+		<td>
+		<table>
+			<tr>
+				<td><span class="messicon"><img src="{%$rootpath%}images/status_online.gif" /></span></td>
+				<td><span class="messtext strong fontsize14">欢迎您注册成为我们的会员！</span></td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+	<tr>
+		<td><hr class="hrline"/></td>
+	</tr>
+	<tr>
+		<td style="padding-top:10px">
+			<table class="formlist" width="100%" style="margin:0 auto;">
+				<tr>
+					<th width="30%">用户名</th>
+					<td width="70%">
+						<input type="text" name="username" id="username" class="infoInput" value="" size="20" maxlength="15" onblur="checktypename('username',this.value,'{%$mlink.checkusername%}','usermsg','{%$lngpack.mem_reg_ok%}','{%$lngpack.mem_reg_no%}','regsubmit');"/> <span id="usermsg">请输入1-16个英文或数字组成的字符,首字必须为英文字符</span>
+					</td>
+				</tr>
+				<tr>
+					<th>电子邮箱</th>
+					<td>
+						<input type="text" name="email" id="email" value="" class="infoInput" size="40" maxlength="100" onblur="checktypename('email',this.value,'{%$mlink.checkusername%}','mailmsg','{%$lngpack.mem_regemail_ok%}','{%$lngpack.mem_regemail_no%}','regsubmit');"/> <span id="mailmsg">请真实填写您的邮件，用于密码找回和相关通知服务</span>
+					</td>
+				</tr>
+				<tr>
+					<th>密&nbsp;&nbsp;&nbsp; 码</th>
+					<td><input type="password" name="password" id="password" class="infoInput" size="18" maxlength="15" /> <span>5－15 个字符，包括英文字母、中文、数字、下划线</span></td>
+				</tr>
+				<tr>
+					<th>重复密码</th>
+					<td><input type="password" name="password2" id="password2" class="infoInput" size="18" maxlength="15" /></td>
+				</tr>
+				<tr>
+					<th>同意服务条款</th>
+					<td><input type="checkbox" name="agree" id="agree" value="1" /> <a target="_blank" href="{%$reglink%}" title="您是否同意服务条款">先看看条款？</a></td>
+				</tr>
+				<tr>
+					<th></th>
+					<td class="lineheight160">* 在提交您的注册信息时, 我们认为您已经同意了我们的服务条款。<br />* 这些条款可能在未经您同意的时候进行修改。</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td class="center" style="height:50px;line-height:50px;"><input name="submit" type="submit" class="buttonface" value="确认注册"/>	</td>
+	</tr>
+</table>
+</form>

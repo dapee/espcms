@@ -1,0 +1,47 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" title="[%$array[list].username%]-[%$array[list].powername%]" [%if @this->powercheck('system','groupedit')==true %][%if $array[list].delclass==0%]ondblClick="javascript:parent.onbotton('[%$array[list].powername|addslashes('hc')%][%$ST.grouplist_edit_title%]','index.php?archive=powergroup&action=groupedit&id=[%$array[list].id%]&copytype=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'group[%$array[list].id%]',self.frameElement.getAttribute('name'));"[%/if%][%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="10%">
+				[%if $array[list].delclass==0%]
+				<input type="checkbox" name="selectinfoid" value="[%$array[list].id%]">
+				[%/if%]
+			</td>
+			<td width="10%">[%$array[list].id%]</td>
+			<td width="60%">[%$array[list].powername%]</td>
+			<td width="10%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].delclass==0%]<span class="select_ok" title="[%$ST.grouplist_audit_ok%]"></span>[%else%]<span class="select_no" title="[%$ST.grouplist_audit_no%]"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="10%" id="infotype">
+				[%if @this->powercheck('system','groupedit')==true %]
+				<table>
+					<tr>
+						<td>
+						[%if $array[list].delclass==0%]
+							<a class="setedit" onclick="javascript:parent.onbotton('[%$array[list].powername|addslashes('hc')%][%$ST.grouplist_edit_title%]','index.php?archive=powergroup&action=groupedit&id=[%$array[list].id%]&copytype=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'group[%$array[list].id%]',self.frameElement.getAttribute('name'));" id="group[%$array[list].id%]" href="#body" title="[%$ST.grouplist_edit_title%]" hidefocus="true">[%$ST.setedit_botton%]</a>
+						[%else%]
+						[%$ST.grouplist_sys_mess%]
+						[%/if%]
+						</td>
+					</tr>
+				</table>
+				[%/if%]
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+	<tr>
+	    <td align="center">[%$ST.list_nothing_title%]</td>
+	</tr>
+</table>
+</div>
+[%/if%]

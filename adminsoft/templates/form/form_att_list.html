@@ -1,0 +1,57 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" onselectstart="return false;" title="[%$array[list].typename%]-[%$array[list].attrname%]"[%if @this->powercheck('communicate','formattredit')==true %] ondblClick="javascript:parent.onbotton('[%$array[list].attrname%][%$ST.formmain_attr_edit%]','index.php?archive=formmain&action=formattredit&faid=[%$array[list].faid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'attedit[%$array[list].faid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="4%"><input type="checkbox" name="attrselectinfoid" value="[%$array[list].faid%]"></td>
+			<td width="8%">
+				<input type="hidden" name="infoid" id="infoid" value="[%$array[list].faid%]">
+				<input type="text" name="pid" size="3" value="[%$array[list].pid%]" class="infoInput" >
+			</td>
+			<td width="8%">[%$array[list].faid%]</td>
+			<td width="20%">[%$array[list].typename|cutstr(10)%]</td>
+			<td width="17%">[%$array[list].attrname%]</td>
+			<td width="12%">[%$array[list].inputtype%]</td>
+			<td width="7%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isline==1%]<span class="select_ok"></span>[%else%]<span class="select_no"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="7%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isvalidate==1%]<span class="select_ok"></span>[%else%]<span class="select_no"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="7%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isclass==1%]<span class="audit_ok" title="[%$ST.modelmanage_audit_ok%]"></span>[%else%]<span class="audit_no" title="[%$ST.modelmanage_audit_no%]"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="10%" id="infotype">
+				[%if @this->powercheck('communicate','formattredit')==true %]
+				<table>
+					<tr>
+						<td><a class="setedit" onclick="javascript:parent.onbotton('[%$array[list].attrname%][%$ST.formmain_attr_edit%]','index.php?archive=formmain&action=formattredit&faid=[%$array[list].faid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'attedit[%$array[list].faid%]',self.frameElement.getAttribute('name'));" id="attedit[%$array[list].faid%]" href="#body" title="[%$ST.formmain_attr_edit%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+					</tr>
+				</table>
+				[%/if%]
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

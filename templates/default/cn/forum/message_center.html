@@ -1,0 +1,412 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>{%$type.typename%} - {%$lngpack.sitename%}</title>
+<meta name="keywords" content="{%$lngpack.keyword%}" />
+<meta name="description" content="{%$lngpack.description%}" />
+<link href="{%$rootpath%}style/tempates_div.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/public.css" rel="stylesheet" type="text/css" />
+<link href="{%$rootpath%}style/pagebotton.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{%$rootdir%}js/jquery.js"></script>
+<script type="text/javascript" src="{%$rootdir%}js/basicrun.js"></script>
+<script type="text/javascript">
+$().ready(function() {
+	$("#clickmenubotton li span").hover(function() {
+		$(this).addClass("bgmenuhove2");
+		$(this).parent().find("ul.subnav").slideDown('fast').show(); 
+		$(this).parent().hover(function() {}, function(){
+			$(this).parent().find("ul.subnav").fadeOut('fast');
+			$(this).parent().find("span").removeClass("bgmenuhove2");
+		});
+	});
+});
+</script>
+</head>
+
+<body>
+<div class="head">
+	{%link file="cn/public/head.html"%}
+	
+	<div class="bann"><img src="{%$rootpath%}images/bann.jpg"/></div>
+	<div class="bann">
+		<div class="location">您现在的位置：<a href="{%$homelink%}">首页</a> » <b>{%$type.typename%}</b></div>
+	</div>
+	
+	<div class="framecenter margintop10">
+		<div class="frameright ">
+			{%link file="cn/public/left.html"%}
+		</div>
+		<div class="pagecontent margintleft10">
+			<div class="pagecontentstr">
+			{%if $out=='forumbbs'%}
+				{%if count($array) > 0%}
+				<div class="righttext center">
+					<ul class="bbslist">
+						{%forlist from=$array key=i%}
+							<li>
+								<div class="sendname"><span class="colorgorningage">留言人：{%$array[i].username%}</span><span class="padding-left10 colorgorning3">留言时间：{%$array[i].addtime|timeformat(3)%}</span></div>
+								<div class="messagelist"><span class="colorgreen strong">主题：{%$array[i].title%}</span></div>
+								<div class="messagelist">{%$array[i].content|htmlcode('0')%}</div>
+								{%if count( $array[i].list )>0 %}
+								{%forlist from=$array[i].list key=ii%}
+								<div class="remessagelist colorgreen bgcolorthree2">
+									管理员回复：{%$array[i].list[ii].content|htmlcode('0')%}<br/>
+									<span class="colorgorning3">回复时间：{%$array[i].list[ii].addtime|timeformat(3)%}</span>
+								</div>
+								{%/forlist%}
+								{%/if%}
+							</li>
+						{%/forlist%}
+					</ul>
+				</div>
+				<div class="righttext center margintop8">
+					<div id="pagelist">
+						{%$pagetext%}
+					</div>
+				</div>
+				<div class="righttext center margintop8">
+					<div id="Pagination" class="pagination">
+						{%$pagebotton%}
+					</div>
+				</div>
+				{%else%}
+				<div class="righttext center margintop8">
+					<div id="pagelist">暂无留言</div>
+				</div>
+				{%/if%}
+				<div class="righttext margintop8">
+					<div class="readlist">
+						<div class="tg1">我要留言</div>
+						<div class="l">
+						{%if $member.userid!=0 || $type.purview==0%}
+							<script type="text/javascript">
+							var forum_title_err = "{%$lngpack.forum_title_err%}";
+							var forum_input_err = "{%$lngpack.forum_input_err%}";
+							var email_err = "{%$lngpack.email_err%}";
+							var seccode_empty = "{%$lngpack.seescodeerr%}";
+							</script>
+							<form name="bbsmainform" method="post" action="{%$mlink.forumsave%}" onSubmit="return forumcreat('{%$type.isseccode%}')">
+							<input type="hidden" name="userid" value="{%$member.userid%}">
+							<input type="hidden" name="inputclass" value="add">
+							<input type="hidden" name="btid" value="{%$type.btid%}">
+							<input type="hidden" name="lng" value="{%$lng%}">
+							<table class="formlist" style="width:662px;">
+								<tr>
+									<th class="fontsize14" width="15%">* 主题</th>
+									<td><input type="text" name="title" class="infoInput" style="width:95%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">* 姓名</th>
+									<td><input type="text" name="username" class="infoInput" value="{%$member.alias%}" style="width:50%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">* E-mail</th>
+									<td><input type="text" name="email" class="infoInput" value="{%$member.email%}" style="width:50%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">* 内容</th>
+									<td><textarea name="content" rows="15" class="infoInput" style="width:95%;height:180px;"></textarea></td>
+								</tr>
+								<tr>
+									<td colspan="2" class="td01 fontsize14">以下是可选项，建议填写以便我们与您联系！</td>
+								</tr>
+								<tr>
+									<th class="fontsize14">QQ</th>
+									<td><input type="text" name="qq" class="infoInput" value="{%$member.qq%}" style="width:50%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">MSN</th>
+									<td><input type="text" name="msn" class="infoInput" value="{%$member.msn%}" style="width:50%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">联系地址</th>
+									<td><input type="text" name="address" class="infoInput" value="{%$member.address%}" style="width:70%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">电话</th>
+									<td><input type="text" name="tel" class="infoInput" value="{%$member.tel%}" style="width:20%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">手机</th>
+									<td><input type="text" name="mobile" class="infoInput" value="{%$member.mobile%}" style="width:20%;"/></td>
+								</tr>
+								{%if $type.isseccode==1%}
+								<tr>
+									<th class="fontsize14">* 验证码</th>
+									<td>
+										<input type="text" id="seccode" name="seccode" class="infoInput" maxlength="4" size="5" style="text-transform: uppercase;"/>
+										<img title="点击更换验证码" id="memberseccodesrc" onclick="sessionimg('memberseccodesrc','{%$rootdir%}')" src="{%$seccodelink%}" style="cursor: pointer;" align="absmiddle"/>
+									</td>
+								</tr>
+								{%/if%}
+								<tr>
+									<th></th>
+									<td><input type="submit" name="submit" value="提交留言" class="buttonface2" /></td>
+								</tr>
+							</table>
+							</form>
+						{%else%}
+							<table class="formlist" style="width:662px;">
+								<tr>
+									<td>{%list name=login%}</td>
+								</tr>
+							</table>
+						{%/if%}
+						</div>
+					</div>
+				</div>
+			{%elseif $out=='forumlist'%}
+				{%if count($array) > 0%}
+				<div class="righttext center">
+					<table style="width: 100%" class="tablelist">
+					{%forlist from=$array key=i%}
+					<tr>
+						<td class="td03 left bbsicon">
+							<a class="infolink03" href="{%$array[i].link%}" title="{%$array[ii].title%}">{%$array[i].title|cutstr(30,'')%}</a>（{%$array[i].click%}阅/{%$array[i].replynum%}回）
+						</td>
+						<td class="td04 right"><u>{%$array[i].username%}</u> 于 {%$array[i].addtime|timeformat(3)%}</td>
+					</tr>
+					{%/forlist%}
+					</table>
+				</div>
+				<div class="righttext center margintop8">
+					<div id="pagelist">
+						{%$pagetext%}
+					</div>
+				</div>
+				<div class="righttext center margintop8">
+					<div id="Pagination" class="pagination">
+						{%$pagebotton%}
+					</div>
+				</div>
+				{%else%}
+				<div class="righttext center margintop8">
+					<div id="pagelist">暂无留言</div>
+				</div>
+				{%/if%}
+				<div class="righttext margintop8">
+					<div class="readlist">
+						<div class="tg1">我要留言</div>
+						<div class="l">
+						{%if $member.userid!=0 || $type.purview==0%}
+							<script type="text/javascript">
+							var forum_title_err = "{%$lngpack.forum_title_err%}";
+							var forum_input_err = "{%$lngpack.forum_input_err%}";
+							var email_err = "{%$lngpack.email_err%}";
+							var seccode_empty = "{%$lngpack.seescodeerr%}";
+							</script>
+							<form name="bbsmainform" method="post" action="{%$mlink.forumsave%}" onSubmit="return forumcreat('{%$type.isseccode%}')">
+							<input type="hidden" name="userid" value="{%$member.userid%}">
+							<input type="hidden" name="inputclass" value="add">
+							<input type="hidden" name="btid" value="{%$type.btid%}">
+							<input type="hidden" name="lng" value="{%$lng%}">
+							<table class="formlist" style="width:662px;">
+								<tr>
+									<th class="fontsize14" width="15%">* 主题</th>
+									<td><input type="text" name="title" class="infoInput" style="width:95%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">* 姓名</th>
+									<td><input type="text" name="username" class="infoInput" value="{%$member.alias%}" style="width:50%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">* E-mail</th>
+									<td><input type="text" name="email" class="infoInput" value="{%$member.email%}" style="width:50%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">* 内容</th>
+									<td><textarea name="content" rows="15" class="infoInput" style="width:95%;height:180px;"></textarea></td>
+								</tr>
+								<tr>
+									<td colspan="2" class="td01 fontsize14">以下是可选项，建议填写以便我们与您联系！</td>
+								</tr>
+								<tr>
+									<th class="fontsize14">QQ</th>
+									<td><input type="text" name="qq" class="infoInput" value="{%$member.qq%}" style="width:50%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">MSN</th>
+									<td><input type="text" name="msn" class="infoInput" value="{%$member.msn%}" style="width:50%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">联系地址</th>
+									<td><input type="text" name="address" class="infoInput" value="{%$member.address%}" style="width:70%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">电话</th>
+									<td><input type="text" name="tel" class="infoInput" value="{%$member.tel%}" style="width:20%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">手机</th>
+									<td><input type="text" name="mobile" class="infoInput" value="{%$member.mobile%}" style="width:20%;"/></td>
+								</tr>
+								{%if $type.isseccode==1%}
+								<tr>
+									<th class="fontsize14">* 验证码</th>
+									<td>
+										<input type="text" id="seccode" name="seccode" class="infoInput" maxlength="4" size="5" style="text-transform: uppercase;"/>
+										<img title="点击更换验证码" id="memberseccodesrc" onclick="sessionimg('memberseccodesrc','{%$rootdir%}')" src="{%$seccodelink%}" style="cursor: pointer;" align="absmiddle"/>
+									</td>
+								</tr>
+								{%/if%}
+								<tr>
+									<th></th>
+									<td><input type="submit" name="submit" value="提交留言" class="buttonface2" /></td>
+								</tr>
+							</table>
+							</form>
+						{%else%}
+							<table class="formlist" style="width:662px;">
+								<tr>
+									<td>{%list name=login%}</td>
+								</tr>
+							</table>
+						{%/if%}
+						</div>
+					</div>
+				</div>
+			{%elseif $out=='forumread'%}
+				<div class="righttext">
+					<table style="width:100%;margin:0px auto;margin-bottom:10px;" class="tablelist">
+						<tr>
+							<td class="td02"><h3>{%$read.title%}</h3></td>
+						</tr>
+						<tr>
+							<td class="td02 lineheight200">{%$read.content|htmlcode('0')%}</td>
+						</tr>
+						<tr>
+							<td class="td04 bgcolorthree2"><span class="colorgorningage">作者：<u>{%$read.username%}</u></span>&nbsp; 发表时间：{%$read.addtime|timeformat(3)%}&nbsp; 阅读:{%$read.click%}&nbsp;&nbsp; 回复：{%$read.replynum%}</td>
+						</tr>
+						{% if count($array) > 0 %}
+						{%forlist from=$array key=ii%}
+						<tr>
+							<td style="height:5px;"></td>
+						</tr>
+						<tr>
+							<td class="td02"><h5>{%$array[ii].title%}</h5></td>
+						</tr>
+						<tr>
+							<td class="td02 lineheight200">{%$array[ii].content|htmlcode('0')%}</td>
+						</tr>
+						<tr>
+							<td class="td04 bgcolorthree2"><span class="colorgorningage">{%if $array[ii].adminid>0 %}管理员回复{%else%}作者：<u>{%$array[ii].username%}</u>{%/if%}</span>&nbsp; 发表时间：{%$array[ii].addtime|timeformat(4)%}</td>
+						</tr>
+						{%/forlist%}
+						{%else%}
+						<tr>
+							<td style="height:5px;"></td>
+						</tr>
+						<tr>
+							<td class="center"><b>暂无人回复该主题！</b></td>
+						</tr>
+						{%/if%}
+					</table>
+				</div>
+				{% if count($array) > 0 %}
+				<div class="righttext margintop8">
+					<table style="width:100%">
+						<tr>
+							<td class="right" style="padding-right:5px;">
+								<div id="Pagination" class="pagination">{%$pagebotton%}</div>
+							</td>
+						</tr>
+					</table>
+				</div>
+				{%/if%}
+				{%if $type.ispage==2%}
+				<div class="righttext margintop8">
+					<div class="readlist">
+						<div class="tg1">我要回复</div>
+						<div class="l">
+						{%if $member.userid!=0 || $type.purview==0%}
+							<script type="text/javascript">
+							var forum_title_err = "{%$lngpack.forum_title_err%}";
+							var forum_input_err = "{%$lngpack.forum_input_err%}";
+							var email_err = "{%$lngpack.email_err%}";
+							var seccode_empty = "{%$lngpack.seescodeerr%}";
+							</script>
+							<form name="bbsmainform" method="post" action="{%$mlink.forumsave%}" onSubmit="return forumcreat('{%$type.isseccode%}')">
+							<input type="hidden" name="userid" value="{%$member.userid%}">
+							<input type="hidden" name="inputclass" value="reinput">
+							<input type="hidden" name="btid" value="{%$type.btid%}">
+							<input type="hidden" name="bid" value="{%$read.bid%}">
+							<input type="hidden" name="lng" value="{%$lng%}">
+							<input type="hidden" name="reemail" value="{%$read.email%}">
+							<table class="formlist" style="width:662px;">
+								<tr>
+									<th class="fontsize14" width="15%">* 主题</th>
+									<td><input type="text" name="title" class="infoInput" value="RE:{%$read.title%}" style="width:95%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">* 姓名</th>
+									<td><input type="text" name="username" class="infoInput" value="{%$member.alias%}" style="width:50%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">* E-mail</th>
+									<td><input type="text" name="email" class="infoInput" value="{%$member.email%}" style="width:50%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">* 内容</th>
+									<td><textarea name="content" rows="15" class="infoInput" style="width:95%;height:180px;"></textarea></td>
+								</tr>
+								<tr>
+									<td colspan="2" class="td01 fontsize14">以下是可选项，建议填写以便我们与您联系！</td>
+								</tr>
+								<tr>
+									<th class="fontsize14">QQ</th>
+									<td><input type="text" name="qq" class="infoInput" value="{%$member.qq%}" style="width:50%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">MSN</th>
+									<td><input type="text" name="msn" class="infoInput" value="{%$member.msn%}" style="width:50%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">联系地址</th>
+									<td><input type="text" name="address" class="infoInput" value="{%$member.address%}" style="width:70%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">电话</th>
+									<td><input type="text" name="tel" class="infoInput" value="{%$member.tel%}" style="width:20%;"/></td>
+								</tr>
+								<tr>
+									<th class="fontsize14">手机</th>
+									<td><input type="text" name="mobile" class="infoInput" value="{%$member.mobile%}" style="width:20%;"/></td>
+								</tr>
+								{%if $type.isseccode==1%}
+								<tr>
+									<th class="fontsize14">* 验证码</th>
+									<td>
+										<input type="text" id="seccode" name="seccode" class="infoInput" maxlength="4" size="5" style="text-transform: uppercase;"/>
+										<img title="点击更换验证码" id="memberseccodesrc" onclick="sessionimg('memberseccodesrc','{%$rootdir%}')" src="{%$seccodelink%}" style="cursor: pointer;" align="absmiddle"/>
+									</td>
+								</tr>
+								{%/if%}
+								<tr>
+									<th></th>
+									<td><input type="submit" name="submit" value="提交留言" class="buttonface2" /></td>
+								</tr>
+							</table>
+							</form>
+						{%else%}
+							<table class="formlist" style="width:662px;">
+								<tr>
+									<td>{%list name=login%}</td>
+								</tr>
+							</table>
+						{%/if%}
+						</div>
+					</div>
+				</div>
+				{%/if%}
+			{%/if%}
+			</div>
+		</div>
+	</div>
+	{%link file="cn/public/link.html"%}
+</div>
+{%link file="cn/public/footer.html"%}	
+</body>
+
+</html>

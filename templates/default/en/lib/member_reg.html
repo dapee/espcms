@@ -1,0 +1,65 @@
+<!--js-->
+<script type="text/javascript">
+	var username_len = "{%$lngpack.username_err%}";
+	var email_err = "{%$lngpack.email_err%}";
+	var password_len = "{%$lngpack.password_err%}";
+	var password_len2 = "{%$lngpack.password_len2%}";
+	var password2_empty = "{%$lngpack.password2_err%}";
+	var password_disaffinity = "{%$lngpack.password_equal%}";
+	var agree_empty = "{%$lngpack.agree_empty%}";
+</script>
+<!--end_js-->
+<form name="memberreg" id="memberreg" method="post" action="{%$mlink.regsave%}" onsubmit="return memberdbreg()">
+<table style="width:90%;margin:0px auto;margin-top:30px;margin-bottom:30px;">
+	<tr>
+		<td>
+		<table>
+			<tr>
+				<td><span class="messicon"><img src="{%$rootpath%}images/status_online.gif" /></span></td>
+				<td><span class="messtext strong fontsize14">Create an Account！</span></td>
+			</tr>
+		</table>
+		</td>
+	</tr>
+	<tr>
+		<td><hr class="hrline"/></td>
+	</tr>
+	<tr>
+		<td style="padding-top:10px">
+			<table class="formlist" width="100%" style="margin:0 auto;">
+				<tr>
+					<th width="30%">ID</th>
+					<td width="70%">
+						<input type="text" name="username" id="username" class="infoInput" value="" size="20" maxlength="15" onblur="checktypename('username',this.value,'{%$mlink.checkusername%}','usermsg','{%$lngpack.mem_reg_ok%}','{%$lngpack.mem_reg_no%}','regsubmit');"/> <span id="usermsg"></span>
+					</td>
+				</tr>
+				<tr>
+					<th>Email Address</th>
+					<td>
+						<input type="text" name="email" id="email" value="" class="infoInput" size="40" maxlength="100" onblur="checktypename('email',this.value,'{%$mlink.checkusername%}','mailmsg','{%$lngpack.mem_regemail_ok%}','{%$lngpack.mem_regemail_no%}','regsubmit');"/> <span id="mailmsg"></span>
+					</td>
+				</tr>
+				<tr>
+					<th>Password</th>
+					<td><input type="password" name="password" id="password" class="infoInput" size="18" maxlength="15" /></td>
+				</tr>
+				<tr>
+					<th>Reenter password</th>
+					<td><input type="password" name="password2" id="password2" class="infoInput" size="18" maxlength="15" /></td>
+				</tr>
+				<tr>
+					<th>Privacy Policy </th>
+					<td><input type="checkbox" name="agree" id="agree" value="1" /> <a target="_blank" href="{%$reglink%}" title="Privacy Policy">Privacy Policy？</a></td>
+				</tr>
+				<tr>
+					<th></th>
+					<td class="lineheight160">By clicking the “Create My Account” button below, I certify that I have read and agree to the ESPCMS! Terms of Service, ESPCMS Privacy Policy and Communications Terms of Service, and to receive account related communications from ESPCMS! electronically. To deliver product features, relevant advertising and abuse protection, ESPCMS!</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td class="center" style="height:50px;line-height:50px;"><input name="submit" type="submit" class="buttonface2" value="Create My Account"/>	</td>
+	</tr>
+</table>
+</form>

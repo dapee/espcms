@@ -1,0 +1,160 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var orderpay_js_title_empty  = "[%$ST.orderpay_js_title_empty%]";
+	var orderpay_js_payis_empty  = "[%$ST.orderpay_js_payis_empty%]";
+	var orderpay_js_edit_ok = "[%$ST.orderpay_js_edit_ok%]";
+	var orderpay_js_edit_no = "[%$ST.orderpay_js_edit_no%]";
+	var iframename = "[%$iframename%]";
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var options = {
+			beforeSubmit: formverify,
+			success:saveResponse
+		}
+		$('#payplugedit').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	})
+
+
+
+
+	function formverify(formData) {
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['payname']==""){
+			document.payplugedit.payname.focus();
+			alert(orderpay_js_payname_empty);
+			return false;
+		}
+		if(get['payis'].match(/^[0-9]{1}[0-9.]*$/ig)==null) {
+			document.payplugedit.payis.focus();
+			alert(orderpay_js_payis_empty);
+			return false;
+		}
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		if (options=='true'){
+			parent.frames[iframename].refresh('selectform','selectall','check_all');
+			alert(orderpay_js_edit_ok);
+		}else{
+			alert(orderpay_js_edit_no);
+		}
+		parent.onaletdoc()
+	}
+</script>
+</head>
+
+<body>
+<form name="payplugedit" id="payplugedit" method="post" action="index.php?archive=payplug&action=paysave">
+<input type="hidden" name="inputclass" value="edit">
+<input type="hidden" name="opid" value="[%$read.opid%]"/>
+<input type="hidden" name="plugcode" value="[%$read.paycode%]"/>
+<input type="hidden" name="version" value="[%$read.payplugver%]"/>
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.orderpay_edit_mess%] <u>[%$read.payname%]</u></span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.orderpay_add_otherinfo%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.orderpay_add_payname%]</td>
+						<td class="trtitle02">
+							<input type="text" name="payname" size="30" maxlength="80" value="[%$read.payname%]" class="infoInput"/>
+							<span class="cautiontitle">[%$ST.orderpay_add_payname_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.orderpay_add_paycontent%]</td>
+						<td class="trtitle02"><textarea name="paycontent" cols="80" rows="5" class="infoInput">[%$read.paycontent%]</textarea></td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$ST.orderpay_add_payis%]</td>
+						<td class="trtitle02"><input type="text" name="payis" size="4" maxlength="6" value="[%$read.payis%]" class="infoInput"/> % <span class="cautiontitle">[%$ST.orderpay_add_payis_mess%]</span></td>
+					</tr>
+					[%forlist from=$paylist_config key=list%]
+					[%if $paylist_config[list].type=='text'%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$paylist_config[list].botname%]</td>
+						<td class="trtitle02">
+							<input type="text" name="inputvalue[]" value="[%$paylist_config[list].value%]" maxlength="50" size="40" class="infoInput">
+							<input type="hidden" name="inputname[]" value="[%$paylist_config[list].name%]">
+							<input type="hidden" name="inputtype[]" value="[%$paylist_config[list].type%]">
+							<input type="hidden" name="botname[]" value="[%$paylist_config[list].botname%]">
+							<input type="hidden" name="sevalue[]" value="">
+						</td>
+					</tr>
+					[%/if%]
+					[%if $paylist_config[list].type=='select'%]
+					<tr class="trstyle2">
+						<td class="trtitle01">[%$paylist_config[list].botname%]</td>
+						<td class="trtitle02">
+							<select size="1" name="inputvalue[]">
+								[%forlist from=$paylist_config[list].sevalue key=i%]
+								<option value="[%list=>i%]" [%if $paylist_config[list].value==list=>i%]selected[%/if%]>[%$paylist_config[list].sevalue=>i%]</option>
+								[%/forlist%]
+							</select>
+							<input type="hidden" name="inputname[]" value="[%$paylist_config[list].name%]">
+							<input type="hidden" name="inputtype[]" value="[%$paylist_config[list].type%]">
+							<input type="hidden" name="botname[]" value="[%$paylist_config[list].botname%]">
+							<input type="hidden" name="sevalue[]" value="[%forlist from=$paylist_config[list].sevalue key=i%][%$paylist_config[list].sevalue=>i%]|[%/forlist%]">
+						</td>
+					</tr>
+					[%/if%]
+					[%/forlist%]
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td id="right"><input type="submit" name="Submit" value="[%$ST.botton_edit%]" class="buttonface" /></td>
+				<td id="left" class="padding-left5"><input type="button" name="cancel" onClick="javascript:parent.onaletdoc();" value="[%$ST.botton_edit_reset%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

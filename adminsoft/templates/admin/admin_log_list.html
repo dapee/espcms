@@ -1,0 +1,24 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" title="[%$array[list].username%]">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="10%">[%$array[list].id%]</td>
+			<td width="20%">[%$array[list].username%]</td>
+			<td width="10%" class="colorgorning2">[%$array[list].addtime|timeformat(3)%]</td>
+			<td width="10%" class="colorgorning2">[%$array[list].onlineip|ip(0)%]</td>
+			<td width="10%">[%$array[list].actions%]</td>
+			<td width="40%" id="left" class="padding-left5">[%$array[list].remarks|cutstr(30,'')%]</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+<table>
+	<tr>
+	    <td align="center">[%$ST.list_nothing_title%]</td>
+	</tr>
+</table>
+</div>
+[%/if%]

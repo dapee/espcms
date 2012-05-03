@@ -1,0 +1,45 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" title="[%$array[list].title%]" onselectstart="return false;" [%if @this->powercheck('marketing','mailinviteedit')==true %]ondblClick="javascript:parent.onbotton('[%$ST.setedit_botton%]','index.php?archive=mailinvite&action=mailinviteedit&mlvid=[%$array[list].mlvid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'mailetypeidt[%$array[list].mlvid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="5%"><input type="checkbox" name="selectinfoid" value="[%$array[list].mlvid%]"></td>
+			<td width="8%">[%$array[list].mlvid%]</td>
+			<td width="34%">[%$array[list].title%]</td>
+			<td width="14%">[%$array[list].addtime|timeformat(3)%]</td>
+			<td width="7%" id="infotype">
+				<table>
+					<tr>
+						<td>[%if $array[list].isclass==1%]<span class="audit_ok" title="[%$ST.article_audit_ok%]"></span>[%else%]<span class="audit_no" title="[%$ST.article_audit_no%]"></span>[%/if%]</td>
+					</tr>
+				</table>
+			</td>
+			<td width="32%" id="infotype">
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						<td><a class="setedit3" onclick="javascript:parent.onbotton('[%$ST.mailinvite_botton_title%]','index.php?archive=management&action=list&listfunction=mailinvitesendlist&mlvid=[%$array[list].mlvid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'typelist[%$array[list].mlvid%]',self.frameElement.getAttribute('name'));" id="typelist[%$array[list].mlvid%]" href="#body" title="[%$ST.mailinvite_botton_title%]" hidefocus="true">[%$ST.mailinvite_botton_title%]</a></td>
+						[%if @this->powercheck('marketing','mailinviteedit')==true %]
+						<td class="padding-left3"><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.setedit_botton%]','index.php?archive=mailinvite&action=mailinviteedit&mlvid=[%$array[list].mlvid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'mailetypeidt[%$array[list].mlvid%]',self.frameElement.getAttribute('name'));" id="mailetypeidt[%$array[list].mlvid%]" href="#body" title="[%$ST.setedit_botton%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+						[%/if%]
+						[%if @this->powercheck('marketing','mailinviteout')==true %]
+						<td class="padding-left3"><a class="setedit2" target="_blank" href="index.php?archive=mailinvite&action=mailinviteout&mlvid=[%$array[list].mlvid%]" title="[%$ST.mailinvite_botton_outmail%]" hidefocus="true">[%$ST.mailinvite_botton_outmail%]</a></td>
+						[%/if%]
+						[%if @this->powercheck('marketing','mailinviteinput')==true %]
+						<td class="padding-left3"><a class="setedit3" onclick="javascript:parent.onbotton('[%$ST.mailinvite_botton_intmail%]','index.php?archive=mailinvite&action=mailinviteinput&mlvid=[%$array[list].mlvid%]&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),false,'mailinput[%$array[list].mlvid%]',self.frameElement.getAttribute('name'));" id="mailinput[%$array[list].mlvid%]" href="#body" title="[%$ST.mailinvite_botton_intmail%]" hidefocus="true">[%$ST.mailinvite_botton_intmail%]</a></td>
+						[%/if%]
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

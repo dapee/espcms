@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var shipreceiptlist_js_edit_ok = "[%$ST.shipreceiptlist_js_edit_ok%]";
+	var shipreceiptlist_js_edit_no = "[%$ST.shipreceiptlist_js_edit_no%]";
+	var shipreceiptlist_add_shippingsn_mess = "[%$ST.shipreceiptlist_add_shippingsn_mess%]";
+	var iframename = "[%$iframename%]";
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var options = {
+			beforeSubmit: formverify,
+			success:saveResponse
+		}
+		$('#shipreceiptedit').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	})
+
+
+
+
+	function formverify(formData) {
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['shippingsn']=='') {
+			document.shipreceiptedit.shippingsn.focus();
+			alert(shipreceiptlist_add_shippingsn_mess);
+			return false;
+		}
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		if (options=='true'){
+			parent.frames[iframename].refresh('selectform','selectall','check_all');
+			alert(shipreceiptlist_js_edit_ok);
+		}else{
+			alert(shipreceiptlist_js_edit_no);
+		}
+		parent.onaletdoc()
+	}
+</script>
+</head>
+
+<body>
+<form name="shipreceiptedit" id="shipreceiptedit" method="post" action="index.php?archive=shipreceipt&action=save">
+<input type="hidden" name="inputclass" value="edit">
+<input type="hidden" name="osrid" value="[%$read.osrid%]">
+<input type="hidden" name="oldshippingsn" value="[%$read.shippingsn%]">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.shipreceiptlist_edit_mess%] <u>[%$read.shippingsn%]</u></span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.shipreceiptlist_add_info%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="15%" class="trtitle01">[%$ST.shipreceiptlist_add_paysn%]</td>
+						<td width="85%" class="trtitle02">[%$read.ordersn%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="15%" class="trtitle01">[%$ST.shipreceiptlist_add_shippingmoney%]</td>
+						<td width="85%" class="trtitle02">[%$read.shippingmoney%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="15%" class="trtitle01">[%$ST.shipreceiptlist_add_addtime%]</td>
+						<td width="85%" class="trtitle02">[%$read.addtime|timeformat(3)%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="15%" class="trtitle01">[%$ST.shipreceiptlist_add_username%]</td>
+						<td width="85%" class="trtitle02">[%$read.username%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.shipreceiptlist_add_bankinfo%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="15%" class="trtitle011">[%$ST.shipreceiptlist_add_shippingsn%]</td>
+						<td width="85%" class="trtitle02"><input type="text" name="shippingsn" size="50" maxlength="100" value="[%$read.shippingsn%]" class="infoInput"/></td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="15%" class="trtitle01">[%$ST.shipreceiptlist_add_content%]</td>
+						<td width="85%" class="trtitle02"><textarea name="content" cols="60" rows="5" class="infoInput">[%$read.content%]</textarea></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td id="right"><input type="submit" name="Submit" value="[%$ST.botton_edit%]" class="buttonface" /></td>
+				<td id="left" class="padding-left5"><input type="button" name="cancel" onClick="javascript:parent.onaletdoc();" value="[%$ST.botton_edit_reset%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+</form>
+</body>
+
+</html>

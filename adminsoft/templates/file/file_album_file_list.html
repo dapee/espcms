@@ -1,0 +1,36 @@
+[%if count($array) > 0%]
+[%forlist from=$array key=list%]
+<div class="infolist" title="[%$array[list].filetitle%]" onselectstart="return false;" [%if @this->powercheck('communicate','albumfileedit')==true %]ondblClick="javascript:parent.onbotton('[%$ST.setedit_botton%]','index.php?archive=albummain&action=albumfileedit&afid=[%$array[list].afid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'albumafileedit[%$array[list].afid%]',self.frameElement.getAttribute('name'));"[%/if%]>
+     <table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td width="5%"><input type="checkbox" name="selectinfoid" value="[%$array[list].afid%]"></td>
+			<td width="8%">[%$array[list].afid%]</td>
+			<td width="40%">[%$array[list].filetitle%]</td>
+			<td width="20%">[%$array[list].filename%]</td>
+			<td width="14%">[%$array[list].addtime|timeformat(3)%]</td>
+			<td width="13%" id="infotype">
+				<table border="0" style="border-collapse:collapse" bordercolor="#FFFFFF">
+					<tr>
+						<td>
+							<a class="setedit" target="_blank" href="[%$adminurl%][%$array[list].filepath%][%$array[list].filename%]" hidefocus="true">[%$ST.filemanage_view_botton%]</a>
+						</td>
+						[%if @this->powercheck('communicate','albumfileedit')==true %]
+						<td class="padding-left3"><a class="setedit" onclick="javascript:parent.onbotton('[%$ST.setedit_botton%]','index.php?archive=albummain&action=albumfileedit&afid=[%$array[list].afid%]&type=edit&freshid='+Math.random()+'&iframename='+self.frameElement.getAttribute('name'),true,'albumafileedit[%$array[list].afid%]',self.frameElement.getAttribute('name'));" id="albumafileedit[%$array[list].afid%]" href="#body" title="[%$ST.setedit_botton%]" hidefocus="true">[%$ST.setedit_botton%]</a></td>
+						[%/if%]
+					</tr>
+				</table>
+
+			</td>
+		</tr>
+	</table>
+</div>
+[%/forlist%]
+[%else%]
+<div class="infolist">
+	<table border="0" style="border-collapse:collapse" width="100%" bordercolor="#FFFFFF">
+		<tr>
+			<td align="center">[%$ST.list_nothing_title%]</td>
+		</tr>
+	</table>
+</div>
+[%/if%]

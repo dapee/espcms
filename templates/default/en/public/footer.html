@@ -1,0 +1,19 @@
+<div class="fotterpage">
+	<div class="framecenter fotter">
+		<div class="fotterdown"></div>
+		<div class="parttype margintop5">
+			<ul>
+				{%get name=typepart class=mid:0%}
+					{%forlist from=$array key=i%}
+					<li>
+						<a class="infolist_fff" title="{%$array[i].typename%}" href="{%$array[i].link%}">{%$array[i].typename%}</a>
+					</li>
+					{%/forlist%}
+				{%/get%}
+			</ul>
+		</div>
+		<div class="fotterstr">
+			<a class="infolist_fff" target="_blank" href="http://www.espcms.com">ESPCMS V5</a> [<a target="_blank" class="infolist_fff" href="http://www.earclink.com">EARCLINK SOFTWARE TECHNOLOGY CO., LIMITED</a>]  Copyright 2002-2012  <a class="infolist_fff" target="_blank" title="ESPCMS V5" href="http://www.espcms.com">Powered by ESPCMS V5</a>		</div>
+	</div>
+</div>
+{%list name=im%}

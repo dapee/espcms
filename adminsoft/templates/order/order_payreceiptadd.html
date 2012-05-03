@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>[%$softtitle%]</title>
+<link href="templates/css/baselist.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/all.css" rel="stylesheet" type="text/css" />
+<link href="templates/css/formdiv.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/form.js"></script>
+<script type="text/javascript" src="js/control.js"></script>
+<script type="text/javascript">
+
+	var resizewindow= null;
+
+	window.onresize = function(){
+		var h = $(window).height();
+		if(resizewindow!=h){
+			sizewindow();
+			resizewindow=h;
+		}
+	}
+
+	function sizewindow(){
+		var h = $(window).height();
+		if(document.getElementById("mainbodybottonauto")){
+			$('.managebottonadd').css({height:h-40});
+		}
+	}
+	var payreceiptlist_js_add_ok = "[%$ST.payreceiptlist_js_add_ok%]";
+	var payreceiptlist_js_add_no = "[%$ST.payreceiptlist_js_add_no%]";
+	var payreceiptlist_add_paysn2_mess = "[%$ST.payreceiptlist_add_paysn2_mess%]";
+	var payreceiptlist_add_bankaccount_mess = "[%$ST.payreceiptlist_add_bankaccount_mess%]";
+	var iframename = "[%$iframename%]";
+	$(document).ready(function(){
+		var h = '[%$iframeheightwindow%]';
+		$('.managebottonadd').css({height:h-40});
+		var options = {
+			beforeSubmit: formverify,
+			success:saveResponse
+		}
+		$('#payreceiptadd').submit(function() {
+			$(this).ajaxSubmit(options);
+			return false;
+		});
+	})
+
+
+
+
+	function formverify(formData) {
+		var queryString = $.param(formData);
+		var get=urlarray(queryString);
+		if(get['paysn']=='') {
+			document.payreceiptadd.paysn.focus();
+			alert(payreceiptlist_add_paysn2_mess);
+			return false;
+		}
+		if(get['bankaccount']=='') {
+			document.payreceiptadd.bankaccount.focus();
+			alert(payreceiptlist_add_bankaccount_mess);
+			return false;
+		}
+		parent.windowsdig('Loading','iframe:index.php?archive=management&action=load','400px','180px','iframe',false);
+	}
+	function saveResponse(options){
+		parent.closeifram();
+		if (options=='true'){
+			parent.frames[iframename].paybotton(1);
+			if(parent.frames["jerichotabiframe_0"].document.getElementById("selectform")){
+				parent.frames["jerichotabiframe_0"].refresh('selectform','selectall','check_all');
+			}
+			alert(payreceiptlist_js_add_ok);
+		}else{
+			alert(payreceiptlist_js_add_no);
+		}
+		parent.onaletdoc()
+	}
+</script>
+</head>
+
+<body>
+<form name="payreceiptadd" id="payreceiptadd" method="post" action="index.php?archive=payreceipt&action=save">
+<input type="hidden" name="inputclass" value="add">
+<input type="hidden" name="oid" value="[%$read.oid%]">
+<input type="hidden" name="opid" value="[%$read.opid%]">
+<div id="mainbodybottonauto" class="managebottonadd">
+	<div class="maindobycontent">
+		<div class="suggestion">
+			<span class="sugicon"><span class="strong colorgorning2">[%$ST.position_title%]</span><span class="colorgorningage">[%$ST.payreceiptlist_add_mess%]</span></span>
+		</div>
+		<div class="manageeditdiv">
+			<div class="maneditcontent">
+				<table class="formtable">
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.payreceiptlist_add_info%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="15%" class="trtitle01">[%$ST.payreceiptlist_add_paysn%]</td>
+						<td width="85%" class="trtitle02">[%$read.ordersn%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="15%" class="trtitle01">[%$ST.payreceiptlist_add_orderamount%]</td>
+						<td width="85%" class="trtitle02">[%$read.orderamount%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="15%" class="trtitle01">[%$ST.payreceiptlist_add_paytime%]</td>
+						<td width="85%" class="trtitle02">[%$read.addtime|timeformat(3)%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="15%" class="trtitle01">[%$ST.payreceiptlist_add_isclass%]</td>
+						<td width="85%" class="trtitle02">
+							[%if $type==1%][%$ST.payreceiptlist_text_class1%][%else%][%$ST.payreceiptlist_text_class2%][%/if%]
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td class="trtitle03" colspan="2">[%$ST.payreceiptlist_add_bankinfo%]</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="15%" class="trtitle011">[%$ST.payreceiptlist_add_paysn2%]</td>
+						<td width="85%" class="trtitle02">
+							<input type="text" name="paysn" size="20" maxlength="20" class="infoInput"/>
+							<span class="cautiontitle">[%$ST.payreceiptlist_add_paysn2_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="15%" class="trtitle011">[%$ST.payreceiptlist_add_bankaccount%]</td>
+						<td width="85%" class="trtitle02"><input type="text" name="bankaccount" size="50" maxlength="50" value="[%$read.bankaccount%]" class="infoInput"/>
+						<span class="cautiontitle">[%$ST.payreceiptlist_add_bankaccount_mess%]</span>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="15%" class="trtitle01">[%$ST.payreceiptlist_add_bankname%]</td>
+						<td width="85%" class="trtitle02"><input type="text" name="bankname" size="50" maxlength="100" value="[%$read.bankname%]" class="infoInput"/>
+						</td>
+					</tr>
+					<tr class="trstyle2">
+						<td width="15%" class="trtitle01">[%$ST.payreceiptlist_add_content%]</td>
+						<td width="85%" class="trtitle02"><textarea name="content" cols="60" rows="5" class="infoInput">[%$read.content%]</textarea></td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="downbotton">
+	<div id="subbotton">
+		<table border="0" width="100%">
+			<tr>
+				<td id="right"><input type="submit" name="Submit" value="[%$ST.botton_add%]" class="buttonface" /></td>
+				<td id="left" class="padding-left5"><input type="button" name="cancel" onClick="javascript:parent.onaletdoc();" value="[%$ST.botton_add_reset%]" class="buttonface" /></td>
+			</tr>
+		</table>
+	</div>
+</div>
+<input type="hidden" name="ordersn" value="[%$read.ordersn%]">
+<input type="hidden" name="userid" value="[%$read.userid%]">
+<input type="hidden" name="orderamount" value="[%$read.orderamount%]">
+<input type="hidden" name="isclass" value="[%$type%]">
+</form>
+</body>
+
+</html>
