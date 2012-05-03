@@ -1,0 +1,339 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+<title>联系信息 - 易思ESPCMS企业网站管理系统V5 - 最专业的企业建站管理平台</title>
+<meta name="keywords" content="易思ESPCMS,ESPCMS,PHP企业网站管理系统,开源企业网站系统,企业网站建设,尔创网联,ecisp.cn,earclink.com" />
+<meta name="description" content="ESPCMSV5是一套基于LAMP开发构建的企业网站管理系统。可以帮您迅速、轻松地构建起一个强大专业的企业网站。内置多模型自定、SEO搜索优化、静态页生成、评论留言、订购、会员等常见企业网站基本功能，通过灵活的插件机制还能扩展应用，帮您更好地实现网站价值" />
+<link href="http://127.0.0.1/espcms/templates/default/style/tempates_div.css" rel="stylesheet" type="text/css" />
+<link href="http://127.0.0.1/espcms/templates/default/style/public.css" rel="stylesheet" type="text/css" />
+<link href="http://127.0.0.1/espcms/templates/default/style/pagebotton.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="http://127.0.0.1/espcms/js/jquery.js"></script>
+<script type="text/javascript" src="http://127.0.0.1/espcms/js/basicrun.js"></script>
+<script type="text/javascript" src="http://127.0.0.1/espcms/index.php?ac=public&at=readpuv&did=7"></script>
+<script type="text/javascript">
+$().ready(function() {
+	$("#clickmenubotton li span").hover(function() {
+		$(this).addClass("bgmenuhove2");
+		$(this).parent().find("ul.subnav").slideDown('fast').show(); 
+		$(this).parent().hover(function() {}, function(){
+			$(this).parent().find("ul.subnav").fadeOut('fast');
+			$(this).parent().find("span").removeClass("bgmenuhove2");
+		});
+	});
+});
+</script>
+
+<script type="text/javascript" src="http://127.0.0.1/espcms/js/float.js"></script>
+<link href="http://127.0.0.1/espcms/public/plug/im/sky.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div class="head">
+	<div class="logo">
+	<table style="width: 100%">
+		<tr>
+			<td style="width:238px;"><img title="logo" src="http://127.0.0.1/espcms/templates/default/images/logo.jpg"/></td>
+			<td valign="top" class="padding-right3">
+				<table style="width: 100%">
+					<tr>
+						<td class="right" style="height:35px;">
+															<a href="http://127.0.0.1/espcms/html/cn/">简体中文版</a>
+																<a href="http://127.0.0.1/espcms/html/big5/">繁体中文版</a>
+																<a href="http://127.0.0.1/espcms/html/en/">English</a>
+								
+						</td>
+					<tr>
+						<td class="right" ><img title="tel" src="http://127.0.0.1/espcms/templates/default/images/telonline.jpg"/></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div class="menubotton">
+	<table class="menu">
+		<tr>
+			<td class="menuleft"></td>
+			<td class="menucenter">
+				<ul class="topnav" id="clickmenubotton">
+											<li ><span><a class="toplink" title="首页" href="http://127.0.0.1/espcms/html/cn/">首页</a></span>
+													</li>
+												<li ><span><a class="toplink" title="了解我们" href="http://127.0.0.1/espcms/html/cn/about/">了解我们</a></span>
+														<ul class="subnav" style="display: none; "> 
+																<li><a class="novlink" href="http://127.0.0.1/espcms/html/cn/about/company/" title="公司介绍">公司介绍</a></li>
+																<li><a class="novlink" href="http://127.0.0.1/espcms/html/cn/about/history/" title="发展历程">发展历程</a></li>
+																<li><a class="novlink" href="http://127.0.0.1/espcms/html/cn/about/treaty/" title="服务声明">服务声明</a></li>
+															</ul>
+													</li>
+												<li ><span><a class="toplink" title="新闻资讯" href="http://127.0.0.1/espcms/html/cn/news/">新闻资讯</a></span>
+														<ul class="subnav" style="display: none; "> 
+																<li><a class="novlink" href="http://127.0.0.1/espcms/html/cn/news/business/" title="行业新闻">行业新闻</a></li>
+																<li><a class="novlink" href="http://127.0.0.1/espcms/html/cn/news/media/" title="媒体报导">媒体报导</a></li>
+															</ul>
+													</li>
+												<li ><span><a class="toplink" title="产品介绍" href="http://127.0.0.1/espcms/html/cn/goods/">产品介绍</a></span>
+														<ul class="subnav" style="display: none; "> 
+																<li><a class="novlink" href="http://127.0.0.1/espcms/html/cn/goods/electron/" title="电子产品">电子产品</a></li>
+																<li><a class="novlink" href="http://127.0.0.1/espcms/html/cn/goods/other/" title="其它">其它</a></li>
+																<li><a class="novlink" href="http://127.0.0.1/espcms/html/cn/goods/chanpinyanshi/" title="产品演示">产品演示</a></li>
+															</ul>
+													</li>
+												<li ><span><a class="toplink" title="人才招聘" href="http://127.0.0.1/espcms/html/cn/job/">人才招聘</a></span>
+														<ul class="subnav" style="display: none; "> 
+																<li><a class="novlink" href="http://127.0.0.1/espcms/html/cn/job/technology/" title="技术类">技术类</a></li>
+																<li><a class="novlink" href="http://127.0.0.1/espcms/html/cn/job/marketing/" title="营销类">营销类</a></li>
+															</ul>
+													</li>
+												<li ><span><a class="toplink" title="在线下载" href="http://127.0.0.1/espcms/html/cn/download/">在线下载</a></span>
+														<ul class="subnav" style="display: none; "> 
+																<li><a class="novlink" href="http://127.0.0.1/espcms/html/cn/download/download/" title="软件类">软件类</a></li>
+																<li><a class="novlink" href="http://127.0.0.1/espcms/html/cn/download/material/" title="资料类">资料类</a></li>
+															</ul>
+													</li>
+												<li class="hover"><span><a class="toplink2" title="联系我们" href="http://127.0.0.1/espcms/html/cn/contact-us/">联系我们</a></span>
+														<ul class="subnav" style="display: none; "> 
+																<li><a class="novlink" href="http://127.0.0.1/espcms/html/cn/contact-us/information/" title="联系信息">联系信息</a></li>
+																<li><a class="novlink" href="http://127.0.0.1/espcms/html/cn/contact-us/map/" title="地图指示">地图指示</a></li>
+															</ul>
+													</li>
+												<li ><span><a class="toplink" title="在线留言" href="http://127.0.0.1/espcms/html/cn/index.php?ac=forum&at=list&btid=1">在线留言</a></span>
+													</li>
+												<li ><span><a class="toplink" title="会员" href="http://127.0.0.1/espcms/html/cn/index.php?ac=member&at=login">会员</a></span>
+													</li>
+												<li ><span><a class="toplink" title="购物车" href="http://127.0.0.1/espcms/html/cn/index.php?ac=order&at=list">购物车</a></span>
+													</li>
+												<li ><span><a class="toplink" title="询盘" href="http://127.0.0.1/espcms/html/cn/index.php?ac=enquiry&at=list">询盘</a></span>
+													</li>
+						
+				</ul>
+			</td>
+			<td class="menuright"></td>
+		</tr>
+	</table>
+</div>
+	<!--bann-->
+		<div class="bann">
+		<div class="bann">
+			<img title="tel" src="http://127.0.0.1/espcms/upfile/2011/08/20/20110820163814_156.jpg"/>
+		</div>
+	</div>
+		
+	<div class="bann">
+		<div class="location">您现在的位置：<a href="http://127.0.0.1/espcms/html/cn/">首页</a>
+	» <a href="http://127.0.0.1/espcms/html/cn/contact-us/">联系我们</a>
+	» <a href="http://127.0.0.1/espcms/html/cn/contact-us/information/">联系信息</a>
+ </div>
+	</div>
+	
+	<div class="framecenter margintop10">
+		<div class="frameright ">
+			<div class="fup3"><span class="spantitle">联系信息</span></div>
+			<div class="fcontent3">
+				<ul class="three">
+																<li class="b"><a class="typelink" title="联系信息" href="http://127.0.0.1/espcms/html/cn/contact-us/information/">联系信息</a></li>
+																							<li class="b"><a class="typelink" title="地图指示" href="http://127.0.0.1/espcms/html/cn/contact-us/map/">地图指示</a></li>
+											
+				</ul>
+			</div>
+			<div class="fdown3"></div>
+			
+			<div class="fup1 margintop5"><span class="spantitle">产品搜索</span></div>
+<div class="fcontent1">
+	<form name="infosearch" method="post" action="http://127.0.0.1/espcms/html/cn/index.php?ac=search&at=list">
+	<input type="hidden" name="lng" value="cn">
+	<input type="hidden" name="mid" value="3">
+	<table  class="formlist2">
+		<tr>
+			<td class="right">搜索关键字</td>
+			<td><input id="keyword" name="keyword" type="text" class="infoInput" size="20"/></td>
+		</tr>
+						<tr>
+			<td class="right">分类</td>
+			<td>
+				<select size="1" name="tid" class="select" id="tid">
+										<option value="11" title="电子产品"> 电子产品</option>
+										<option value="23" title="手机">├── 手机</option>
+										<option value="24" title="电脑">├── 电脑</option>
+										<option value="12" title="其它"> 其它</option>
+										<option value="25" title="冰箱">├── 冰箱</option>
+										<option value="26" title="苹果手机">├── 苹果手机</option>
+										<option value="22" title="产品演示"> 产品演示</option>
+									</select>
+			</td>
+		</tr>
+				<tr>
+			<td></td>
+			<td><input name="submitsearch" type="submit" class="buttonface" value="开始搜索" /></td>
+		</tr>
+	</table>
+	</form>
+</div>
+<div class="fdown1"></div>
+
+<div class="fup margintop5"><span class="spantitle">新闻推荐</span><span class="spanmone"><a class="morn" href="http://127.0.0.1/espcms/html/cn/news/">更多新闻</a></span></div>
+<div class="fcontent">
+	<ul class="textlist">
+			<li><a class="infolist" title="戴尔将与VMware合作推出云基础设施服务" href="http://127.0.0.1/espcms/html/cn/news/media/21.html">戴尔将与VMware合作推出云基础设施服务</a></li>
+				<li><a class="infolist" title="巴林电信调整高管层 更换CEO" href="http://127.0.0.1/espcms/html/cn/news/media/20.html">巴林电信调整高管层 更换CEO</a></li>
+				<li><a class="infolist" title="谷歌CEO佩奇：谷歌只发挥了1%潜力" href="http://127.0.0.1/espcms/html/cn/news/media/19.html">谷歌CEO佩奇：谷歌只发挥了1%潜力</a></li>
+				<li><a class="infolist" title="传雅虎CEO巴茨无意谋求连任 2013年离职" href="http://127.0.0.1/espcms/html/cn/news/media/18.html">传雅虎CEO巴茨无意谋求连任 2013年离职</a></li>
+				<li><a class="infolist" title="乔布斯：我真的很在乎苹果" href="http://127.0.0.1/espcms/html/cn/news/media/17.html">乔布斯：我真的很在乎苹果</a></li>
+				<li><a class="infolist" title="HTC新任首席创新官：用户体验重于技术" href="http://127.0.0.1/espcms/html/cn/news/media/16.html">HTC新任首席创新官：用户体验重于技术</a></li>
+				<li><a class="infolist" title="商务部鼓励电商企业自建物流并适时向社会开放" href="http://127.0.0.1/espcms/html/cn/news/business/15.html">商务部鼓励电商企业自建物流并适时向社会开放</a></li>
+		
+	</ul>
+</div>
+<div class="fdown"></div>
+
+
+<div class="fup margintop5"><span class="spantitle">TAG</span></div>
+<div class="fcontent lineheight200">
+	
+</div>
+<div class="fdown"></div>
+
+<div class="fup2 margintop5"><span class="spantitle">订阅邮件</span></div>
+<div class="fcontent1">
+<form name="inviteform" method="post" action="http://127.0.0.1/espcms/html/cn/index.php?ac=public&at=invite">
+<input type="hidden" name="mlvid" value="1">
+<input type="hidden" name="lng" value="cn">
+<table  class="formlist2">
+	<tr>
+		<td><input id="email" name="email" type="text" class="infoInput" size="20"/></td>
+		<td><input name="submitsearch" type="submit" class="buttonface1" value="确认订阅" /></td>
+	</tr>
+</table>
+</form>
+</div>
+<div class="fdown1"></div>
+		</div>
+		
+		<div class="pagecontent margintleft10">
+			<div class="pagecontentstr lineheight200 fonttextindent2em">
+				<div>
+<div>
+<div>
+<p>感谢您选择EarcLink产品，如果您有关于合作、使用问题求助、或了解我们产品性能等问题可随时通过以下方式与我们联系！</p>
+<p><strong>ESPCMS授权咨询电话：400-0028-771 （上午：9：00-12：00 &nbsp;下午：13：30-18：00）</strong></p>
+<p><strong><strong>ESPCMS</strong>授权咨询QQ：6326420 &nbsp;（本QQ仅接收产品销售咨询、合作咨询，非销售问题请登陆论坛进行交流http://bbs.ecisp.cn）</strong></p>
+<p>技术支持 E-mail:admin@ecisp.cn （本邮件只限于商业用户）</p>
+<p>使用解答 E-mail:service@ecisp.cn （本邮件用于问题解答、建站报价、合作伙伴服务）</p>
+<p>开发者邮件 E-mail:bili@ecisp.cn （本邮件接收用于商业合作、开发者交流邮件）</p>
+<p>ESPCMS论坛交流 http://bbs.ecisp.cn</p>
+<p>ESPCMS官网支持 http://www.ecisp.cn / Http://www.espcms.com</p>
+<p>ESPCMS演示站点 http://demo.ecisp.cn / http://www.easysitepm.com</p>
+</div>
+<p>&nbsp;</p>
+</div>
+</div>			</div>
+					</div>
+	</div>
+	
+	<div class="framecenter">
+	<div class="link margintop8">
+		<div class="fotterup"></div>
+		<div class="fottercontent">
+			<div class="linkfont">
+				<ul>
+									<li>
+						<a title="ESPCMS演示平台" target="_blank" href="http://www.easysitepm.com">ESPCMS演示平台</a>
+					</li>
+										<li>
+						<a title="KUBCMS酷博门户管理系统" target="_blank" href="http://www.kubcms.com">KUBCMS酷博门户管理系统</a>
+					</li>
+										<li>
+						<a title="ESPCMS交流论坛" target="_blank" href="http://bbs.ecisp.cn">ESPCMS交流论坛</a>
+					</li>
+										<li>
+						<a title="ESPCMS" target="_blank" href="http://www.ecisp.cn">ESPCMS</a>
+					</li>
+										<li>
+						<a title="易思ESPCMS" target="_blank" href="http://www.espcms.net">易思ESPCMS</a>
+					</li>
+										<li>
+						<a title="易思ESPCMS企业网站管理系统" target="_blank" href="http://www.espcms.com">易思ESPCMS企业网站管理系统</a>
+					</li>
+										<li>
+						<a title="KUBCMS" target="_blank" href="http://www.kubcms.com">KUBCMS</a>
+					</li>
+										<li>
+						<a title="尔创网联" target="_blank" href="http://www.earclink.com">尔创网联</a>
+					</li>
+										<li>
+						<a title="Earclink" target="_blank" href="http://www.earclink.com">Earclink</a>
+					</li>
+					
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<div class="fotterpage">
+	<div class="framecenter fotter">
+		<div class="fotterdown"></div>
+		<div class="parttype margintop5">
+			<ul>
+									<li>
+						<a class="infolist_fff" title="了解我们" href="http://127.0.0.1/espcms/html/cn/about/">了解我们</a>
+					</li>
+										<li>
+						<a class="infolist_fff" title="新闻资讯" href="http://127.0.0.1/espcms/html/cn/news/">新闻资讯</a>
+					</li>
+										<li>
+						<a class="infolist_fff" title="产品介绍" href="http://127.0.0.1/espcms/html/cn/goods/">产品介绍</a>
+					</li>
+										<li>
+						<a class="infolist_fff" title="人才招聘" href="http://127.0.0.1/espcms/html/cn/job/">人才招聘</a>
+					</li>
+										<li>
+						<a class="infolist_fff" title="在线下载" href="http://127.0.0.1/espcms/html/cn/download/">在线下载</a>
+					</li>
+										<li>
+						<a class="infolist_fff" title="联系我们" href="http://127.0.0.1/espcms/html/cn/contact-us/">联系我们</a>
+					</li>
+					
+			</ul>
+		</div>
+		<div class="parttype margintop5">
+			<ul>
+				<ul>
+									       </ul>
+			</ul>
+		</div>
+		<div class="fotterstr">
+			<a class="infolist_fff" target="_blank" href="http://www.ecisp.cn">易思ESPCMS企业建站系统</a> [<a target="_blank" class="infolist_fff" href="http://www.earclink.com">EarcLink</a>] 版权所有 2002-2012 All Rights Reserved   <a class="infolist_fff" target="_blank" title="易思EasySitePM4.2企业建站系统" href="http://www.ecisp.cn">Powered by ESPCMS V5</a><br>
+			ESPCMS著作权信息：中华人民共和国国家版权局  ESPCMS计算机软件著作权登记证书：2011SR051710<br/>
+			声明：本站内容只是做为ESPCMS演示功能使用，不对其内容真假负责！<br/> <a target="_blank" href="wap/">手机访问</a>
+		</div>
+	</div>
+</div>
+
+<div id="right-float-box" class="im_floatonline">
+	<div class="float-box-content">
+		<div class="toptitle">
+			<div class="btitle">在线客服</div>
+		</div>
+		<div class="addlist">
+			<ul>
+														<li>ESPCMS授权咨询 <br/> <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=6326420&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:6326420:41 &r=0.15196556923910975" alt="点击这里给我发消息" title="点击这里给我发消息"></a></li>
+												</ul>
+		</div>
+		<div class="serverbotton">
+			<ul>
+				<li class="bottonstyle_red"><a href="http://127.0.0.1/espcms/html/cn/index.php?ac=member&at=login">会员中心</a></li>
+				<li class="bottonstyle_grup"><a onclick="closeim();" href="#">关闭</a></li>
+			</ul>
+		</div>
+		<div class="bottomline"></div>
+	</div>
+</div>
+<script type="text/javascript">
+			$("#right-float-box").float({position:"rm",delay:500});
+			</script>	
+</body>
+
+</html>
