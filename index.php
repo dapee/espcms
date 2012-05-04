@@ -1,6 +1,6 @@
 <?php
 
-/*
+/*我修改了这个文件
  * PHP version 5
  * Copyright (c) 2002-2010 ECISP.CN
  * 声明：这不是一个免费的软件，请在许可范围内使用
